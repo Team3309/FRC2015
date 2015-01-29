@@ -13,76 +13,243 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 public class Drive {
 	private boolean isPrintingDriveInfo = false;
 
-    //all of the sensors and motor controllers
-    private Victor[] leftVictors = new Victor[2];
-    private Victor[] rightVictors = new Victor[2];
-    private Victor strafeVictor1;
+	// all of the sensors and motor controllers
+	private Victor[] leftVictors = new Victor[2];
+	private Victor[] rightVictors = new Victor[2];
+	private Victor strafeVictor1;
 
-    private Encoder leftEncoder;
-    private Encoder rightEncoder;
-    private ModifiedGyro gyro;
+	private Encoder leftEncoder;
+	private Encoder rightEncoder;
+	private ModifiedGyro gyro;
 
-    //enable this is you ever want to go just forward
-    private boolean straightPidEnabled = false;
-    private boolean straightAngleSet = false;
+	// enable this is you ever want to go just forward
+	private boolean straightPidEnabled = false;
+	private boolean straightAngleSet = false;
 
-    //This method takes when the equation returns above the max or below the min and fixes it so it does not.  Uses some math and gets the job done
-    private double skimGain = .25;
+	// This method takes when the equation returns above the max or below the
+	// min and fixes it so it does not. Uses some math and gets the job done
+	private double skimGain = .25;
 
-    //change this to change threshold
-    private final double THRESHOLD = .3;
-    //tells if gyro is a yay or nay
-    private boolean gyroEnabled = true;
-    //the max angular velocity (duh)
-    private int MAX_ANGULAR_VELOCITY = 720;
+	// change this to change threshold
+	private final double THRESHOLD = .3;
+	// tells if gyro is a yay or nay
+	private boolean gyroEnabled = true;
+	// the max angular velocity (duh)
+	private int MAX_ANGULAR_VELOCITY = 720;
 
-    //Now for all the possible kp constants
-    private double KP_NORMAL = .002;
-    private double pid_Kp_NoThrottle_Right = 0.08;
-    private double pid_Kp_NoThrottle_Left = 0.075;
-    private double pid_Kp_Throttle_Right = 0.0875;
-    private double pid_Kp_Throttle_Left = 0.08;
+	// Now for all the possible kp constants
+	private double KP_NORMAL = .002;
+	private double pid_Kp_NoThrottle_Right = 0.08;
+	private double pid_Kp_NoThrottle_Left = 0.075;
+	private double pid_Kp_Throttle_Right = 0.0875;
+	private double pid_Kp_Throttle_Left = 0.08;
 
-    private static Drive instance;
+	private static Drive instance;
 
-    private PIDController straightPID = null;
+	private PIDController straightPID = null;
 
-    private double throttle = 0;
+	private double throttle = 0;
 
-    private int strafeCounter = 0;
-    
+	private int strafeCounter = 0;
+	double pidRequestedValue;
+	boolean aimAngleIsSet = false;
 
-    public static Drive getInstance() {
-        if (instance == null) {
-            instance = new Drive();
+	public static Drive getInstance() {
+		if (instance == null) {
+			instance = new Drive();
 
+		}
+		return instance;
+	}
+
+	// the constructor
+	private Drive() {
+		// initialize Victors in their arrays
+		leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
+		leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
+		rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
+		rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
+		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
+
+		// initialize Encoders
+		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT,
+				RobotMap.DRIVE_ENCODER_LEFT, true, CounterBase.EncodingType.k1X);
+		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT,
+				RobotMap.DRIVE_ENCODER_RIGHT, false,
+				CounterBase.EncodingType.k1X);
+		// initialize gyro
+		gyro = new ModifiedGyro(RobotMap.DRIVE_GYRO);
+
+		// pid To be used Later
+		/*
+		 * StraightPID straight = new StraightPID(); straightPID = new
+		 * PIDController(.001, 0, .02, straight, straight);
+		 * straightPID.disable();
+		 */
+	}
+
+	public void resetGyro() {
+		gyro.reset();
+	}
+
+    private void driveHalo(double throttle, double turn, double strafe) {
+        double modifiedTurn;
+        double gyroKP = KP_NORMAL;
+        this.throttle = throttle;
+        if (Math.abs(throttle) < THRESHOLD) {
+            throttle = 0;
         }
-        return instance;
+        if (Math.abs(strafe) < THRESHOLD) {
+            strafe = 0;
+        }
+        if (Math.abs(turn) < THRESHOLD) {
+            turn = 0;
+        }
+
+        //if (Math.abs(throttle) < THRESHOLD && Math.abs(turn) < THRESHOLD) {
+        //        //if ther joystick is not pressed enough, immeaditely stop, don't even do the math
+        //        return;
+        //    }
+        //KRAGER FIX GYRO, VALUES WENT TO 2, SHOULD NEVER HIT 2
+        if (strafe != 0) {
+            //straightPID.disable();
+
+            double pidSensorCurrentValue;
+
+            double pidError;
+
+            double pidDrive;
+
+            if (!aimAngleIsSet || strafeCounter <= 5) {
+                if (!aimAngleIsSet) {
+                    pidRequestedValue = gyro.getAngle();
+                }
+                System.out.println("pidRequested = " + pidRequestedValue);
+                System.out.println(" ");
+                strafeCounter++;
+                aimAngleIsSet = true;
+            } else {
+                
+                // Read the sensor value
+                pidSensorCurrentValue = gyro.getAngle();
+
+                // calculate error
+                pidError = pidSensorCurrentValue - pidRequestedValue;
+                //System.out.println(pidSensorCurrentValue + " - "  + pidRequestedValue + " = Error: " + pidError);
+                if (turn != 0) {
+                    setLeft(turn);
+                    setRight(-turn);
+                    aimAngleIsSet = false;
+                } else if (throttle == 0) {
+                    double pid_Kp_NoThrottle;
+                    if(strafe > 0)
+                        pid_Kp_NoThrottle = pid_Kp_NoThrottle_Right;
+                    else 
+                        pid_Kp_NoThrottle = pid_Kp_NoThrottle_Left;
+                    // calculate drive
+                    pidDrive = ((pid_Kp_NoThrottle * pidError));
+                    System.out.println("Drive: " + pid_Kp_NoThrottle + " * " + pidError + " = " + pidDrive);
+                    setLeft(-pidDrive);
+                    setRight(pidDrive);
+                } else {
+                    double pid_Kp_Throttle;
+                    if(strafe > 0)
+                        pid_Kp_Throttle = pid_Kp_Throttle_Right;
+                    else 
+                        pid_Kp_Throttle = pid_Kp_Throttle_Left; 
+                    // calculate drive
+                    //if(throttle == 0){
+                    pidDrive = ((pid_Kp_Throttle * pidError));
+                    /*}else {
+                     System.out.println("Changed PID = modified");
+                     pidDrive = modifiedTurn;
+                     aimAngleIsSet = false;
+                     }*/
+
+                    System.out.println("Drive: " + pid_Kp_Throttle + " * " + pidError + " = " + pidDrive);
+                    double leftPower = (throttle - pidDrive);
+                    double rightPower = (throttle + pidDrive);
+                    System.out.println("FS Left: " + leftPower + " FS RIGHT: " + rightPower);
+                    setLeft(leftPower);
+                    setRight(rightPower);
+                }
+                setStrafe(strafe);
+                //System.out.println("pidDrive: " + pidDrive + " requested: " + pidRequestedValue);
+            }
+        } else {  //use default tank drive by default, no strafe, no 
+            //straightPID.disable();
+            strafeCounter = 0;
+            if (gyroEnabled) {
+                double currentAngularRateOfChange = gyro.getAngularRateOfChange();
+                double desiredAngularRateOfChange = turn * MAX_ANGULAR_VELOCITY;
+                //Change back if it doesnt work
+                modifiedTurn = (currentAngularRateOfChange - desiredAngularRateOfChange) * gyroKP;
+                if (isPrintingDriveInfo) {
+                    System.out.println("turn: " + turn + " throttle: " + throttle);
+                    System.out.println("Current: " + currentAngularRateOfChange + " Desired: " + desiredAngularRateOfChange);
+                    System.out.println("Error: " + (currentAngularRateOfChange - desiredAngularRateOfChange) + "modified value: " + modifiedTurn);
+                }
+            } else {
+                modifiedTurn = turn;
+            }
+
+            double t_left = throttle - modifiedTurn;
+            double t_right = throttle + modifiedTurn;
+
+            if (isPrintingDriveInfo) {
+                System.out.println(t_left + " t_Left");
+                System.out.println(t_right + " t_Right");
+            }
+
+            double left = t_left + skim(t_right);
+            double right = t_right + skim(t_left);
+
+            if (isPrintingDriveInfo) {
+                System.out.println(left + " Left");
+                System.out.println(right + " Right");
+            }
+            //negative because sides are mirror images
+            aimAngleIsSet = false;
+            setLeft(left);
+            setRight(right);
+            setStrafe(strafe);
+            //System.out.println(gyro.getAngle());
+        }
+
+    }
+    
+    private double skim(double v) {
+        // gain determines how much to skim off the top
+        if (v > 1.0) {
+            return -((v - 1.0) * skimGain);
+        } else if (v < -1.0) {
+            return -((v + 1.0) * skimGain);
+        }
+        return 0;
+    }
+	public void drive(double leftX, double leftY, double rightX, double rightY) {
+		// reverse these because pushing the Y joysticks forward returns a
+		// negative value, this is fixed here
+		leftY = -leftY;
+		rightY = -rightY;
+
+		driveHalo(leftY, rightX, leftX);
+	}
+    public void setLeft(double val) {
+        for (int i = 0; i < leftVictors.length; i++) {
+            //negative to account for reversed polarity
+            leftVictors[i].set(val);
+        }
     }
 
-    //the constructor
-    private Drive() {
-        //initialize Victors in their arrays
-        leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
-        leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
-        rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
-        rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
-        strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
-
-        //initialize Encoders
-        leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT, RobotMap.DRIVE_ENCODER_LEFT, true, CounterBase.EncodingType.k1X);
-        rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT, RobotMap.DRIVE_ENCODER_RIGHT, false, CounterBase.EncodingType.k1X);
-        //initialize gyro
-        gyro = new ModifiedGyro(RobotMap.DRIVE_GYRO);
-
-        
-        //pid To be used Later
-        /*StraightPID straight = new StraightPID();
-        straightPID = new PIDController(.001, 0, .02, straight, straight);
-        straightPID.disable();*/
+    public void setRight(double val) {
+        for (int i = 0; i < rightVictors.length; i++) {
+            rightVictors[i].set(-val);
+        }
     }
 
-    double pidRequestedValue;
-    boolean aimAngleIsSet = false;
+    private void setStrafe(double value) {
+        strafeVictor1.set(-value);
+    }
 
 }
