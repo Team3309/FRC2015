@@ -36,7 +36,7 @@ public class ArisTOTEle extends IterativeRobot {
 	        scheduler = Scheduler.getInstance();
 	        //make drive
 	        mDrive = Drive.getInstance();
-	        mIntake = Claw.getInstance();
+	        mIntake = Intake.getInstance();
 	        //sets it so all information about the drive will be printed repeatidly during driving
 	        mDrive.setPrintingDriveInfo(false);
 	    }
