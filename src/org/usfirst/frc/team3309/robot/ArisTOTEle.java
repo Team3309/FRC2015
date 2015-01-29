@@ -40,7 +40,7 @@ public class ArisTOTEle extends IterativeRobot {
 		mDrive = Drive.getInstance();
 		mIntake = Intake.getInstance();
 		mElevator = Elevator.getInstance();
-		// sets it so all information about the drive will be printed repeatidly
+		// sets it so all information about the drive will be printed repeatedly
 		// during driving
 		// mDrive.setPrintingDriveInfo(false);
 	}

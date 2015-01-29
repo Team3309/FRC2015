@@ -15,4 +15,6 @@ public class RobotMap {
     public static final int DRIVE_ENCODER_RIGHT =2;
 
     public static final int DRIVE_GYRO = 0;
+    
+    public static final int INTAKE_SOLENOID = 0;
 }

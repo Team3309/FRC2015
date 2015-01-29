@@ -2,11 +2,13 @@ package org.usfirt.frc.team3309.subsystems;
 
 import org.usfirst.frc.team3309.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Intake {
     private Victor rightClaw;
     private Victor leftClaw;
+    private Solenoid intakeSolenoid;
 
     private static Intake instance;
 
@@ -20,7 +22,7 @@ public class Intake {
     private Intake() {
         rightClaw = new Victor(RobotMap.CLAW_RIGHTSIDE);
         leftClaw = new Victor(RobotMap.CLAW_LEFTSIDE);
-
+        intakeSolenoid = new Solenoid(RobotMap.INTAKE_SOLENOID);
     }
 
     public void initDefaultCommand() {
