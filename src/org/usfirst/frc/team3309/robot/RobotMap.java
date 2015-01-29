@@ -11,11 +11,8 @@ public class RobotMap {
     public static final int CLAW_RIGHTSIDE = 5;
     public static final int CLAW_LEFTSIDE = 6;
 
-    public static final int DRIVE_ENCODER_LEFT = 0;
-    public static final int DRIVE_ENCODER_RIGHT =1;
+    public static final int DRIVE_ENCODER_LEFT = 1;
+    public static final int DRIVE_ENCODER_RIGHT =2;
 
-    public static final int DRIVE_GYRO = 1;
-
-    public static final int DRIVE_DRIVESHIFTER_RIGHT = 1;
-    public static final int DRIVE_DRIVESHIFTER_LEFT = 2;
+    public static final int DRIVE_GYRO = 0;
 }
