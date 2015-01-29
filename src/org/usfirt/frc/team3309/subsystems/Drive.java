@@ -6,9 +6,7 @@ import org.usfirst.frc.team3309.robot.RobotMap;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class Drive {
 	private boolean isPrintingDriveInfo = false;

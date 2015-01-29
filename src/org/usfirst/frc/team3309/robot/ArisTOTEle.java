@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team3309.robot;
 
 import org.usfirt.frc.team3309.subsystems.Drive;
@@ -17,79 +16,80 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * directory.
  */
 public class ArisTOTEle extends IterativeRobot {
-	 XboxController driverController = new XboxController(1);
-	    XboxController operatorController = new XboxController(2);
+	XboxController driverController = new XboxController(1);
+	XboxController operatorController = new XboxController(2);
 
-	    private boolean buttonPressedLastTime = false;
-	    private Scheduler scheduler;
-	    private Drive mDrive;
-	    private Intake mIntake;
-	    private Elevator mElevator;
-	    
-	    //The command that will begin running at the start of autonomous
-	    private Command autoCommand;
-	    
-	    private boolean constantChanger = true;
-	    //Runs when Robot is turned on
-	    public void robotInit() {
-	        if(constantChanger) {
-	            //constantChanger frame = new constantChanger();
-	        }
-	        scheduler = Scheduler.getInstance();
-	        //setSubsystems to the Instance of each
-	        mDrive = Drive.getInstance();
-	        mIntake = Intake.getInstance();
-	        mElevator = Elevator.getInstance();
-	        //sets it so all information about the drive will be printed repeatidly during driving
-	        //mDrive.setPrintingDriveInfo(false);
-	    }
+	private boolean buttonPressedLastTime = false;
+	private Scheduler scheduler;
+	private Drive mDrive;
+	private Intake mIntake;
+	private Elevator mElevator;
 
-	    //When first put into disabled mode
-	    public void disabledInit() {
+	// The command that will begin running at the start of autonomous
+	private Command autoCommand;
 
-	    }
+	private boolean constantChanger = true;
 
-	    //Called repeatedly in disabled mode
-	    public void disabledPeriodic() {
+	// Runs when Robot is turned on
+	public void robotInit() {
+		if (constantChanger) {
+			// constantChanger frame = new constantChanger();
+		}
+		scheduler = Scheduler.getInstance();
+		// setSubsystems to the Instance of each
+		mDrive = Drive.getInstance();
+		mIntake = Intake.getInstance();
+		mElevator = Elevator.getInstance();
+		// sets it so all information about the drive will be printed repeatidly
+		// during driving
+		// mDrive.setPrintingDriveInfo(false);
+	}
 
-	    }
+	// When first put into disabled mode
+	public void disabledInit() {
 
-	    //Init to Auto
-	    public void autonomousInit() {
-	        /*autoCommand = new AutoForwardAndTurn();
-	        autoCommand.start();*/
-	    }
+	}
 
-	    //This function is called periodically during autonomous
-	    public void autonomousPeriodic() {
-	        scheduler.run();
-	    }
+	// Called repeatedly in disabled mode
+	public void disabledPeriodic() {
 
-	    //Init to Tele
-	    public void teleopInit() {
-	        mDrive.resetGyro();
-	        //autoCommand.cancel();
-	    }
+	}
 
-	    //This function is called periodically during operator control
-	    public void teleopPeriodic() {
-	        scheduler.run();
+	// Init to Auto
+	public void autonomousInit() {
+		/*
+		 * autoCommand = new AutoForwardAndTurn(); autoCommand.start();
+		 */
+	}
 
-	        //gets all 4 axis from driver remote and depending on what drive the robot is in, the values will be used accordingly
-	        mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());
-	        
-	        //checks if triggers are pressed in any way shape or form
-	        if (driverController.getRB()) {
-	            mIntake.runClawInward();
-	        } else if (driverController.getLB()) {
-	            mIntake.runClawOutward();
-	        } else {
-	            mIntake.stopClaw();
-	        }
+	// This function is called periodically during autonomous
+	public void autonomousPeriodic() {
+		scheduler.run();
+	}
 
-	        if (mDrive.isPrintingDriveInfo()) {
-	            System.out.println("------------------------\n");
-	        }
-	    }
-    
+	// Init to Tele
+	public void teleopInit() {
+		mDrive.resetGyro();
+		// autoCommand.cancel();
+	}
+
+	// This function is called periodically during operator control
+	public void teleopPeriodic() {
+		scheduler.run();
+
+		// gets all 4 axis from driver remote and depending on what drive the
+		// robot is in, the values will be used accordingly
+		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(),
+				driverController.getRightX(), driverController.getRightY());
+
+		// checks if triggers are pressed in any way shape or form
+		if (driverController.getRB()) {
+			mIntake.runClawInward();
+		} else if (driverController.getLB()) {
+			mIntake.runClawOutward();
+		} else {
+			mIntake.stopClaw();
+		}
+
+	}
 }
