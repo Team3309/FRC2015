@@ -10,5 +10,9 @@ public class Elevator {
 		}
 		return instance;
 	}
+	
+	private Elevator() {
+		
+	}
 			
 }
