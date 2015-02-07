@@ -83,8 +83,7 @@ public class Robot extends IterativeRobot {
 
 		// gets all 4 axis from driver remote and depending on what drive the
 		// robot is in, the values will be used accordingly
-		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(),
-				driverController.getRightX(), driverController.getRightY());
+		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());
 
 		// checks if triggers are pressed in any way shape or form
 		if (driverController.getRB()) {
