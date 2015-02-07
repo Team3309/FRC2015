@@ -5,6 +5,7 @@ import org.usfirst.frc.team3309.robot.RobotMap;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
+@SuppressWarnings("unused")
 public class Intake {
     private Victor rightClaw;
     private Victor leftClaw;

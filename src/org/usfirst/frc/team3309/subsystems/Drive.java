@@ -1,13 +1,14 @@
 package org.usfirst.frc.team3309.subsystems;
 
 import org.usfirst.frc.team3309.robot.ModifiedGyro;
+
 import org.usfirst.frc.team3309.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
-
+@SuppressWarnings("unused")
 public class Drive {
 	private boolean isPrintingDriveInfo = false;
 

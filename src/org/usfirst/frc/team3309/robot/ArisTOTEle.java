@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+@SuppressWarnings("unused")
 public class ArisTOTEle extends IterativeRobot {
 	XboxController driverController = new XboxController(1);
 	XboxController operatorController = new XboxController(2);
