@@ -1,8 +1,9 @@
 package org.usfirst.frc.team3309.robot;
 
 import org.usfirst.frc.team3309.subsystems.Drive;
-import org.usfirst.frc.team3309.subsystems.Elevator;
 import org.usfirst.frc.team3309.subsystems.Intake;
+import org.usfirst.frc.team3309.subsystems.IntakeLift;
+import org.usfirst.frc.team3309.subsystems.ToteLift;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,7 +25,8 @@ public class Robot extends IterativeRobot {
 	private Scheduler scheduler;
 	private Drive mDrive;
 	private Intake mIntake;
-	private Elevator mElevator;
+	private ToteLift mToteLift;
+	private IntakeLift mIntakeLift;
 
 	// The command that will begin running at the start of autonomous
 	private Command autoCommand;
@@ -40,7 +42,8 @@ public class Robot extends IterativeRobot {
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();
 		mIntake = Intake.getInstance();
-		mElevator = Elevator.getInstance();
+		mToteLift = ToteLift.getInstance();
+		mIntakeLift = IntakeLift.getInstance();
 		// sets it so all information about the drive will be printed repeatedly
 		// during driving
 		// mDrive.setPrintingDriveInfo(false);
