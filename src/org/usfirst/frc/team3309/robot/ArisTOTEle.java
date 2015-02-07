@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 @SuppressWarnings("unused")
 public class ArisTOTEle extends IterativeRobot {
-	XboxController driverController = new XboxController(1);
-	XboxController operatorController = new XboxController(2);
+	XboxController driverController = new XboxController(0);
+	XboxController operatorController = new XboxController(1);
 
 	private boolean buttonPressedLastTime = false;
 	private Scheduler scheduler;
