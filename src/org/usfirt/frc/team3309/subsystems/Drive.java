@@ -70,11 +70,8 @@ public class Drive {
 		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
-		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT,
-				RobotMap.DRIVE_ENCODER_LEFT, true, CounterBase.EncodingType.k1X);
-		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT,
-				RobotMap.DRIVE_ENCODER_RIGHT, false,
-				CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT, RobotMap.DRIVE_ENCODER_LEFT, true, CounterBase.EncodingType.k1X);
+		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT, RobotMap.DRIVE_ENCODER_RIGHT, false, CounterBase.EncodingType.k1X);
 		// initialize gyro
 		gyro = new ModifiedGyro(RobotMap.DRIVE_GYRO);
 
@@ -90,141 +87,153 @@ public class Drive {
 		gyro.reset();
 	}
 
-    private void driveHalo(double throttle, double turn, double strafe) {
-        double modifiedTurn;
-        double gyroKP = KP_NORMAL;
-        this.throttle = throttle;
-        if (Math.abs(throttle) < THRESHOLD) {
-            throttle = 0;
-        }
-        if (Math.abs(strafe) < THRESHOLD) {
-            strafe = 0;
-        }
-        if (Math.abs(turn) < THRESHOLD) {
-            turn = 0;
-        }
+	private void driveHalo(double throttle, double turn, double strafe) {
+		double modifiedTurn;
+		double gyroKP = KP_NORMAL;
+		this.throttle = throttle;
 
-        //if (Math.abs(throttle) < THRESHOLD && Math.abs(turn) < THRESHOLD) {
-        //        //if ther joystick is not pressed enough, immeaditely stop, don't even do the math
-        //        return;
-        //    }
-        //KRAGER FIX GYRO, VALUES WENT TO 2, SHOULD NEVER HIT 2
-        if (strafe != 0) {
-            //straightPID.disable();
+		// Thresholds
+		if (Math.abs(throttle) < THRESHOLD) {
+			throttle = 0;
+		}
+		if (Math.abs(strafe) < THRESHOLD) {
+			strafe = 0;
+		}
+		if (Math.abs(turn) < THRESHOLD) {
+			turn = 0;
+		}
 
-            double pidSensorCurrentValue;
+		// If the user is strafing
+		if (strafe != 0) {
+			// straightPID.disable();
 
-            double pidError;
+			double pidSensorCurrentValue;
 
-            double pidDrive;
+			double pidError;
 
-            if (!aimAngleIsSet || strafeCounter <= 5) {
-                if (!aimAngleIsSet) {
-                    pidRequestedValue = gyro.getAngle();
-                }
-                System.out.println("pidRequested = " + pidRequestedValue);
-                System.out.println(" ");
-                strafeCounter++;
-                aimAngleIsSet = true;
-            } else {
-                
-                // Read the sensor value
-                pidSensorCurrentValue = gyro.getAngle();
+			double pidDrive;
 
-                // calculate error
-                pidError = pidSensorCurrentValue - pidRequestedValue;
-                //System.out.println(pidSensorCurrentValue + " - "  + pidRequestedValue + " = Error: " + pidError);
-                if (turn != 0) {
-                    setLeft(turn);
-                    setRight(-turn);
-                    aimAngleIsSet = false;
-                } else if (throttle == 0) {
-                    double pid_Kp_NoThrottle;
-                    if(strafe > 0)
-                        pid_Kp_NoThrottle = pid_Kp_NoThrottle_Right;
-                    else 
-                        pid_Kp_NoThrottle = pid_Kp_NoThrottle_Left;
-                    // calculate drive
-                    pidDrive = ((pid_Kp_NoThrottle * pidError));
-                    System.out.println("Drive: " + pid_Kp_NoThrottle + " * " + pidError + " = " + pidDrive);
-                    setLeft(-pidDrive);
-                    setRight(pidDrive);
-                } else {
-                    double pid_Kp_Throttle;
-                    if(strafe > 0)
-                        pid_Kp_Throttle = pid_Kp_Throttle_Right;
-                    else 
-                        pid_Kp_Throttle = pid_Kp_Throttle_Left; 
-                    // calculate drive
-                    //if(throttle == 0){
-                    pidDrive = ((pid_Kp_Throttle * pidError));
-                    /*}else {
-                     System.out.println("Changed PID = modified");
-                     pidDrive = modifiedTurn;
-                     aimAngleIsSet = false;
-                     }*/
+			// If the angle needs to be set, or the counter is not done
+			// Strafe counter delays some time between choosing the angle and
+			// beginning to correct
+			if (!aimAngleIsSet || strafeCounter <= 5) {
+				// set angle
+				if (!aimAngleIsSet) {
+					pidRequestedValue = gyro.getAngle();
+				}
+				System.out.println("pidRequested = " + pidRequestedValue);
+				System.out.println(" ");
+				strafeCounter++;
+				aimAngleIsSet = true;
+			} else {
 
-                    System.out.println("Drive: " + pid_Kp_Throttle + " * " + pidError + " = " + pidDrive);
-                    double leftPower = (throttle - pidDrive);
-                    double rightPower = (throttle + pidDrive);
-                    System.out.println("FS Left: " + leftPower + " FS RIGHT: " + rightPower);
-                    setLeft(leftPower);
-                    setRight(rightPower);
-                }
-                setStrafe(strafe);
-                //System.out.println("pidDrive: " + pidDrive + " requested: " + pidRequestedValue);
-            }
-        } else {  //use default tank drive by default, no strafe, no 
-            //straightPID.disable();
-            strafeCounter = 0;
-            if (gyroEnabled) {
-                double currentAngularRateOfChange = gyro.getAngularRateOfChange();
-                double desiredAngularRateOfChange = turn * MAX_ANGULAR_VELOCITY;
-                //Change back if it doesnt work
-                modifiedTurn = (currentAngularRateOfChange - desiredAngularRateOfChange) * gyroKP;
-                if (isPrintingDriveInfo) {
-                    System.out.println("turn: " + turn + " throttle: " + throttle);
-                    System.out.println("Current: " + currentAngularRateOfChange + " Desired: " + desiredAngularRateOfChange);
-                    System.out.println("Error: " + (currentAngularRateOfChange - desiredAngularRateOfChange) + "modified value: " + modifiedTurn);
-                }
-            } else {
-                modifiedTurn = turn;
-            }
+				// PID Loop for Straight Strafing
 
-            double t_left = throttle - modifiedTurn;
-            double t_right = throttle + modifiedTurn;
+				// Read the sensor value
+				pidSensorCurrentValue = gyro.getAngle();
 
-            if (isPrintingDriveInfo) {
-                System.out.println(t_left + " t_Left");
-                System.out.println(t_right + " t_Right");
-            }
+				// calculate error
+				pidError = pidSensorCurrentValue - pidRequestedValue;
+				// System.out.println(pidSensorCurrentValue + " - " +
+				// pidRequestedValue + " = Error: " + pidError);
 
-            double left = t_left + skim(t_right);
-            double right = t_right + skim(t_left);
+				if (turn != 0) { // if turning and strafing, disable the PID and
+									// just set it through normal means
+					setLeft(turn);
+					setRight(-turn);
+					aimAngleIsSet = false;
+				} else if (throttle == 0) { // If the user is strafing and not
+											// moving forward at the same time
+					double pid_Kp_NoThrottle;
+					if (strafe > 0) // if the strafe is moving right
+						pid_Kp_NoThrottle = pid_Kp_NoThrottle_Right;
+					else
+						// if the strafe is moving left
+						pid_Kp_NoThrottle = pid_Kp_NoThrottle_Left;
+					// calculate drive
+					pidDrive = ((pid_Kp_NoThrottle * pidError));
+					System.out.println("Drive: " + pid_Kp_NoThrottle + " * " + pidError + " = " + pidDrive);
+					setLeft(-pidDrive);
+					setRight(pidDrive);
+				} else { // else the user is driving with strafe and throttle
+					double pid_Kp_Throttle;
+					if (strafe > 0) // if the strafe is moving right
+						pid_Kp_Throttle = pid_Kp_Throttle_Right;
+					else
+						// if the strafe is moving left
+						pid_Kp_Throttle = pid_Kp_Throttle_Left;
+					// calculate drive
+					// if(throttle == 0){
+					pidDrive = ((pid_Kp_Throttle * pidError));
+					/*
+					 * }else { System.out.println("Changed PID = modified");
+					 * pidDrive = modifiedTurn; aimAngleIsSet = false; }
+					 */
 
-            if (isPrintingDriveInfo) {
-                System.out.println(left + " Left");
-                System.out.println(right + " Right");
-            }
-            //negative because sides are mirror images
-            aimAngleIsSet = false;
-            setLeft(left);
-            setRight(right);
-            setStrafe(strafe);
-            //System.out.println(gyro.getAngle());
-        }
+					System.out.println("Drive: " + pid_Kp_Throttle + " * " + pidError + " = " + pidDrive);
+					//Gets Power of each side
+					double leftPower = (throttle - pidDrive);
+					double rightPower = (throttle + pidDrive);
+					System.out.println("FS Left: " + leftPower + " FS RIGHT: " + rightPower);
+					setLeft(leftPower);
+					setRight(rightPower);
+				}
+				setStrafe(strafe);
+				// System.out.println("pidDrive: " + pidDrive + " requested: " +
+				// pidRequestedValue);
+			}
+		} else { // use default tank drive by default, no strafe, no throttle
+			// straightPID.disable();
+			strafeCounter = 0;
+			//The simple drive equation
+			if (gyroEnabled) {
+				double currentAngularRateOfChange = gyro.getAngularRateOfChange();
+				double desiredAngularRateOfChange = turn * MAX_ANGULAR_VELOCITY;
+				// Change back if it doesnt work
+				modifiedTurn = (currentAngularRateOfChange - desiredAngularRateOfChange) * gyroKP;
+				if (isPrintingDriveInfo) {
+					System.out.println("turn: " + turn + " throttle: " + throttle);
+					System.out.println("Current: " + currentAngularRateOfChange + " Desired: " + desiredAngularRateOfChange);
+					System.out.println("Error: " + (currentAngularRateOfChange - desiredAngularRateOfChange) + "modified value: " + modifiedTurn);
+				}
+			} else {
+				modifiedTurn = turn;
+			}
 
-    }
-    
-    private double skim(double v) {
-        // gain determines how much to skim off the top
-        if (v > 1.0) {
-            return -((v - 1.0) * skimGain);
-        } else if (v < -1.0) {
-            return -((v + 1.0) * skimGain);
-        }
-        return 0;
-    }
+			double t_left = throttle - modifiedTurn;
+			double t_right = throttle + modifiedTurn;
+
+			if (isPrintingDriveInfo) {
+				System.out.println(t_left + " t_Left");
+				System.out.println(t_right + " t_Right");
+			}
+
+			double left = t_left + skim(t_right);
+			double right = t_right + skim(t_left);
+
+			if (isPrintingDriveInfo) {
+				System.out.println(left + " Left");
+				System.out.println(right + " Right");
+			}
+			aimAngleIsSet = false;
+			setLeft(left);
+			setRight(right);
+			setStrafe(strafe);
+			// System.out.println(gyro.getAngle());
+		}
+
+	}
+
+	private double skim(double v) {
+		// gain determines how much to skim off the top
+		if (v > 1.0) {
+			return -((v - 1.0) * skimGain);
+		} else if (v < -1.0) {
+			return -((v + 1.0) * skimGain);
+		}
+		return 0;
+	}
+
 	public void drive(double leftX, double leftY, double rightX, double rightY) {
 		// reverse these because pushing the Y joysticks forward returns a
 		// negative value, this is fixed here
@@ -233,21 +242,22 @@ public class Drive {
 
 		driveHalo(leftY, rightX, leftX);
 	}
-    public void setLeft(double val) {
-        for (int i = 0; i < leftVictors.length; i++) {
-            //negative to account for reversed polarity
-            leftVictors[i].set(val);
-        }
-    }
 
-    public void setRight(double val) {
-        for (int i = 0; i < rightVictors.length; i++) {
-            rightVictors[i].set(-val);
-        }
-    }
+	public void setLeft(double val) {
+		for (int i = 0; i < leftVictors.length; i++) {
+			// negative to account for reversed polarity
+			leftVictors[i].set(val);
+		}
+	}
 
-    private void setStrafe(double value) {
-        strafeVictor1.set(-value);
-    }
+	public void setRight(double val) {
+		for (int i = 0; i < rightVictors.length; i++) {
+			rightVictors[i].set(-val);
+		}
+	}
+
+	private void setStrafe(double value) {
+		strafeVictor1.set(-value);
+	}
 
 }

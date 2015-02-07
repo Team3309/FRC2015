@@ -47,7 +47,7 @@ public class XboxController extends GenericHID {
     //main instance joystick being called throughout class 
     Joystick controller;
 
-  //info for usage of xbox remotes found at - http://www.chiefdelphi.com/forums/showthread.php?t=83597
+    //info for usage of xbox remotes found at - http://www.chiefdelphi.com/forums/showthread.php?t=83597
     //Constructor, takes number and makes xbox remote that number joystick that is set by driver station
     public XboxController(int joystickNum) {
         controller = new Joystick(joystickNum);
