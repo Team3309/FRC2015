@@ -1,4 +1,4 @@
-package org.usfirt.frc.team3309.subsystems;
+package org.usfirst.frc.team3309.subsystems;
 
 import org.usfirst.frc.team3309.robot.ModifiedGyro;
 import org.usfirst.frc.team3309.robot.RobotMap;
