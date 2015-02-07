@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class XboxController extends GenericHID {
 
-  ////BUTTONS\\\\
+	////BUTTONS\\\\
     //Base Buttons
     public static final int BUTTON_A = 1;
     public static final int BUTTON_B = 2;
@@ -38,9 +38,9 @@ public class XboxController extends GenericHID {
     public static final int BUTTON_HOME = 15;
 
     ////AXES\\\\
-    public static final int AXIS_LEFT_X = 1;
-    public static final int AXIS_LEFT_Y = 2;
-    public static final int AXIS_TRIGGER = 3; //return value of right(RT) - left(LT)
+    public static final int AXIS_LEFT_X = 0;
+    public static final int AXIS_LEFT_Y = 1;
+    public static final int AXIS_TRIGGER = 2; //return value of right(RT) - left(LT)
     public static final int AXIS_RIGHT_X = 4;
     public static final int AXIS_RIGHT_Y = 5;
 
