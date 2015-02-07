@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * directory.
  */
 @SuppressWarnings("unused")
-public class ArisTOTEle extends IterativeRobot {
+public class Robot extends IterativeRobot {
 	XboxController driverController = new XboxController(0);
 	XboxController operatorController = new XboxController(1);
 

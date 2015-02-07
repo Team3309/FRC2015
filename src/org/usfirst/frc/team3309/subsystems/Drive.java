@@ -71,8 +71,8 @@ public class Drive {
 		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
-		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT, RobotMap.DRIVE_ENCODER_LEFT, true, CounterBase.EncodingType.k1X);
-		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT, RobotMap.DRIVE_ENCODER_RIGHT, false, CounterBase.EncodingType.k1X);
+		//leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT, RobotMap.DRIVE_ENCODER_LEFT, true, CounterBase.EncodingType.k1X);
+		//rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT, RobotMap.DRIVE_ENCODER_RIGHT, false, CounterBase.EncodingType.k1X);
 		// initialize gyro
 		gyro = new ModifiedGyro(RobotMap.DRIVE_GYRO);
 
@@ -258,7 +258,7 @@ public class Drive {
 	}
 
 	private void setStrafe(double value) {
-		strafeVictor1.set(-value);
+		strafeVictor1.set(value);
 	}
 
 }
