@@ -47,9 +47,13 @@ public class PIDLoopCommand extends Command {
 	protected boolean isFinished() {
 		if(mDrive.getLeftEncoder() > pidRequested - 50 && mDrive.getLeftEncoder() < pidRequested + 50) {
 			System.out.println("PID IS DONE");
-			for(int i =0; i < 200; i ++)
-				execute();
 			isFinished = true;
+			for(int i =0; i < 200; i ++) {
+				execute();
+				if(!(mDrive.getLeftEncoder() > pidRequested - 50) && !(mDrive.getLeftEncoder() < pidRequested + 50))
+						isFinished = false;	
+			}
+			
 			System.out.println("PID IS SUPER DONE");
 		}
 		return isFinished;
