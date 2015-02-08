@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		scheduler.run();
 		while(mDrive.getLeftEncoder() < 1000) {
-			mDrive.drive(.5, 0, 0, 0);
+			mDrive.drive(0, .5, 0, 0);
 		}
 	}
 
