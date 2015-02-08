@@ -271,13 +271,11 @@ public class Drive {
 			leftVictors[i].set(val);
 		}
 	}
-
 	public void setRight(double val) {
 		for (int i = 0; i < rightVictors.length; i++) {
 			rightVictors[i].set(-val);
 		}
 	}
-
 	private void setStrafe(double value) {
 		strafeVictor1.set(value);
 	}
