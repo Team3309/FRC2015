@@ -271,7 +271,7 @@ public class Drive {
 
 	public void setLeft(double val) {
 		
-			System.out.println("val" + val);
+			//System.out.println("val" + val);
 			for (int i = 0; i < leftVictors.length; i++) {
 				// negative to account for reversed polarity
 				leftVictors[i].set(val);
@@ -281,7 +281,7 @@ public class Drive {
 
 	public void setRight(double val) {
 		
-			System.out.println("val right:" + val);
+			//System.out.println("val right:" + val);
 			for (int i = 0; i < rightVictors.length; i++) {
 				rightVictors[i].set(-val);
 			}

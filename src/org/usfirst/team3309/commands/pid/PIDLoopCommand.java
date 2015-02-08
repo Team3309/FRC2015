@@ -35,8 +35,7 @@ public class PIDLoopCommand extends Command {
 
 		// calculate error
 		double pidError = pidSensorCurrentValue - pidRequested;
-		// System.out.println(pidSensorCurrentValue + " - " +
-		// pidRequestedValue + " = Error: " + pidError);
+		//System.out.println(pidSensorCurrentValue + " - " + pidRequested + " = Error: " + pidError);
 
 		// calculate drive
 		double pidDrive = ((kP * pidError));
@@ -46,8 +45,13 @@ public class PIDLoopCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if(mDrive.getLeftEncoder() > pidRequested - 50 && mDrive.getLeftEncoder() < pidRequested + 50)
+		if(mDrive.getLeftEncoder() > pidRequested - 50 && mDrive.getLeftEncoder() < pidRequested + 50) {
+			System.out.println("PID IS DONE");
+			for(int i =0; i < 200; i ++)
+				execute();
 			isFinished = true;
+			System.out.println("PID IS SUPER DONE");
+		}
 		return isFinished;
 	}
 
