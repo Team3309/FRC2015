@@ -4,7 +4,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class PIDLoopCommand  extends Command{
 
-	@Override
+	private boolean isFinished = false;
+	private double kP;
+	private double kI;
+	private double kD;
+	
+	public PIDLoopCommand(double kP, double kI, double kD) {
+		this.kP = kP;
+		this.kI = kI;
+		this.kD = kD;
+	}
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		
@@ -19,7 +28,7 @@ public class PIDLoopCommand  extends Command{
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return isFinished;
 	}
 
 	@Override
