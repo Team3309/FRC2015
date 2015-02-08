@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
+
 @SuppressWarnings("unused")
 public class Drive {
 	private boolean isPrintingDriveInfo = false;
@@ -71,9 +72,9 @@ public class Drive {
 		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
-		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B,false, CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B,true, CounterBase.EncodingType.k1X);
 		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT_A, RobotMap.DRIVE_ENCODER_RIGHT_B, true, CounterBase.EncodingType.k1X);
-		
+
 		// initialize gyro
 		gyro = new ModifiedGyro(RobotMap.DRIVE_GYRO);
 
@@ -87,6 +88,10 @@ public class Drive {
 
 	public void resetGyro() {
 		gyro.reset();
+	}
+
+	public double getAngle() {
+		return gyro.getAngle();
 	}
 
 	private void driveHalo(double throttle, double turn, double strafe) {
@@ -104,8 +109,8 @@ public class Drive {
 		if (Math.abs(turn) < THRESHOLD) {
 			turn = 0;
 		}
-		
-		if(rightEncoder.get() != 0) {
+
+		if (rightEncoder.get() != 0) {
 			System.out.println("LEFT: " + leftEncoder.get());
 			System.out.println("RIGHT: " + rightEncoder.get());
 		}
@@ -178,7 +183,7 @@ public class Drive {
 					 */
 
 					System.out.println("Drive: " + pid_Kp_Throttle + " * " + pidError + " = " + pidDrive);
-					//Gets Power of each side
+					// Gets Power of each side
 					double leftPower = (throttle - pidDrive);
 					double rightPower = (throttle + pidDrive);
 					System.out.println("FS Left: " + leftPower + " FS RIGHT: " + rightPower);
@@ -192,7 +197,7 @@ public class Drive {
 		} else { // use default tank drive by default, no strafe, no throttle
 			// straightPID.disable();
 			strafeCounter = 0;
-			//The simple drive equation
+			// The simple drive equation
 			if (gyroEnabled) {
 				double currentAngularRateOfChange = gyro.getAngularRateOfChange();
 				double desiredAngularRateOfChange = turn * MAX_ANGULAR_VELOCITY;
@@ -249,33 +254,37 @@ public class Drive {
 
 		driveHalo(leftY, rightX, leftX);
 	}
-	
+
 	public int getLeftEncoder() {
 		return leftEncoder.get();
 	}
 
-	public int getRightEncoder(){
+	public int getRightEncoder() {
 		return rightEncoder.get();
 	}
-	
+
 	public void stopDrive() {
-		drive(0,0,0,0);
+		drive(0, 0, 0, 0);
 	}
+
 	public void resetEncoders() {
 		leftEncoder.reset();
 		rightEncoder.reset();
 	}
+
 	public void setLeft(double val) {
 		for (int i = 0; i < leftVictors.length; i++) {
 			// negative to account for reversed polarity
 			leftVictors[i].set(val);
 		}
 	}
+
 	public void setRight(double val) {
 		for (int i = 0; i < rightVictors.length; i++) {
 			rightVictors[i].set(-val);
 		}
 	}
+
 	private void setStrafe(double value) {
 		strafeVictor1.set(value);
 	}

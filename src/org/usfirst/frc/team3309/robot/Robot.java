@@ -4,6 +4,7 @@ import org.usfirst.frc.team3309.subsystems.Drive;
 import org.usfirst.frc.team3309.subsystems.Intake;
 import org.usfirst.frc.team3309.subsystems.IntakeLift;
 import org.usfirst.frc.team3309.subsystems.ToteLift;
+import org.usfirst.team3309.commands.pid.PIDLoopCommand;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -70,10 +71,8 @@ public class Robot extends IterativeRobot {
 	// This function is called periodically during autonomous
 	public void autonomousPeriodic() {
 		scheduler.run();
-		while (mDrive.getRightEncoder() < 1000) {
-			mDrive.drive(0, -.5, 0, 0);
-		}
-		mDrive.stopDrive();
+		PIDLoopCommand autoCommand = new PIDLoopCommand(.2, 0, 0, 3000);
+		autoCommand.start();
 	}
 
 	// Init to Tele
