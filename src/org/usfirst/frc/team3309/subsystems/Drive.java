@@ -72,7 +72,7 @@ public class Drive {
 		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
-		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B,true, CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, true, CounterBase.EncodingType.k1X);
 		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT_A, RobotMap.DRIVE_ENCODER_RIGHT_B, true, CounterBase.EncodingType.k1X);
 
 		// initialize gyro
@@ -273,15 +273,19 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		for (int i = 0; i < leftVictors.length; i++) {
-			// negative to account for reversed polarity
-			leftVictors[i].set(val);
+		if (Math.abs(val) > THRESHOLD) {
+			for (int i = 0; i < leftVictors.length; i++) {
+				// negative to account for reversed polarity
+				leftVictors[i].set(val);
+			}
 		}
 	}
 
 	public void setRight(double val) {
-		for (int i = 0; i < rightVictors.length; i++) {
-			rightVictors[i].set(-val);
+		if (Math.abs(val) > THRESHOLD) {
+			for (int i = 0; i < rightVictors.length; i++) {
+				rightVictors[i].set(-val);
+			}
 		}
 	}
 
