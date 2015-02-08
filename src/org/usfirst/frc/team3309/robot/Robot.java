@@ -69,7 +69,9 @@ public class Robot extends IterativeRobot {
 	// This function is called periodically during autonomous
 	public void autonomousPeriodic() {
 		scheduler.run();
-		while(mDrive.getLeftEncoder)
+		while(mDrive.getLeftEncoder() < 1000) {
+			mDrive.drive(.5, 0, 0, 0);
+		}
 	}
 
 	// Init to Tele
