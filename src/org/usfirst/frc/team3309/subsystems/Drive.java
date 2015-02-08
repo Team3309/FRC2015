@@ -249,7 +249,14 @@ public class Drive {
 
 		driveHalo(leftY, rightX, leftX);
 	}
+	
+	public int getLeftEncoder() {
+		return leftEncoder.get();
+	}
 
+	public int getRightEncoder(){
+		return rightEncoder.get();
+	}
 	public void setLeft(double val) {
 		for (int i = 0; i < leftVictors.length; i++) {
 			// negative to account for reversed polarity
