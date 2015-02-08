@@ -71,8 +71,9 @@ public class Drive {
 		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
-		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, true, CounterBase.EncodingType.k1X);
-		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT_A, RobotMap.DRIVE_ENCODER_RIGHT_B, false, CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B,false, CounterBase.EncodingType.k1X);
+		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT_A, RobotMap.DRIVE_ENCODER_RIGHT_B, true, CounterBase.EncodingType.k1X);
+		
 		// initialize gyro
 		gyro = new ModifiedGyro(RobotMap.DRIVE_GYRO);
 
@@ -102,6 +103,11 @@ public class Drive {
 		}
 		if (Math.abs(turn) < THRESHOLD) {
 			turn = 0;
+		}
+		
+		if(rightEncoder.get() != 0) {
+			System.out.println("LEFT: " + leftEncoder.get());
+			System.out.println("RIGHT: " + rightEncoder.get());
 		}
 
 		// If the user is strafing
