@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 
 	// When first put into disabled mode
 	public void disabledInit() {
-
+		//scheduler.disable();
 	}
 
 	// Called repeatedly in disabled mode
@@ -66,17 +66,20 @@ public class Robot extends IterativeRobot {
 		/*
 		 * autoCommand = new AutoForwardAndTurn(); autoCommand.start();
 		 */
+		autoCommand = new PIDLoopCommand(.05, 0, 0, 3000);
+		autoCommand.start();
 	}
 
 	// This function is called periodically during autonomous
 	public void autonomousPeriodic() {
 		scheduler.run();
-		PIDLoopCommand autoCommand = new PIDLoopCommand(.1, 0, 0, 3000);
-		autoCommand.start();
+		
 	}
 
 	// Init to Tele
 	public void teleopInit() {
+		if(autoCommand != null)
+			autoCommand.cancel();
 		mDrive.resetGyro();
 		// autoCommand.cancel();
 	}
