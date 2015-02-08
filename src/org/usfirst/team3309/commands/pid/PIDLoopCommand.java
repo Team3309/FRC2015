@@ -41,7 +41,7 @@ public class PIDLoopCommand extends Command {
 		// calculate drive
 		double pidDrive = ((kP * pidError));
 		mDrive.setLeft(-pidDrive);
-		mDrive.setRight(pidDrive);
+		mDrive.setRight(-pidDrive);
 	}
 
 	@Override

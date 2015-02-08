@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 	// This function is called periodically during autonomous
 	public void autonomousPeriodic() {
 		scheduler.run();
-		PIDLoopCommand autoCommand = new PIDLoopCommand(.005, 0, 0, 3000);
+		PIDLoopCommand autoCommand = new PIDLoopCommand(.1, 0, 0, 3000);
 		autoCommand.start();
 	}
 
