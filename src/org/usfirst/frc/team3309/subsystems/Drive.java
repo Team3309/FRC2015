@@ -261,6 +261,10 @@ public class Drive {
 	public void stopDrive() {
 		drive(0,0,0,0);
 	}
+	public void resetEncoders() {
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
 	public void setLeft(double val) {
 		for (int i = 0; i < leftVictors.length; i++) {
 			// negative to account for reversed polarity

@@ -61,6 +61,7 @@ public class Robot extends IterativeRobot {
 
 	// Init to Auto
 	public void autonomousInit() {
+		mDrive.resetEncoders();
 		/*
 		 * autoCommand = new AutoForwardAndTurn(); autoCommand.start();
 		 */
@@ -69,7 +70,7 @@ public class Robot extends IterativeRobot {
 	// This function is called periodically during autonomous
 	public void autonomousPeriodic() {
 		scheduler.run();
-		while(mDrive.getRightEncoder() < 1000) {
+		while (mDrive.getRightEncoder() < 1000) {
 			mDrive.drive(0, -.5, 0, 0);
 		}
 		mDrive.stopDrive();
