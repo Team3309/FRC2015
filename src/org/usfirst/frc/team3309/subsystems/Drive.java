@@ -37,7 +37,7 @@ public class Drive {
 	private int MAX_ANGULAR_VELOCITY = 720;
 
 	// Now for all the possible kp constants
-	private double KP_NORMAL = .002;
+	private double KP_NORMAL = .003;
 	private double pid_Kp_NoThrottle_Right = 0.08;
 	private double pid_Kp_NoThrottle_Left = 0.075;
 	private double pid_Kp_Throttle_Right = 0.0875;
@@ -190,7 +190,7 @@ public class Drive {
 			if (gyroEnabled) {
 				double currentAngularRateOfChange = gyro.getAngularRateOfChange();
 				double desiredAngularRateOfChange = turn * MAX_ANGULAR_VELOCITY;
-				// Change back if it doesnt work
+				// Change back if it doesn't work
 				modifiedTurn = (currentAngularRateOfChange - desiredAngularRateOfChange) * gyroKP;
 				if (isPrintingDriveInfo) {
 					System.out.println("turn: " + turn + " throttle: " + throttle);
