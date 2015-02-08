@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3309.subsystems;
 
+import org.usfirst.frc.team3309.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.Victor;
 
 public class IntakeLift {
@@ -16,6 +18,7 @@ public class IntakeLift {
 	}
 
 	private IntakeLift() {
-
+		leftLift = new Victor(RobotMap.INTAKE_LIFT_LEFT);
+		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
 	}
 }
