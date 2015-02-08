@@ -110,10 +110,7 @@ public class Drive {
 			turn = 0;
 		}
 
-		if (rightEncoder.get() != 0) {
-			System.out.println("LEFT: " + leftEncoder.get());
-			System.out.println("RIGHT: " + rightEncoder.get());
-		}
+
 
 		// If the user is strafing
 		if (strafe != 0) {
@@ -273,20 +270,22 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		if (Math.abs(val) > THRESHOLD) {
+		
+			System.out.println("val" + val);
 			for (int i = 0; i < leftVictors.length; i++) {
 				// negative to account for reversed polarity
 				leftVictors[i].set(val);
 			}
-		}
+		
 	}
 
 	public void setRight(double val) {
-		if (Math.abs(val) > THRESHOLD) {
+		
+			System.out.println("val right:" + val);
 			for (int i = 0; i < rightVictors.length; i++) {
 				rightVictors[i].set(-val);
 			}
-		}
+		
 	}
 
 	private void setStrafe(double value) {

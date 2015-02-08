@@ -46,7 +46,8 @@ public class PIDLoopCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
+		if(mDrive.getLeftEncoder() > pidRequested - 50 && mDrive.getLeftEncoder() < pidRequested + 50)
+			isFinished = true;
 		return isFinished;
 	}
 
