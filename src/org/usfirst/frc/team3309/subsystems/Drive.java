@@ -39,10 +39,10 @@ public class Drive {
 
 	// Now for all the possible kp constants
 	private double KP_NORMAL = .003;
-	private double pid_Kp_NoThrottle_Right = 0.08;
-	private double pid_Kp_NoThrottle_Left = 0.075;
-	private double pid_Kp_Throttle_Right = 0.0875;
-	private double pid_Kp_Throttle_Left = 0.08;
+	private double pid_Kp_NoThrottle_Right = 0.049;
+	private double pid_Kp_NoThrottle_Left = 0.04;
+	private double pid_Kp_Throttle_Right = 0.02;
+	private double pid_Kp_Throttle_Left = 0.02;
 
 	private static Drive instance;
 
@@ -109,8 +109,6 @@ public class Drive {
 		if (Math.abs(turn) < THRESHOLD) {
 			turn = 0;
 		}
-
-
 
 		// If the user is strafing
 		if (strafe != 0) {
@@ -270,22 +268,22 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		
-			//System.out.println("val" + val);
-			for (int i = 0; i < leftVictors.length; i++) {
-				// negative to account for reversed polarity
-				leftVictors[i].set(val);
-			}
-		
+
+		// System.out.println("val" + val);
+		for (int i = 0; i < leftVictors.length; i++) {
+			// negative to account for reversed polarity
+			leftVictors[i].set(val);
+		}
+
 	}
 
 	public void setRight(double val) {
-		
-			//System.out.println("val right:" + val);
-			for (int i = 0; i < rightVictors.length; i++) {
-				rightVictors[i].set(-val);
-			}
-		
+
+		// System.out.println("val right:" + val);
+		for (int i = 0; i < rightVictors.length; i++) {
+			rightVictors[i].set(-val);
+		}
+
 	}
 
 	private void setStrafe(double value) {
