@@ -11,6 +11,8 @@ public class PIDLoopCommand extends Command {
 	private double kI;
 	private double kD;
 	private double pidRequested;
+	private Drive mDrive;
+	
 
 	public PIDLoopCommand(double kP, double kI, double kD, double pidRequested) {
 		this.kP = kP;
@@ -24,7 +26,7 @@ public class PIDLoopCommand extends Command {
 		mDrive = Drive.getInstance();
 	}
 
-	Drive mDrive;
+	
 
 	@Override
 	protected void execute() {
@@ -70,5 +72,7 @@ public class PIDLoopCommand extends Command {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void
 
 }
