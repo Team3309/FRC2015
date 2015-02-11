@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3309.robot;
+package org.usfirst.frc.team3309.driverstation;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
