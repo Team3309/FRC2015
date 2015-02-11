@@ -112,12 +112,8 @@ public class Drive {
 
 		// If the user is strafing
 		if (strafe != 0) {
-			// straightPID.disable();
-
 			double pidSensorCurrentValue;
-
 			double pidError;
-
 			double pidDrive;
 
 			// If the angle needs to be set, or the counter is not done
@@ -141,8 +137,6 @@ public class Drive {
 
 				// calculate error
 				pidError = pidSensorCurrentValue - pidRequestedValue;
-				// System.out.println(pidSensorCurrentValue + " - " +
-				// pidRequestedValue + " = Error: " + pidError);
 
 				if (turn != 0) { // if turning and strafing, disable the PID and
 									// just set it through normal means
@@ -170,12 +164,7 @@ public class Drive {
 						// if the strafe is moving left
 						pid_Kp_Throttle = pid_Kp_Throttle_Left;
 					// calculate drive
-					// if(throttle == 0){
 					pidDrive = ((pid_Kp_Throttle * pidError));
-					/*
-					 * }else { System.out.println("Changed PID = modified");
-					 * pidDrive = modifiedTurn; aimAngleIsSet = false; }
-					 */
 
 					System.out.println("Drive: " + pid_Kp_Throttle + " * " + pidError + " = " + pidDrive);
 					// Gets Power of each side
@@ -186,11 +175,9 @@ public class Drive {
 					setRight(rightPower);
 				}
 				setStrafe(strafe);
-				// System.out.println("pidDrive: " + pidDrive + " requested: " +
-				// pidRequestedValue);
+
 			}
 		} else { // use default tank drive by default, no strafe, no throttle
-			// straightPID.disable();
 			strafeCounter = 0;
 			// The simple drive equation
 			if (gyroEnabled) {
@@ -226,7 +213,6 @@ public class Drive {
 			setLeft(left);
 			setRight(right);
 			setStrafe(strafe);
-			// System.out.println(gyro.getAngle());
 		}
 
 	}
@@ -268,22 +254,16 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-
-		// System.out.println("val" + val);
 		for (int i = 0; i < leftVictors.length; i++) {
 			// negative to account for reversed polarity
 			leftVictors[i].set(val);
 		}
-
 	}
 
 	public void setRight(double val) {
-
-		// System.out.println("val right:" + val);
 		for (int i = 0; i < rightVictors.length; i++) {
 			rightVictors[i].set(-val);
 		}
-
 	}
 
 	private void setStrafe(double value) {
