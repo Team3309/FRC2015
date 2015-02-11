@@ -11,6 +11,7 @@ import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +31,8 @@ public class Robot extends IterativeRobot {
 	private Intake mIntake;
 	private ToteLift mToteLift;
 	private IntakeLift mIntakeLift;
+	
+	private SendableChooser autoChooser = new SendableChooser();
 
 	// The command that will begin running at the start of autonomous
 	private Command autoCommand;
