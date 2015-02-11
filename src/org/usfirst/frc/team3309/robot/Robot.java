@@ -1,10 +1,10 @@
 package org.usfirst.frc.team3309.robot;
 
+import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
-import org.usfirst.team3309.robot.commands.pid.PIDLoopCommand;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
