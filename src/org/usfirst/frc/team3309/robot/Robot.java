@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 @SuppressWarnings("unused")
 public class Robot extends IterativeRobot {
-	XboxController driverController = new XboxController(0);
-	XboxController operatorController = new XboxController(1);
+	XboxController driverController = Controllers.getInstance().driverController;
+	XboxController operatorController = Controllers.getInstance().OperatorController;
 
 	private boolean buttonPressedLastTime = false;
 	private Scheduler scheduler;
