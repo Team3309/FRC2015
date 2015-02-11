@@ -1,6 +1,6 @@
-package org.usfirst.team3309.commands.pid;
+package org.usfirst.team3309.robot.commands.pid;
 
-import org.usfirst.frc.team3309.subsystems.Drive;
+import org.usfirst.frc.team3309.robot.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
