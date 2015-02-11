@@ -50,19 +50,16 @@ public class DriveForwardEncoderCounts extends Command implements PIDSource, PID
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void pidWrite(double output) {
 		mDrive.drive(0, -output, 0, 0);
-
 	}
 
 	@Override
