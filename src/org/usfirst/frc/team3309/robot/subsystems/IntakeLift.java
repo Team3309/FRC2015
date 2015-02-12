@@ -60,7 +60,9 @@ public class IntakeLift {
 	public void runRightLiftAt(double power) {
 		rightLift.set(power);
 	}
-
+	
+	
+	//slave and masters
 	public double getMasterEncoder() {
 		return masterEncoder.get();
 	}
@@ -68,12 +70,22 @@ public class IntakeLift {
 	public Victor getMasterVictor() {
 		return masterVictor;
 	}
-	
+
 	public double getSlaveEncoder() {
 		return masterEncoder.get();
 	}
 
 	public Victor getSlaveVictor() {
 		return masterVictor;
+	}
+	
+	public void setSlaveVictor(double power) {
+		if(getSlaveVictor().equals(rightLift))
+			runRightLiftAt(power);
+		else 
+			runLeftLiftAt(power);
+	}
+	public void setMasterVictor(double power) {
+		getMasterVictor().set(power);
 	}
 }
