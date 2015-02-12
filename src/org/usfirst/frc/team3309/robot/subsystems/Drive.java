@@ -230,8 +230,6 @@ public class Drive {
 	public void drive(double leftX, double leftY, double rightX, double rightY) {
 		// reverse these because pushing the Y joysticks forward returns a
 		// negative value, this is fixed here
-		leftY = -leftY;
-		rightY = -rightY;
 
 		driveHalo(leftY, rightX, leftX);
 	}

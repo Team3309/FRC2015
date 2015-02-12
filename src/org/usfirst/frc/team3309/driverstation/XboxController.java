@@ -127,11 +127,11 @@ public class XboxController extends GenericHID {
     }
 
     //Returns from -1 to 1
-
+    //negative because y axises are backward
     public double getLeftY() {
         double temp = controller.getRawAxis(AXIS_LEFT_Y);
         double scaledVal = scaleAxis(temp);
-        return scaledVal;
+        return -scaledVal;
     }
 
     //Not really sure what this return, I read somewhere that it returns rightTrigger - leftTrigger where each trigger returns from 0 to 1
@@ -155,7 +155,7 @@ public class XboxController extends GenericHID {
     public double getRightY() {
         double temp = controller.getRawAxis(AXIS_RIGHT_Y);
         double scaledVal = scaleAxis(temp);
-        return scaledVal;
+        return -scaledVal;
     }
 
     //btw this is your deadband
