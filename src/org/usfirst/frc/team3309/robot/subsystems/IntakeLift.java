@@ -28,6 +28,14 @@ public class IntakeLift {
 		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, false, CounterBase.EncodingType.k1X);
 	}
 
+	public double getRightEncoder() {
+		return rightEncoder.get();
+	}
+
+	public double getLeftEncoder() {
+		return rightEncoder.get();
+	}
+
 	public void runLiftAt(double power) {
 		runLeftLiftAt(power);
 		runRightLiftAt(power);
