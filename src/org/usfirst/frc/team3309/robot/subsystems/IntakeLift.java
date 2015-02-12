@@ -24,8 +24,8 @@ public class IntakeLift {
 	private IntakeLift() {
 		leftLift = new Victor(RobotMap.INTAKE_LIFT_LEFT);
 		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
-		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
-		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, INTAKE_LIFT_RIGHT_ENCODER_B, false, CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, RobotMap.INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
+		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, false, CounterBase.EncodingType.k1X);
 	}
 
 	public void runLiftAt(double power) {
