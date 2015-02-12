@@ -21,4 +21,9 @@ public class IntakeLift {
 		leftLift = new Victor(RobotMap.INTAKE_LIFT_LEFT);
 		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
 	}
+	
+	public void runLiftAt(double power) {
+		leftLift.set(power);
+		rightLift.set(power);
+	}
 }
