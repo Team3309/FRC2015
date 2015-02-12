@@ -13,7 +13,14 @@ public class IntakeLift {
 	private Victor rightLift;
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
-
+	
+	//master and slave
+	private Victor masterVictor;
+	private Victor slaveVictor;
+	
+	private Encoder masterEncoder;
+	private Encoder slaveEncoder;
+	
 	public static IntakeLift getInstance() {
 		if (instance == null) {
 			instance = new IntakeLift();
@@ -26,6 +33,11 @@ public class IntakeLift {
 		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
 		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, RobotMap.INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
 		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, false, CounterBase.EncodingType.k1X);
+	
+		masterVictor = rightLift;
+		slaveVictor = leftLift;
+		masterEncoder = rightEncoder;
+		slaveEncoder = leftEncoder;
 	}
 
 	public double getRightEncoder() {
@@ -47,5 +59,13 @@ public class IntakeLift {
 
 	public void runRightLiftAt(double power) {
 		rightLift.set(power);
+	}
+	
+	public double getMasterEncoder() {
+		return masterEncoder.get();
+	}
+	
+	public Victor getMasterVictor() {
+		return masterVictor;
 	}
 }

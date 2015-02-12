@@ -53,7 +53,7 @@ public class IntakeLiftCommand extends Command implements PIDSource, PIDOutput{
 	@Override
 	public double pidGet() {
 		// TODO Auto-generated method stub
-		return mIntakeLift.;
+		return mIntakeLift.getLeadingEncoder();
 	}
 	
 	
