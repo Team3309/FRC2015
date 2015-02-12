@@ -2,6 +2,8 @@ package org.usfirst.frc.team3309.robot.subsystems;
 
 import org.usfirst.frc.team3309.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 
 public class IntakeLift {
@@ -9,7 +11,9 @@ public class IntakeLift {
 
 	private Victor leftLift;
 	private Victor rightLift;
-	
+	private Encoder leftEncoder;
+	private Encoder rightEncoder;
+
 	public static IntakeLift getInstance() {
 		if (instance == null) {
 			instance = new IntakeLift();
@@ -20,8 +24,10 @@ public class IntakeLift {
 	private IntakeLift() {
 		leftLift = new Victor(RobotMap.INTAKE_LIFT_LEFT);
 		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
+		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
+		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, INTAKE_LIFT_RIGHT_ENCODER_B, false, CounterBase.EncodingType.k1X);
 	}
-	
+
 	public void runLiftAt(double power) {
 		leftLift.set(power);
 		rightLift.set(power);
