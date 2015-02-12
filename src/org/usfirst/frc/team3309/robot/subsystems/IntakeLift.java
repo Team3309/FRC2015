@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 
 public class IntakeLift {
+	
 	private static IntakeLift instance;
-
 	private Victor leftLift;
 	private Victor rightLift;
 	private Encoder leftEncoder;
@@ -32,9 +32,11 @@ public class IntakeLift {
 		runLeftLiftAt(power);
 		runRightLiftAt(power);
 	}
+	
 	public void runLeftLiftAt(double power) {
 		leftLift.set(power);
 	}
+	
 	public void runRightLiftAt(double power) {
 		rightLift.set(power);
 	}
