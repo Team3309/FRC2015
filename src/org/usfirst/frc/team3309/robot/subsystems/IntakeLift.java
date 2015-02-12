@@ -29,7 +29,13 @@ public class IntakeLift {
 	}
 
 	public void runLiftAt(double power) {
+		runLeftLiftAt(power);
+		runRightLiftAt(power);
+	}
+	public void runLeftLiftAt(double power) {
 		leftLift.set(power);
+	}
+	public void runRightLiftAt(double power) {
 		rightLift.set(power);
 	}
 }
