@@ -8,6 +8,7 @@ import org.usfirst.frc.team3309.robot.subsystems.Intake;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	private ToteLift mToteLift;
 	private IntakeLift mIntakeLift;
 	
+	private DigitalInput prox = new DigitalInput(9);
 	private SendableChooser autoChooser = new SendableChooser();
 
 	// The command that will begin running at the start of autonomous
@@ -84,12 +86,14 @@ public class Robot extends IterativeRobot {
 			autoCommand.cancel();
 		mDrive.resetGyro();
 		// autoCommand.cancel();
+		prox.
 	}
 
 	// This function is called periodically during operator control
 	public void teleopPeriodic() {
 		scheduler.run();
 
+		System.out.println("PROX: " + prox.get());
 		// gets all 4 axis from driver remote and depending on what drive the
 		// robot is in, the values will be used accordingly
 		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());
