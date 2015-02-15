@@ -40,32 +40,12 @@ public abstract class PIDLoopCommand extends Command implements PIDSource, PIDOu
 		// PID Loop for Straight Strafing
 
 		// Read the sensor value
-		double pidSensorCurrentValue = mDrive.getLeftEncoder();
-
-		// calculate error
-		double pidError = pidSensorCurrentValue - pidRequested;
-		//System.out.println(pidSensorCurrentValue + " - " + pidRequested + " = Error: " + pidError);
-
-		// calculate drive
-		double pidDrive = ((kP * pidError));
-		mDrive.setLeft(-pidDrive);
-		mDrive.setRight(-pidDrive);
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if(mDrive.getLeftEncoder() > pidRequested - 50 && mDrive.getLeftEncoder() < pidRequested + 50) {
-			System.out.println("PID IS DONE");
-			isFinished = true;
-			for(int i =0; i < 2000; i ++) {
-				execute();
-				if(!(mDrive.getLeftEncoder() > pidRequested - 50) && !(mDrive.getLeftEncoder() < pidRequested + 50))
-						isFinished = false;	
-			}
-			
-			System.out.println("PID IS SUPER DONE");
-		}
-		return isFinished;
+		return false;
 	}
 
 	@Override

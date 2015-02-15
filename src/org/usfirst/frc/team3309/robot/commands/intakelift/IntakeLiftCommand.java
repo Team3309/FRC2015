@@ -1,3 +1,6 @@
+/*
+ * This Command runs continously and its only function is to keep the slave encoder value the same as the master encoder's value
+ */
 package org.usfirst.frc.team3309.robot.commands.intakelift;
 
 import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
@@ -41,7 +44,6 @@ public class IntakeLiftCommand extends PIDLoopCommand {
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -53,6 +55,4 @@ public class IntakeLiftCommand extends PIDLoopCommand {
 	public double pidGet() {
 		return mIntakeLift.getMasterEncoder();
 	}
-	
-	
 }
