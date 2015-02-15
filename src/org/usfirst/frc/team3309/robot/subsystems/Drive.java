@@ -1,12 +1,12 @@
 package org.usfirst.frc.team3309.robot.subsystems;
 
 import org.usfirst.frc.team3309.robot.ModifiedGyro;
-
 import org.usfirst.frc.team3309.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 
 @SuppressWarnings("unused")
@@ -14,9 +14,14 @@ public class Drive {
 	private boolean isPrintingDriveInfo = false;
 
 	// all of the sensors and motor controllers
-	private Victor[] leftVictors = new Victor[2];
-	private Victor[] rightVictors = new Victor[2];
-	private Victor strafeVictor1;
+
+	// private Victor[] leftVictors = new Victor[2];
+	// private Victor[] rightVictors = new Victor[2];
+	// private Victor strafeVictor1;
+
+	private Talon[] leftVictors = new Talon[2];
+	private Talon[] rightVictors = new Talon[2];
+	private Talon strafeVictor1;
 
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
@@ -65,11 +70,18 @@ public class Drive {
 	// the constructor
 	private Drive() {
 		// initialize Victors in their arrays
-		leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
-		leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
-		rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
-		rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
-		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
+
+		// leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
+		// leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
+		// rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
+		// rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
+		// strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
+
+		leftVictors[0] = new Talon(RobotMap.DRIVE_LEFT_1);
+		leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_2);
+		rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_1);
+		rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_2);
+		strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
 		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, true, CounterBase.EncodingType.k1X);
