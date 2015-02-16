@@ -124,6 +124,7 @@ public class Robot extends IterativeRobot {
 			mIntake.toggleSolenoid();
 		} else {
 			mIntake.notActivated();
+			
 		}
 
 		if (operatorController.getRB()) {
@@ -131,6 +132,15 @@ public class Robot extends IterativeRobot {
 		} else {
 			
 		}
+		
+		if(operatorController.getA()) {
+			mToteLift.turnOffSolenoid();
+		}else {
+			mToteLift.turnOnSolenoid();
+		}
+		
+	
+			
 
 	}
 }

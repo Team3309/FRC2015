@@ -71,12 +71,4 @@ public class ToteLift {
 		latchSolenoid.turnOffSolenoid();
 	}
 
-	public void toggleSolenoid() {
-		latchSolenoid.toggleSolenoid();
-	}
-	public void notPressedSolenpid() {
-		latchSolenoid.notPressed();
-	}
-
-
 }

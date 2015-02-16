@@ -34,6 +34,6 @@ public class RobotMap {
 
 	public static final int INTAKE_SOLENOID_FRONT = 0;
 	public static final int INTAKE_SOLENOID_BACK = 1;
-	public static final int LATCH_SOLENOID = 2;
+	public static final int LATCH_SOLENOID = 3;
 	
 }

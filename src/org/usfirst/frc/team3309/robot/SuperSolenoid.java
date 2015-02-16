@@ -10,18 +10,19 @@ public class SuperSolenoid extends Solenoid{
 	}
 	
 	public void turnOnSolenoid() {
-		set(true);
-	}
-
-	public void turnOffSolenoid() {
 		set(false);
 	}
 
+	public void turnOffSolenoid() {
+		set(true);
+	}
+
 	public void toggleSolenoid() {
-		if(!buttonLastPressed) {
-			set(!get());
-			buttonLastPressed = true;
-		}
+		if(get())
+			set(false);
+		else
+			set(true);
+		
 	}
 	
 	public void notPressed() {
