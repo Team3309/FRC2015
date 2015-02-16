@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3309.robot.subsystems;
 
+import org.usfirst.frc.team3309.robot.IntakeSolenoid;
 import org.usfirst.frc.team3309.robot.RobotMap;
 import org.usfirst.frc.team3309.robot.SuperSolenoid;
 
@@ -11,7 +12,7 @@ import edu.wpi.first.wpilibj.Victor;
 public class Intake {
 	private Victor rightClaw;
 	private Victor leftClaw;
-	private SuperSolenoid intakeSolenoid;
+	private IntakeSolenoid intakeSolenoid;
 
 	private static Intake instance;
 
@@ -25,7 +26,7 @@ public class Intake {
 	private Intake() {
 		rightClaw = new Victor(RobotMap.CLAW_RIGHTSIDE);
 		leftClaw = new Victor(RobotMap.CLAW_LEFTSIDE);
-		intakeSolenoid = new SuperSolenoid(RobotMap.INTAKE_SOLENOID);
+		intakeSolenoid = new IntakeSolenoid(RobotMap.INTAKE_SOLENOID_FRONT, RobotMap.INTAKE_SOLENOID_BACK);
 	}
 
 	public void initDefaultCommand() {
@@ -48,19 +49,30 @@ public class Intake {
 		leftClaw.set(0);
 	}
 
-	public void turnOnSolenoid() {
-		intakeSolenoid.turnOnSolenoid();;
+	public void setExtended() {
+		intakeSolenoid.setExtended();
+		;
 	}
 
-	public void turnOffSolenoid() {
-		intakeSolenoid.turnOffSolenoid();
+	public void setRetracted() {
+		intakeSolenoid.setRetracted();
 	}
+
+	public void setNeutral() {
+		intakeSolenoid.setNeutral();
+	}
+
+	private boolean buttonLastState = false;
 
 	public void toggleSolenoid() {
-		intakeSolenoid.toggleSolenoid();
+		if (buttonLastState == false) {
+			intakeSolenoid.toggleSolenoid();
+			buttonLastState = true;
+		}
 	}
-	public void notPressedSolenpid() {
-		intakeSolenoid.notPressed();
+
+	public void notActivated() {
+		buttonLastState = false;
 	}
 
 }

@@ -120,16 +120,16 @@ public class Robot extends IterativeRobot {
 			mIntake.stopClaw();
 		}
 
-		if (operatorController.getRB()) {
+		if (operatorController.getLB()) {
 			mIntake.toggleSolenoid();
 		} else {
-			mIntake.notPressedSolenpid();
+			mIntake.notActivated();
 		}
 
-		if (operatorController.getLB()) {
-			mToteLift.toggleSolenoid();
+		if (operatorController.getRB()) {
+			mIntake.setNeutral();
 		} else {
-			mToteLift.notPressedSolenpid();
+			
 		}
 
 	}

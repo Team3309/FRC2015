@@ -32,7 +32,8 @@ public class RobotMap {
 
 	public static final int DRIVE_GYRO = 0;
 
-	public static final int INTAKE_SOLENOID = 0;
-	public static final int LATCH_SOLENOID = 1;
+	public static final int INTAKE_SOLENOID_FRONT = 0;
+	public static final int INTAKE_SOLENOID_BACK = 1;
+	public static final int LATCH_SOLENOID = 2;
 	
 }
