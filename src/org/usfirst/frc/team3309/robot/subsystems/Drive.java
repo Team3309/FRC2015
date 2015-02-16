@@ -98,11 +98,13 @@ public class Drive {
 		 * straightPID.disable();
 		 */
 		
-		SmartDashboard.putNumber("KP DRIVE CONSTNT", KP_NORMAL);
-		SmartDashboard.putNumber("No Throttle Left", pid_Kp_NoThrottle_Left);
-		SmartDashboard.putNumber("No Throttle ightt", pid_Kp_NoThrottle_Right);
-		SmartDashboard.putNumber("Throttle Left", pid_Kp_Throttle_Right);
-		SmartDashboard.putNumber("Throttle Right", pid_Kp_Throttle_Left);
+		SmartDashboard.putNumber("KP_DRIVE_CONSTANT", KP_NORMAL);
+		SmartDashboard.putNumber("No_Throttle_Left", pid_Kp_NoThrottle_Left);
+		SmartDashboard.putNumber("No_Throttle_Right", pid_Kp_NoThrottle_Right);
+		SmartDashboard.putNumber("Throttle_Left", pid_Kp_Throttle_Right);
+		SmartDashboard.putNumber("Throttle_Right", pid_Kp_Throttle_Left);
+		
+		
 	}
 
 	public void resetGyro() {
@@ -115,6 +117,7 @@ public class Drive {
 
 	private void driveHalo(double throttle, double turn, double strafe) {
 		System.out.println("KP: " + KP_NORMAL);
+		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
 		this.throttle = throttle;
@@ -235,6 +238,13 @@ public class Drive {
 			setStrafe(strafe);
 		}
 
+	}
+
+	private void updateConstants() {
+		System.out.println("WITH DEFAULt: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003));
+		System.out.println("NO DEFAULT: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
+		KP_NORMAL = SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
+		
 	}
 
 	private double skim(double v) {
