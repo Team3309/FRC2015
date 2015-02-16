@@ -4,6 +4,7 @@ import org.usfirst.frc.team3309.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
 public class IntakeLift {
@@ -14,6 +15,7 @@ public class IntakeLift {
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 
+	private Solenoid latchSolenoid;
 	// master and slave
 	private Victor masterVictor;
 	private Victor slaveVictor;
@@ -37,6 +39,8 @@ public class IntakeLift {
 		slaveVictor = leftLift;
 		masterEncoder = rightEncoder;
 		slaveEncoder = leftEncoder;
+		
+		latchSolenoid = new Solenoid(RobotMap.LATCH_SOLENOID)
 	}
 
 	public double getRightEncoder() {
