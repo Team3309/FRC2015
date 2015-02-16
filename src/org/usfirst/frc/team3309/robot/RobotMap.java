@@ -26,9 +26,13 @@ public class RobotMap {
 	public static final int INTAKE_LIFT_LEFT_ENCODER_B = 5;
 	public static final int INTAKE_LIFT_RIGHT_ENCODER_A = 6;
 	public static final int INTAKE_LIFT_RIGHT_ENCODER_B = 7;
+	
+	public static final int TOTE_LIFT_TOP_LIMIT_SWITCH = 8;
+	public static final int TOTE_LIFT_BOT_LIMIT_SWITCH = 9;
 
 	public static final int DRIVE_GYRO = 0;
 
 	public static final int INTAKE_SOLENOID = 0;
 	public static final int LATCH_SOLENOID = 1;
+	
 }

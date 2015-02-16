@@ -16,13 +16,13 @@ public class Drive {
 
 	// all of the sensors and motor controllers
 
-	// private Victor[] leftVictors = new Victor[2];
-	// private Victor[] rightVictors = new Victor[2];
-	// private Victor strafeVictor1;
+	private Victor[] leftVictors = new Victor[2];
+	 private Victor[] rightVictors = new Victor[2];
+	 private Victor strafeVictor1;
 
-	private Talon[] leftVictors = new Talon[2];
-	private Talon[] rightVictors = new Talon[2];
-	private Talon strafeVictor1;
+	//private Talon[] leftVictors = new Talon[2];
+	//private Talon[] rightVictors = new Talon[2];
+	//private Talon strafeVictor1;
 
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
@@ -41,7 +41,7 @@ public class Drive {
 	// tells if gyro is a yay or nay
 	private boolean gyroEnabled = true;
 	// the max angular velocity (duh)
-	private int MAX_ANGULAR_VELOCITY = 720;
+	private int MAX_ANGULAR_VELOCITY = 600;
 
 	// Now for all the possible kp constants
 	private double KP_NORMAL = .003;
@@ -72,17 +72,17 @@ public class Drive {
 	private Drive() {
 		// initialize Victors in their arrays
 
-		// leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
-		// leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
-		// rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
-		// rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
-		// strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
+		 leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
+		 leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
+		 rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
+		 rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
+		 strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
-		leftVictors[0] = new Talon(RobotMap.DRIVE_LEFT_1);
-		leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_2);
-		rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_1);
-		rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_2);
-		strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
+//		leftVictors[0] = new Talon(RobotMap.DRIVE_LEFT_1);
+//		leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_2);
+//		rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_1);
+//		rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_2);
+//		strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
 		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, true, CounterBase.EncodingType.k1X);
@@ -103,6 +103,7 @@ public class Drive {
 		SmartDashboard.putNumber("No_Throttle_Right", pid_Kp_NoThrottle_Right);
 		SmartDashboard.putNumber("Throttle_Left", pid_Kp_Throttle_Right);
 		SmartDashboard.putNumber("Throttle_Right", pid_Kp_Throttle_Left);
+		SmartDashboard.putNumber("Max_Velcoity", this.MAX_ANGULAR_VELOCITY);
 		
 		
 	}
@@ -116,7 +117,7 @@ public class Drive {
 	}
 
 	private void driveHalo(double throttle, double turn, double strafe) {
-		System.out.println("KP: " + KP_NORMAL);
+		//System.out.println("KP: " + KP_NORMAL);
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -241,9 +242,10 @@ public class Drive {
 	}
 
 	private void updateConstants() {
-		System.out.println("WITH DEFAULt: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003));
-		System.out.println("NO DEFAULT: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
+		//System.out.println("WITH DEFAULt: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003));
+		//System.out.println("NO DEFAULT: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
 		KP_NORMAL = SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
+		MAX_ANGULAR_VELOCITY = (int) SmartDashboard.getNumber("Max_Velcoity", 600);
 		
 	}
 
@@ -282,16 +284,18 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		for (int i = 0; i < leftVictors.length; i++) {
-			// negative to account for reversed polarity
-			leftVictors[i].set(val);
-		}
+		
+		
+			leftVictors[0].set(val);
+			leftVictors[1].set(val);
+		
 	}
 
 	public void setRight(double val) {
-		for (int i = 0; i < rightVictors.length; i++) {
-			rightVictors[i].set(-val);
-		}
+		
+			rightVictors[0].set(-val);
+			rightVictors[1].set(-val);
+		
 	}
 
 	private void setStrafe(double value) {

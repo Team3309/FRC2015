@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3309.robot.subsystems;
 
 import org.usfirst.frc.team3309.robot.RobotMap;
+import org.usfirst.frc.team3309.robot.SuperSolenoid;
 import org.usfirst.frc.team3309.robot.VexLimitSwitch;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -11,7 +12,7 @@ public class ToteLift {
 
 	private static ToteLift instance;
 
-	private Solenoid latchSolenoid;
+	private SuperSolenoid latchSolenoid;
 
 	private Victor toteLift;
 
@@ -28,13 +29,16 @@ public class ToteLift {
 	private ToteLift() {
 		toteLift = new Victor(RobotMap.TOTE_LIFT);
 		
-		latchSolenoid = new Solenoid(RobotMap.LATCH_SOLENOID);
+		topLimitSwitch = new VexLimitSwitch(RobotMap.TOTE_LIFT_TOP_LIMIT_SWITCH);
+		botLimitSwitch = new VexLimitSwitch(RobotMap.TOTE_LIFT_BOT_LIMIT_SWITCH);
+		latchSolenoid = new SuperSolenoid(RobotMap.LATCH_SOLENOID);
 	}
 
 	public void runLiftAt(double power) {
 
 		if (botBumperSwitchPressed()) {
 			if (power > 0)
+		System.out.println("HJELLOFDAS");
 				toteLift.set(power);
 		} else if (topBumperSwitchPressed()) {
 			if (power < 0)
@@ -60,15 +64,15 @@ public class ToteLift {
 	}
 	
 	public void turnOnSolenoid() {
-		latchSolenoid.set(true);
+		latchSolenoid.turnOnSolenoid();;
 	}
 
 	public void turnOffSolenoid() {
-		latchSolenoid.set(false);
+		latchSolenoid.turnOffSolenoid();;
 	}
 
 	public void toggleSolenoid() {
-		latchSolenoid.set(!latchSolenoid.get());
+		latchSolenoid.toggleSolenoid();;
 	}
 
 
