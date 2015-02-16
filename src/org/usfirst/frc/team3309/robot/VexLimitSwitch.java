@@ -1,3 +1,4 @@
+/* For specifically Vex Limit Switches only.  Reverses get to matched pressed and not pressed*/
 package org.usfirst.frc.team3309.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;

@@ -2,6 +2,7 @@ package org.usfirst.frc.team3309.robot;
 
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
+import org.usfirst.frc.team3309.robot.commands.drive.DriveForwardEncoderCounts;
 import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,8 +35,7 @@ public class Robot extends IterativeRobot {
 	private ToteLift mToteLift;
 	private IntakeLift mIntakeLift;
 	
-	private DigitalInput prox = new DigitalInput(9);
-	private SendableChooser autoChooser = new SendableChooser();
+	private SendableChooser autoChooser;
 
 	// The command that will begin running at the start of autonomous
 	private Command autoCommand;
@@ -46,6 +47,8 @@ public class Robot extends IterativeRobot {
 		if (constantChanger) {
 			// constantChanger frame = new constantChanger();
 		}
+		
+		
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();
@@ -55,22 +58,30 @@ public class Robot extends IterativeRobot {
 		// sets it so all information about the drive will be printed repeatedly
 		// during driving
 		// mDrive.setPrintingDriveInfo(false);
+		
+		autoChooser =  new SendableChooser();
+		autoChooser.addDefault("DEFAULT", new DriveForwardEncoderCounts(600));
+		autoChooser.addObject("EXPERIMENTAL", new DriveForwardEncoderCounts(200));
+		
+		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
+		
 	}
 
 	// When first put into disabled mode
 	public void disabledInit() {
-		//scheduler.disable();
+	
+		
 	}
 
 	// Called repeatedly in disabled mode
 	public void disabledPeriodic() {
-
+		
 	}
 
 	// Init to Auto
 	public void autonomousInit() {
 		mDrive.resetEncoders();
-		//autoCommand = 
+		autoCommand = (Command) autoChooser.getSelected();
 		autoCommand.start();
 	}
 
@@ -86,14 +97,14 @@ public class Robot extends IterativeRobot {
 			autoCommand.cancel();
 		mDrive.resetGyro();
 		// autoCommand.cancel();
-		prox.
+		
 	}
 
 	// This function is called periodically during operator control
 	public void teleopPeriodic() {
 		scheduler.run();
 
-		System.out.println("PROX: " + prox.get());
+		
 		// gets all 4 axis from driver remote and depending on what drive the
 		// robot is in, the values will be used accordingly
 		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());

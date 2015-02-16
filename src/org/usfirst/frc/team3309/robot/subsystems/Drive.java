@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 @SuppressWarnings("unused")
 public class Drive {
@@ -96,6 +97,12 @@ public class Drive {
 		 * PIDController(.001, 0, .02, straight, straight);
 		 * straightPID.disable();
 		 */
+		
+		SmartDashboard.putNumber("KP DRIVE CONSTNT", KP_NORMAL);
+		SmartDashboard.putNumber("No Throttle Left", pid_Kp_NoThrottle_Left);
+		SmartDashboard.putNumber("No Throttle ightt", pid_Kp_NoThrottle_Right);
+		SmartDashboard.putNumber("Throttle Left", pid_Kp_Throttle_Right);
+		SmartDashboard.putNumber("Throttle Right", pid_Kp_Throttle_Left);
 	}
 
 	public void resetGyro() {
@@ -107,6 +114,7 @@ public class Drive {
 	}
 
 	private void driveHalo(double throttle, double turn, double strafe) {
+		System.out.println("KP: " + KP_NORMAL);
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
 		this.throttle = throttle;
