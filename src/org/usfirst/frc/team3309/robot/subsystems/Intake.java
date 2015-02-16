@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3309.robot.subsystems;
 
 import org.usfirst.frc.team3309.robot.RobotMap;
+import org.usfirst.frc.team3309.robot.SuperSolenoid;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.Victor;
 public class Intake {
 	private Victor rightClaw;
 	private Victor leftClaw;
-	private Solenoid intakeSolenoid;
+	private SuperSolenoid intakeSolenoid;
 
 	private static Intake instance;
 
@@ -24,7 +25,7 @@ public class Intake {
 	private Intake() {
 		rightClaw = new Victor(RobotMap.CLAW_RIGHTSIDE);
 		leftClaw = new Victor(RobotMap.CLAW_LEFTSIDE);
-		intakeSolenoid = new Solenoid(RobotMap.INTAKE_SOLENOID);
+		intakeSolenoid = new SuperSolenoid(RobotMap.INTAKE_SOLENOID);
 	}
 
 	public void initDefaultCommand() {
@@ -48,15 +49,15 @@ public class Intake {
 	}
 
 	public void turnOnSolenoid() {
-		intakeSolenoid.set(true);
+		intakeSolenoid.turnOnSolenoid();;
 	}
 
 	public void turnOffSolenoid() {
-		intakeSolenoid.set(false);
+		intakeSolenoid.turnOffSolenoid();
 	}
 
 	public void toggleSolenoid() {
-		intakeSolenoid.set(!intakeSolenoid.get());
+		intakeSolenoid.toggleSolenoid();
 	}
 
 }
