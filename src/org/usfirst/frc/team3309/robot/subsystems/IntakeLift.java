@@ -15,7 +15,7 @@ public class IntakeLift {
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 
-	private Solenoid latchSolenoid;
+	
 	// master and slave
 	private Victor masterVictor;
 	private Victor slaveVictor;
@@ -40,7 +40,7 @@ public class IntakeLift {
 		masterEncoder = rightEncoder;
 		slaveEncoder = leftEncoder;
 		
-		latchSolenoid = new Solenoid(RobotMap.LATCH_SOLENOID)
+		
 	}
 
 	public double getRightEncoder() {

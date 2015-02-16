@@ -4,11 +4,14 @@ import org.usfirst.frc.team3309.robot.RobotMap;
 import org.usfirst.frc.team3309.robot.VexLimitSwitch;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
 public class ToteLift {
 
 	private static ToteLift instance;
+
+	private Solenoid latchSolenoid;
 
 	private Victor toteLift;
 
@@ -24,6 +27,8 @@ public class ToteLift {
 
 	private ToteLift() {
 		toteLift = new Victor(RobotMap.TOTE_LIFT);
+		
+		latchSolenoid = new Solenoid(RobotMap.LATCH_SOLENOID);
 	}
 
 	public void runLiftAt(double power) {
@@ -53,5 +58,18 @@ public class ToteLift {
 		else
 			return false;
 	}
+	
+	public void turnOnSolenoid() {
+		latchSolenoid.set(true);
+	}
+
+	public void turnOffSolenoid() {
+		latchSolenoid.set(false);
+	}
+
+	public void toggleSolenoid() {
+		latchSolenoid.set(!latchSolenoid.get());
+	}
+
 
 }
