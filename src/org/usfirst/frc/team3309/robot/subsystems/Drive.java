@@ -246,7 +246,10 @@ public class Drive {
 		//System.out.println("NO DEFAULT: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
 		KP_NORMAL = SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
 		MAX_ANGULAR_VELOCITY = (int) SmartDashboard.getNumber("Max_Velcoity", 600);
-		
+		/*pid_Kp_NoThrottle_Left =  SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
+		pid_Kp_NoThrottle_Right
+		pid_Kp_Throttle_Left
+		pid_Kp_Throttle_Right*/
 	}
 
 	private double skim(double v) {

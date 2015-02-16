@@ -124,6 +124,13 @@ public class Robot extends IterativeRobot {
 		}
 
 
+		if(operatorController.getRB()) {
+			mIntake.toggleSolenoid();
+		}
+		
+		if(operatorController.getLB()) {
+			mToteLift.toggleSolenoid();
+		}
 		
 	}
 }
