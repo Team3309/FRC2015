@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class SuperSolenoid extends Solenoid{
 
+	private boolean buttonLastPressed = false;
 	public SuperSolenoid(int channel) {
 		super(channel);
 	}
@@ -17,7 +18,14 @@ public class SuperSolenoid extends Solenoid{
 	}
 
 	public void toggleSolenoid() {
-		set(!get());
+		if(!buttonLastPressed) {
+			set(!get());
+			buttonLastPressed = true;
+		}
+	}
+	
+	public void notPressed() {
+		buttonLastPressed = false;
 	}
 	
 

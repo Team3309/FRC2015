@@ -59,5 +59,8 @@ public class Intake {
 	public void toggleSolenoid() {
 		intakeSolenoid.toggleSolenoid();
 	}
+	public void notPressedSolenpid() {
+		intakeSolenoid.notPressed();
+	}
 
 }

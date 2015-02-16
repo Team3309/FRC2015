@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	private Intake mIntake;
 	private ToteLift mToteLift;
 	private IntakeLift mIntakeLift;
-	
+
 	private SendableChooser autoChooser;
 
 	// The command that will begin running at the start of autonomous
@@ -47,8 +47,7 @@ public class Robot extends IterativeRobot {
 		if (constantChanger) {
 			// constantChanger frame = new constantChanger();
 		}
-		
-		
+
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();
@@ -58,24 +57,23 @@ public class Robot extends IterativeRobot {
 		// sets it so all information about the drive will be printed repeatedly
 		// during driving
 		// mDrive.setPrintingDriveInfo(false);
-		
-		autoChooser =  new SendableChooser();
+
+		autoChooser = new SendableChooser();
 		autoChooser.addDefault("DEFAULT", new DriveForwardEncoderCounts(600));
 		autoChooser.addObject("EXPERIMENTAL", new DriveForwardEncoderCounts(200));
-		
+
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
-		
+
 	}
 
 	// When first put into disabled mode
 	public void disabledInit() {
-	
-		
+
 	}
 
 	// Called repeatedly in disabled mode
 	public void disabledPeriodic() {
-		
+
 	}
 
 	// Init to Auto
@@ -88,32 +86,31 @@ public class Robot extends IterativeRobot {
 	// This function is called periodically during autonomous
 	public void autonomousPeriodic() {
 		scheduler.run();
-		
+
 	}
 
 	// Init to Tele
 	public void teleopInit() {
-		if(autoCommand != null)
+		if (autoCommand != null)
 			autoCommand.cancel();
 		mDrive.resetGyro();
 		// autoCommand.cancel();
-		
+
 	}
 
 	// This function is called periodically during operator control
 	public void teleopPeriodic() {
 		scheduler.run();
 
-		
 		// gets all 4 axis from driver remote and depending on what drive the
 		// robot is in, the values will be used accordingly
 		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());
-		
-		//mIntakeLift.setMasterVictor(operatorController.getLeftY());
+
+		// mIntakeLift.setMasterVictor(operatorController.getLeftY());
 		mIntakeLift.runLiftAt(driverController.getLeftY());
-		
+
 		mToteLift.runLiftAt(operatorController.getRightY());
-		
+
 		// checks if triggers are pressed in any way shape or form
 		if (driverController.getRB()) {
 			mIntake.runClawInward();
@@ -123,14 +120,17 @@ public class Robot extends IterativeRobot {
 			mIntake.stopClaw();
 		}
 
-
-		if(operatorController.getRB()) {
+		if (operatorController.getRB()) {
 			mIntake.toggleSolenoid();
+		} else {
+			mIntake.notPressedSolenpid();
 		}
-		
-		if(operatorController.getLB()) {
+
+		if (operatorController.getLB()) {
 			mToteLift.toggleSolenoid();
+		} else {
+			mToteLift.notPressedSolenpid();
 		}
-		
+
 	}
 }
