@@ -118,6 +118,7 @@ public class Drive {
 
 	private void driveHalo(double throttle, double turn, double strafe) {
 		//System.out.println("KP: " + KP_NORMAL);
+		System.out.println("Encodre:" + getLeftEncoder() );
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -246,10 +247,10 @@ public class Drive {
 		//System.out.println("NO DEFAULT: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
 		KP_NORMAL = SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
 		MAX_ANGULAR_VELOCITY = (int) SmartDashboard.getNumber("Max_Velcoity", 600);
-		/*pid_Kp_NoThrottle_Left =  SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
-		pid_Kp_NoThrottle_Right
-		pid_Kp_Throttle_Left
-		pid_Kp_Throttle_Right*/
+		pid_Kp_NoThrottle_Left = SmartDashboard.getNumber("No_Throttle_Left", pid_Kp_NoThrottle_Left);
+		pid_Kp_NoThrottle_Right = SmartDashboard.getNumber("No_Throttle_Right", pid_Kp_NoThrottle_Right);
+		pid_Kp_Throttle_Right = SmartDashboard.getNumber("Throttle_Left", pid_Kp_Throttle_Right);
+		pid_Kp_Throttle_Left = SmartDashboard.getNumber("Throttle_Right", pid_Kp_Throttle_Left);
 	}
 
 	private double skim(double v) {

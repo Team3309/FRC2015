@@ -22,7 +22,6 @@ public class SuperSolenoid extends Solenoid{
 			set(false);
 		else
 			set(true);
-		
 	}
 	
 	public void notPressed() {
