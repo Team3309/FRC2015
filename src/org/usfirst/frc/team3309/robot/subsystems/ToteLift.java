@@ -61,7 +61,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 		// VexLimitSwitch(RobotMap.TOTE_LIFT_BOT_LIMIT_SWITCH);
 		latchSolenoid = new SuperSolenoid(RobotMap.LATCH_SOLENOID);
 
-		liftEncoder = new Encoder(RobotMap.TOTE_LIFT_ENCODER_A, RobotMap.TOTE_LIFT_ENCODER_B);
+		liftEncoder = new Encoder(RobotMap.TOTE_LIFT_ENCODER_A, RobotMap.TOTE_LIFT_ENCODER_B, true);
 	}
 
 	public void runLiftAt(double power) {
@@ -73,7 +73,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 		if (isBelowSlowDownBottom()) {
 			if (power > 0) {
-				toteLift.set(power);
+				setToteLiftPower(power);
 				pidRunning = false;
 			}else {
 				controller.setSetpoint(0);
@@ -81,7 +81,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 			}
 		} else if (isAboveSlowDownTop()) {
 			if (power < 0){
-				toteLift.set(power);
+				setToteLiftPower(power);
 				pidRunning = false;
 			}else {
 				controller.setSetpoint(MAX_HEIGHT);
@@ -89,13 +89,16 @@ public class ToteLift implements PIDSource, PIDOutput {
 			}
 		} else {
 			pidRunning = false;
-			toteLift.set(power);
+			setToteLiftPower(power);
 		}
 
 		updateConstants();
 
 	}
 
+	public void setToteLiftPower(double power) {
+		toteLift.set(power);
+	}
 	public boolean isBelowSlowDownBottom() {
 		if (getLiftEncoder() <= SLOW_DOWN_BOTTOM)
 			return true;
@@ -123,11 +126,11 @@ public class ToteLift implements PIDSource, PIDOutput {
 	}
 
 	public void turnOnSolenoid() {
-		latchSolenoid.turnOnSolenoid();
+		latchSolenoid.turnOffSolenoid();
 	}
 
 	public void turnOffSolenoid() {
-		latchSolenoid.turnOffSolenoid();
+		latchSolenoid.turnOnSolenoid();
 	}
 
 	@Override

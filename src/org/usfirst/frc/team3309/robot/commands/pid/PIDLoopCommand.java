@@ -33,14 +33,11 @@ public abstract class PIDLoopCommand extends Command implements PIDSource, PIDOu
 		mDrive = Drive.getInstance();
 	}
 
-	
-
 	@Override
 	protected void execute() {
 		// PID Loop for Straight Strafing
 
 		// Read the sensor value
-		
 	}
 
 	@Override

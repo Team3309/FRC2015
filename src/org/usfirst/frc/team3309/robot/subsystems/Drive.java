@@ -16,12 +16,12 @@ public class Drive {
 
 	// all of the sensors and motor controllers
 
-	private Victor[] leftVictors = new Victor[2];
-	 private Victor[] rightVictors = new Victor[2];
+	//private Victor[] leftVictors = new Victor[2];
+	//private Victor[] rightVictors = new Victor[2];
 	 private Victor strafeVictor1;
 
-	//private Talon[] leftVictors = new Talon[2];
-	//private Talon[] rightVictors = new Talon[2];
+	 private Talon[] leftVictors = new Talon[2];
+	 private Talon[] rightVictors = new Talon[2];
 	//private Talon strafeVictor1;
 
 	private Encoder leftEncoder;
@@ -72,20 +72,20 @@ public class Drive {
 	private Drive() {
 		// initialize Victors in their arrays
 
-		 leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_1);
-		 leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_2);
-		 rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_1);
-		 rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_2);
+//		leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_0);
+//		leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_1);
+//		rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_0);
+//		rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_1);
 		 strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
-//		leftVictors[0] = new Talon(RobotMap.DRIVE_LEFT_1);
-//		leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_2);
-//		rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_1);
-//		rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_2);
-//		strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
+		leftVictors[0] = new Talon(RobotMap.DRIVE_LEFT_0);
+		 leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_1);
+		 rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_0);
+		 rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_1);
+		//strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
-		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, true, CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, false, CounterBase.EncodingType.k1X);
 		rightEncoder = new Encoder(RobotMap.DRIVE_ENCODER_RIGHT_A, RobotMap.DRIVE_ENCODER_RIGHT_B, true, CounterBase.EncodingType.k1X);
 
 		// initialize gyro
@@ -97,15 +97,14 @@ public class Drive {
 		 * PIDController(.001, 0, .02, straight, straight);
 		 * straightPID.disable();
 		 */
-		
+
 		SmartDashboard.putNumber("KP_DRIVE_CONSTANT", KP_NORMAL);
 		SmartDashboard.putNumber("No_Throttle_Left", pid_Kp_NoThrottle_Left);
 		SmartDashboard.putNumber("No_Throttle_Right", pid_Kp_NoThrottle_Right);
 		SmartDashboard.putNumber("Throttle_Left", pid_Kp_Throttle_Right);
 		SmartDashboard.putNumber("Throttle_Right", pid_Kp_Throttle_Left);
 		SmartDashboard.putNumber("Max_Velcoity", this.MAX_ANGULAR_VELOCITY);
-		
-		
+
 	}
 
 	public void resetGyro() {
@@ -117,8 +116,9 @@ public class Drive {
 	}
 
 	private void driveHalo(double throttle, double turn, double strafe) {
-		//System.out.println("KP: " + KP_NORMAL);
-		System.out.println("Encodre:" + getLeftEncoder() );
+		// System.out.println("KP: " + KP_NORMAL);
+		System.out.println("Left Encodre:" + getLeftEncoder());
+		System.out.println("Right Encodre:" + getRightEncoder());
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -216,6 +216,7 @@ public class Drive {
 					System.out.println("Error: " + (currentAngularRateOfChange - desiredAngularRateOfChange) + "modified value: " + modifiedTurn);
 				}
 			} else {
+				System.out.println("NO GYRO");
 				modifiedTurn = turn;
 			}
 
@@ -243,8 +244,10 @@ public class Drive {
 	}
 
 	private void updateConstants() {
-		//System.out.println("WITH DEFAULt: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003));
-		//System.out.println("NO DEFAULT: " + SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
+		// System.out.println("WITH DEFAULt: " +
+		// SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003));
+		// System.out.println("NO DEFAULT: " +
+		// SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
 		KP_NORMAL = SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
 		MAX_ANGULAR_VELOCITY = (int) SmartDashboard.getNumber("Max_Velcoity", 600);
 		pid_Kp_NoThrottle_Left = SmartDashboard.getNumber("No_Throttle_Left", pid_Kp_NoThrottle_Left);
@@ -288,18 +291,15 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		
-		
-			leftVictors[0].set(val);
-			leftVictors[1].set(val);
-		
+		leftVictors[0].set(val);
+		leftVictors[1].set(val);
 	}
 
 	public void setRight(double val) {
-		
-			rightVictors[0].set(-val);
-			rightVictors[1].set(-val);
-		
+
+		rightVictors[0].set(-val);
+		rightVictors[1].set(-val);
+
 	}
 
 	private void setStrafe(double value) {
