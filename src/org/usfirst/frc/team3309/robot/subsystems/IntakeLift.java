@@ -43,8 +43,7 @@ public class IntakeLift {
 		slaveEncoder = leftEncoder;
 		
 		IntakeLiftCommand com = new IntakeLiftCommand();
-		
-		
+		com.start();	
 	}
 
 	public double getRightEncoder() {

@@ -107,7 +107,7 @@ public class Robot extends IterativeRobot {
 		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());
 
 		// mIntakeLift.setMasterVictor(operatorController.getLeftY());
-		mIntakeLift.runLiftAt(operatorController.getLeftY());
+		mIntakeLift.runRightLiftAt(operatorController.getLeftY());
 
 		mToteLift.runLiftAt(operatorController.getRightY());
 
