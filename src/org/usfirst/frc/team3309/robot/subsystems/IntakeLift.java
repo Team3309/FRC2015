@@ -1,11 +1,13 @@
 package org.usfirst.frc.team3309.robot.subsystems;
 
 import org.usfirst.frc.team3309.robot.RobotMap;
+import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
 
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class IntakeLift {
 
@@ -39,6 +41,8 @@ public class IntakeLift {
 		slaveVictor = leftLift;
 		masterEncoder = rightEncoder;
 		slaveEncoder = leftEncoder;
+		
+		IntakeLiftCommand com = new IntakeLiftCommand();
 		
 		
 	}

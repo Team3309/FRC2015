@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3309.robot;
 
-import edu.wpi.first.wpilibj.CounterBase;
 
 public class RobotMap {
 
@@ -16,6 +15,7 @@ public class RobotMap {
 	public static final int INTAKE_LIFT_RIGHT = 8;
 	public static final int TOTE_LIFT = 9;
 
+	public static final int COMP_DIGITAL = 0;
 	// ENCODERS
 	public static final int DRIVE_ENCODER_LEFT_A = 1;
 	public static final int DRIVE_ENCODER_LEFT_B = 2;
@@ -38,5 +38,8 @@ public class RobotMap {
 	public static final int INTAKE_SOLENOID_FRONT = 0;
 	public static final int INTAKE_SOLENOID_BACK = 1;
 	public static final int LATCH_SOLENOID = 2;
+	
+	public static final int COMP_RELAY = 0;
+	
 
 }
