@@ -9,6 +9,7 @@ import org.usfirst.frc.team3309.robot.subsystems.Intake;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -48,6 +49,7 @@ public class Robot extends IterativeRobot {
 			// constantChanger frame = new constantChanger();
 		}
 
+		Compressor comp = new Compressor();
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();
@@ -124,23 +126,19 @@ public class Robot extends IterativeRobot {
 			mIntake.toggleSolenoid();
 		} else {
 			mIntake.notActivated();
-			
 		}
 
 		if (operatorController.getRB()) {
 			mIntake.setNeutral();
 		} else {
-			
+
 		}
-		
-		if(operatorController.getA()) {
+
+		if (operatorController.getA()) {
 			mToteLift.turnOffSolenoid();
-		}else {
+		} else {
 			mToteLift.turnOnSolenoid();
 		}
-		
-	
-			
 
 	}
 }
