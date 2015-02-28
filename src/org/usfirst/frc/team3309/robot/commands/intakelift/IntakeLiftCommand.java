@@ -15,13 +15,22 @@ public class IntakeLiftCommand extends PIDLoopCommand {
  
 	private static double KPCONSTANT = .01;
 	private static IntakeLift mIntakeLift = IntakeLift.getInstance();
-	public IntakeLiftCommand() {
+	
+	private static IntakeLiftCommand instance;
+	public static IntakeLiftCommand getInstance() {
+		if(instance == null) {
+			instance = new IntakeLiftCommand();
+		
+		}
+		return instance;
+	}
+	private IntakeLiftCommand() {
 		super(KPCONSTANT, 0, 0, mIntakeLift.getMasterEncoder());
 	}
 	
 	@Override
 	protected void initialize() {
-		controller = new PIDController(KPCONSTANT, 0 , 0, this, this);
+		
 	}
 
 	@Override

@@ -50,6 +50,9 @@ public class Robot extends IterativeRobot {
 		}
 
 		Compressor comp = new Compressor();
+		comp.setClosedLoopControl(true);
+		comp.start();
+		
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();

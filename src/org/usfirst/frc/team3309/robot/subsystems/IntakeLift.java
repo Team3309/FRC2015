@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class IntakeLift {
+public class IntakeLift extends Subsystem{
 
 	private static IntakeLift instance;
 	private Victor leftLift;
@@ -27,6 +28,7 @@ public class IntakeLift {
 	public static IntakeLift getInstance() {
 		if (instance == null) {
 			instance = new IntakeLift();
+			//instance.setDefaultCommand(IntakeLiftCommand.getInstance());
 		}
 		return instance;
 	}
@@ -42,8 +44,7 @@ public class IntakeLift {
 		masterEncoder = rightEncoder;
 		slaveEncoder = leftEncoder;
 		
-		IntakeLiftCommand com = IntakeLiftCommand.getInstance();
-		com.start();	
+			
 	}
 
 	public double getRightEncoder() {
@@ -90,5 +91,10 @@ public class IntakeLift {
 	}
 	public void setMasterVictor(double power) {
 		getMasterVictor().set(power);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
 	}
 }

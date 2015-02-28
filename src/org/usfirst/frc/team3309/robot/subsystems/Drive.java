@@ -129,7 +129,7 @@ public class Drive {
 		if (Math.abs(throttle) < THRESHOLD) {
 			throttle = 0;
 		}
-		if (Math.abs(strafe) < THRESHOLD) {
+		if (Math.abs(strafe) < THRESHOLD) {		
 			strafe = 0;
 		}
 		if (Math.abs(turn) < THRESHOLD) {
@@ -297,7 +297,7 @@ public class Drive {
 	}
 
 	public void setRight(double val) {
-
+		System.out.println("LEF: " + val);
 		rightVictors[0].set(-val);
 		rightVictors[1].set(-val);
 
