@@ -119,6 +119,7 @@ public class Drive {
 		// System.out.println("KP: " + KP_NORMAL);
 		System.out.println("Left Encodre:" + getLeftEncoder());
 		System.out.println("Right Encodre:" + getRightEncoder());
+		System.out.println("GYRO: " + this.getAngle());
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
