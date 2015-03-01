@@ -3,6 +3,7 @@ package org.usfirst.frc.team3309.robot;
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
 import org.usfirst.frc.team3309.robot.commands.drive.DriveForwardEncoderCounts;
+import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
 import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
@@ -49,8 +50,8 @@ public class Robot extends IterativeRobot {
 			// constantChanger frame = new constantChanger();
 		}
 
-		Compressor comp = new Compressor();
-		comp.stop();
+		//Compressor comp = new Compressor();
+	
 		
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
@@ -72,7 +73,7 @@ public class Robot extends IterativeRobot {
 
 	// When first put into disabled mode
 	public void disabledInit() {
-
+		
 	}
 
 	// Called repeatedly in disabled mode
@@ -98,6 +99,8 @@ public class Robot extends IterativeRobot {
 		if (autoCommand != null)
 			autoCommand.cancel();
 		mDrive.resetGyro();
+		mIntakeLift.resetEncoders();
+		
 		// autoCommand.cancel();
 
 	}
@@ -111,7 +114,7 @@ public class Robot extends IterativeRobot {
 		mDrive.drive(driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX(), driverController.getRightY());
 
 		// mIntakeLift.setMasterVictor(operatorController.getLeftY());
-		mIntakeLift.runRightLiftAt(operatorController.getLeftY());
+		mIntakeLift.setMasterVictor(operatorController.getLeftY());
 
 		mToteLift.runLiftAt(operatorController.getRightY());
 
@@ -124,6 +127,22 @@ public class Robot extends IterativeRobot {
 			mIntake.stopClaw();
 		}
 
+		if(operatorController.getYBut()) {
+			mIntake.runClawInward();
+		}else if(operatorController.getXBut()) {
+			mIntake.runClawOutward();
+		}else {
+			mIntake.stopClaw();
+		}
+		if(operatorController.getB()) {
+			mIntake.runReverse();
+		}
+		
+		if(driverController.getA()) {
+			mIntakeLift.resetEncoders();
+		}
+		
+		
 		if (operatorController.getLB()) {
 			mIntake.toggleSolenoid();
 		} else {
@@ -142,7 +161,10 @@ public class Robot extends IterativeRobot {
 			mToteLift.turnOnSolenoid();
 		}
 
-		System.out.println("RIGHT CLAW LIFT " + mIntakeLift.getRightEncoder());
-		System.out.println("LefT CLAW LIFT " + mIntakeLift.getLeftEncoder());
+		
+		
+		//System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
+		//System.out.println("Right Encodre:" + mDrive.getRightEncoder());
+		//System.out.println("GYRO: " + mDrive.getAngle());
 	}
 }

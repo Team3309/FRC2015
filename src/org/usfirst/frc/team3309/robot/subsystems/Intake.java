@@ -36,17 +36,22 @@ public class Intake {
 
 	public void runClawInward() {
 		rightClaw.set(1);
-		leftClaw.set(1);
+		leftClaw.set(-1);
 	}
 
 	public void runClawOutward() {
 		rightClaw.set(-1);
-		leftClaw.set(-1);
+		leftClaw.set(1);
 	}
 
 	public void stopClaw() {
 		rightClaw.set(0);
 		leftClaw.set(0);
+	}
+	
+	public void runReverse() {
+		rightClaw.set(1);
+		leftClaw.set(1);
 	}
 
 	public void setExtended() {

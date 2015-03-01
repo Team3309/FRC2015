@@ -67,7 +67,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 	public void runLiftAt(double power) {
 		if(true) {
 			toteLift.set(power);
-			System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
+			//System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
 			return;
 		}
 

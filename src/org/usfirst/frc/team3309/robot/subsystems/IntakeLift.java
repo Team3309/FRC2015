@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class IntakeLift extends Subsystem{
+public class IntakeLift extends Subsystem {
 
 	private static IntakeLift instance;
 	private Victor leftLift;
@@ -18,7 +18,6 @@ public class IntakeLift extends Subsystem{
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 
-	
 	// master and slave
 	private Victor masterVictor;
 	private Victor slaveVictor;
@@ -36,15 +35,14 @@ public class IntakeLift extends Subsystem{
 	private IntakeLift() {
 		leftLift = new Victor(RobotMap.INTAKE_LIFT_LEFT);
 		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
-		//leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, RobotMap.INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
-		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, false, CounterBase.EncodingType.k1X);
+		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, RobotMap.INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
+		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, true, CounterBase.EncodingType.k1X);
 
-		masterVictor = rightLift;
-		slaveVictor = leftLift;
-		masterEncoder = rightEncoder;
-		slaveEncoder = leftEncoder;
-		
-			
+		masterVictor = leftLift;
+		slaveVictor = rightLift;
+		masterEncoder = leftEncoder;
+		slaveEncoder = rightEncoder;
+
 	}
 
 	public double getRightEncoder() {
@@ -52,7 +50,7 @@ public class IntakeLift extends Subsystem{
 	}
 
 	public double getLeftEncoder() {
-		return rightEncoder.get();
+		return leftEncoder.get();
 	}
 
 	public void runLiftAt(double power) {
@@ -67,9 +65,8 @@ public class IntakeLift extends Subsystem{
 	public void runRightLiftAt(double power) {
 		rightLift.set(power);
 	}
-	
-	
-	//slave and masters
+
+	// slave and masters
 	public double getMasterEncoder() {
 		return masterEncoder.get();
 	}
@@ -85,12 +82,18 @@ public class IntakeLift extends Subsystem{
 	public Victor getSlaveVictor() {
 		return slaveVictor;
 	}
-	
+
+	public void resetEncoders() {
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
+
 	public void setSlaveVictor(double power) {
 		getSlaveVictor().set(power);
 	}
+
 	public void setMasterVictor(double power) {
-		getMasterVictor().set(power);
+		getMasterVictor().set(-power);
 	}
 
 	@Override

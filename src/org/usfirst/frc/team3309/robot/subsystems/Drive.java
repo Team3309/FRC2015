@@ -16,13 +16,13 @@ public class Drive {
 
 	// all of the sensors and motor controllers
 
-	//private Victor[] leftVictors = new Victor[2];
-	//private Victor[] rightVictors = new Victor[2];
-	 private Victor strafeVictor1;
+	// private Victor[] leftVictors = new Victor[2];
+	// private Victor[] rightVictors = new Victor[2];
+	private Victor strafeVictor1;
 
-	 private Talon[] leftVictors = new Talon[2];
-	 private Talon[] rightVictors = new Talon[2];
-	//private Talon strafeVictor1;
+	private Talon[] leftVictors = new Talon[2];
+	private Talon[] rightVictors = new Talon[2];
+	// private Talon strafeVictor1;
 
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
@@ -72,17 +72,17 @@ public class Drive {
 	private Drive() {
 		// initialize Victors in their arrays
 
-//		leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_0);
-//		leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_1);
-//		rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_0);
-//		rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_1);
-		 strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
+		// leftVictors[0] = new Victor(RobotMap.DRIVE_LEFT_0);
+		// leftVictors[1] = new Victor(RobotMap.DRIVE_LEFT_1);
+		// rightVictors[0] = new Victor(RobotMap.DRIVE_RIGHT_0);
+		// rightVictors[1] = new Victor(RobotMap.DRIVE_RIGHT_1);
+		strafeVictor1 = new Victor(RobotMap.DRIVE_STRAFE_1);
 
 		leftVictors[0] = new Talon(RobotMap.DRIVE_LEFT_0);
-		 leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_1);
-		 rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_0);
-		 rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_1);
-		//strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
+		leftVictors[1] = new Talon(RobotMap.DRIVE_LEFT_1);
+		rightVictors[0] = new Talon(RobotMap.DRIVE_RIGHT_0);
+		rightVictors[1] = new Talon(RobotMap.DRIVE_RIGHT_1);
+		// strafeVictor1 = new Talon(RobotMap.DRIVE_STRAFE_1);
 
 		// initialize Encoders
 		leftEncoder = new Encoder(RobotMap.DRIVE_ENCODER_LEFT_A, RobotMap.DRIVE_ENCODER_LEFT_B, false, CounterBase.EncodingType.k1X);
@@ -117,9 +117,7 @@ public class Drive {
 
 	private void driveHalo(double throttle, double turn, double strafe) {
 		// System.out.println("KP: " + KP_NORMAL);
-		System.out.println("Left Encodre:" + getLeftEncoder());
-		System.out.println("Right Encodre:" + getRightEncoder());
-		System.out.println("GYRO: " + this.getAngle());
+		
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -129,7 +127,7 @@ public class Drive {
 		if (Math.abs(throttle) < THRESHOLD) {
 			throttle = 0;
 		}
-		if (Math.abs(strafe) < THRESHOLD) {		
+		if (Math.abs(strafe) < THRESHOLD) {
 			strafe = 0;
 		}
 		if (Math.abs(turn) < THRESHOLD) {
@@ -292,13 +290,13 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		System.out.println("LEFT: " + val);
+		//System.out.println("LEFT: " + val);
 		leftVictors[0].set(val);
 		leftVictors[1].set(val);
 	}
 
 	public void setRight(double val) {
-		System.out.println("RIGHT:: " + val);
+		//System.out.println("RIGHT:: " + val);
 		rightVictors[0].set(-val);
 		rightVictors[1].set(-val);
 
