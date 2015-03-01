@@ -48,8 +48,8 @@ public class IntakeLiftCommand extends Command {
 	@Override
 	protected void execute() {
 
-		System.out.println("RIGHT CLAW LIFT " + mIntakeLift.getSlaveEncoder());
-		System.out.println("LefT CLAW LIFT " + mIntakeLift.getMasterEncoder());
+		//System.out.println("RIGHT CLAW LIFT " + mIntakeLift.getSlaveEncoder());
+		//System.out.println("LefT CLAW LIFT " + mIntakeLift.getMasterEncoder());
 		
 		double error = mIntakeLift.getLeftEncoder() - mIntakeLift.getRightEncoder();
 		
@@ -66,7 +66,7 @@ public class IntakeLiftCommand extends Command {
 		
 		
 		
-		System.out.println("HERE IS PID: " + pid);
+		//System.out.println("HERE IS PID: " + pid);
 		
 		mIntakeLift.runRightLiftAt(pid);
 		

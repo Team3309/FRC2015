@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
 		// mIntakeLift.setMasterVictor(operatorController.getLeftY());
 		mIntakeLift.setMasterVictor(operatorController.getLeftY());
 
-		mToteLift.runLiftAt(operatorController.getRightY());
+		mToteLift.runLiftAt((operatorController.getRightY() / 4));
 
 		// checks if triggers are pressed in any way shape or form
 		if (driverController.getRB()) {
@@ -160,6 +160,8 @@ public class Robot extends IterativeRobot {
 		} else {
 			mToteLift.turnOnSolenoid();
 		}
+		
+		System.out.println(mToteLift.getLiftEncoder());
 
 		
 		
