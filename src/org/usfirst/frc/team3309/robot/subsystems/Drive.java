@@ -292,12 +292,13 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
+		System.out.println("LEFT: " + val);
 		leftVictors[0].set(val);
 		leftVictors[1].set(val);
 	}
 
 	public void setRight(double val) {
-		System.out.println("LEF: " + val);
+		System.out.println("RIGHT:: " + val);
 		rightVictors[0].set(-val);
 		rightVictors[1].set(-val);
 

@@ -26,6 +26,7 @@ public class IntakeLiftCommand extends PIDLoopCommand {
 	}
 	private IntakeLiftCommand() {
 		super(KPCONSTANT, 0, 0, mIntakeLift.getMasterEncoder());
+		requires(mIntakeLift);
 	}
 	
 	@Override

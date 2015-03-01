@@ -28,7 +28,7 @@ public class IntakeLift extends Subsystem{
 	public static IntakeLift getInstance() {
 		if (instance == null) {
 			instance = new IntakeLift();
-			//instance.setDefaultCommand(IntakeLiftCommand.getInstance());
+			instance.setDefaultCommand(IntakeLiftCommand.getInstance());
 		}
 		return instance;
 	}

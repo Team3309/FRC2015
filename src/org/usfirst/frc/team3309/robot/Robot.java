@@ -50,8 +50,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		Compressor comp = new Compressor();
-		comp.setClosedLoopControl(true);
-		comp.start();
+		comp.stop();
 		
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
@@ -143,5 +142,7 @@ public class Robot extends IterativeRobot {
 			mToteLift.turnOnSolenoid();
 		}
 
+		System.out.println("RIGHT CLAW LIFT " + mIntakeLift.getRightEncoder());
+		System.out.println("LefT CLAW LIFT " + mIntakeLift.getLeftEncoder());
 	}
 }
