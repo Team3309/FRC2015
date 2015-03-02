@@ -23,6 +23,18 @@ public class IntakeLift extends Subsystem {
 	private Victor slaveVictor;
 	private Encoder masterEncoder;
 	private Encoder slaveEncoder;
+	
+	private double setPoint = 0;
+	
+	public double getSetPoint() {
+		return setPoint;
+	}
+
+	public void setSetPoint(double setPoint) {
+		this.setPoint = setPoint;
+	}
+
+	private double MAXSPEED = 50;
 
 	public static IntakeLift getInstance() {
 		if (instance == null) {
@@ -56,6 +68,11 @@ public class IntakeLift extends Subsystem {
 	public void runLiftAt(double power) {
 		runLeftLiftAt(-power);
 		runRightLiftAt(power);
+	}
+	
+	public void runLiftWithJoystick(double power) {
+		double setPoint = leftEncoder.get() + power * MAXSPEED;
+		setSetPoint(setPoint);
 	}
 
 	public void runLeftLiftAt(double power) {
