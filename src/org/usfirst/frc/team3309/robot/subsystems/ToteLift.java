@@ -66,6 +66,16 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 	public void runLiftAt(double power) {
 		if(true) {
+			
+			
+			//Stops lift from being moved if it is lower than 20 encoder counts or higher than 1580
+			//if(liftEncoder.get() <= 20 && power < 0){
+			//	power = 0;
+			//}
+			//if(liftEncoder.get() >= 1580 && power > 0){
+			//	power = 0;
+			//}
+			
 			toteLift.set(power);
 			//System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
 			return;
@@ -101,13 +111,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 	public void setToteLiftPower(double power) {
 
-		//Stops lift from being moved if it is lower than 20 encoder counts or higher than 1580
-		if(liftEncoder.get() <= 20 && power < 0){
-			power = 0;
-		}
-		if(liftEncoder.get() >= 1580 && power > 0){
-			power = 0;
-		}
+
 		
 		
 		toteLift.set(power);
