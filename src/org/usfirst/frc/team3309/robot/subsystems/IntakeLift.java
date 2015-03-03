@@ -34,7 +34,7 @@ public class IntakeLift extends Subsystem {
 		this.setPoint = setPoint;
 	}
 
-	private double MAXSPEED = 75;
+	private double MAXSPEED = 125;
 
 	public static IntakeLift getInstance() {
 		if (instance == null) {
