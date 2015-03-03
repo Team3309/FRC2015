@@ -306,4 +306,8 @@ public class Drive {
 		strafeVictor1.set(value);
 	}
 
+	public double getAverageCount() {
+		return (rightEncoder.get() + leftEncoder.get())/2;
+	}
+
 }

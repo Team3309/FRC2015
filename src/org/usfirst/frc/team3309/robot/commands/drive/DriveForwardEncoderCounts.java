@@ -5,79 +5,91 @@ import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class DriveForwardEncoderCounts extends PIDCommand {
+public class DriveForwardEncoderCounts extends Command {
 
 	private Drive mDrive;
-	private PIDController controller;
 	private boolean isFinished = false;
-	// the currentPIDElement being examined
-	private double currentValue;
-	private double pidRequested;
+	private double pidRequestedEncoder;
+	private double pidRequestedGyro;
 
-	public DriveForwardEncoderCounts(double requested) {
-		super(.001, 0, 0);
-		setSetPoint(requested);
+	private double lastGyroError = 0;
+	private double lastEncoderError = 0;
+
+	private Timer doneTimer = new Timer();
+
+	public DriveForwardEncoderCounts(double request) {
+		mDrive = Drive.getInstance();
+		pidRequestedEncoder = request;
+		pidRequestedGyro = mDrive.getAngle();
+		setTimeout(5);
 	}
 
 	@Override
 	protected void initialize() {
-		mDrive = Drive.getInstance();
+
 	}
 
 	@Override
 	protected void execute() {
-		currentValue = mDrive.getLeftEncoder();
+		double throttle = runEncoderPID();
+		double turn = runGyroPID();
 
+		double leftSpeed = throttle - turn;
+		double rightSpeed = throttle + turn;
+
+		mDrive.setLeft(leftSpeed);
+		mDrive.setRight(rightSpeed);
+
+		if (Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 10) {
+			doneTimer.start();
+		} else {
+			doneTimer.stop();
+			doneTimer.reset();
+		}
+	}
+
+	private double runEncoderPID() {
+		double currentValue = mDrive.getAverageCount();
+		double currentError = pidRequestedEncoder - currentValue;
+		double pid = runPIDWithError(currentError, lastEncoderError, .002, .000);
+		lastEncoderError = currentError;
+		return pid;
+	}
+
+	private double runGyroPID() {
+		double currentValue = mDrive.getAngle();
+		double currentError = pidRequestedGyro - currentValue;
+		double pid = runPIDWithError(currentError, lastGyroError, .002, .000);
+		lastGyroError = currentError;
+		return pid;
+	}
+
+	private double runPIDWithError(double error, double lastError, double kP, double kD) {
+
+		double der = error - lastError;
+
+		double pid = (error * kP) + (der * kD);
+
+		return pid;
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (currentValue > pidRequested - 50 && currentValue < pidRequested + 50) {
-			System.out.println("PID IS DONE");
-			isFinished = true;
-			for (int i = 0; i < 2000; i++) {
-				execute();
-				if (!(currentValue > pidRequested - 50) && !(currentValue < pidRequested + 50))
-					isFinished = false;
-			}
-		}
-		return isFinished;
+		return isTimedOut() || (doneTimer.get() > 500000);
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
+		mDrive.stopDrive();
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void pidWrite(double output) {
-		mDrive.drive(0, -output, 0, 0);
-	}
-
-	@Override
-	public double pidGet() {
-		// use the left encoder(or the slower sides encoder)
-		return mDrive.getLeftEncoder();
-	}
-
-	@Override
-	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
