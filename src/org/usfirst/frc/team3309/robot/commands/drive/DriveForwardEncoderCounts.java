@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class DriveForwardEncoderCounts extends Command implements PIDSource, PIDOutput {
+public class DriveForwardEncoderCounts extends PIDCommand {
 
 	private Drive mDrive;
 	private PIDController controller;
@@ -17,14 +18,13 @@ public class DriveForwardEncoderCounts extends Command implements PIDSource, PID
 	private double pidRequested;
 
 	public DriveForwardEncoderCounts(double requested) {
-		pidRequested = requested;
+		super(.001, 0, 0);
+		setSetPoint(requested);
 	}
 
 	@Override
 	protected void initialize() {
 		mDrive = Drive.getInstance();
-		controller = new PIDController(.001, 0, 0, this, this);
-		controller.setSetpoint(pidRequested);
 	}
 
 	@Override
@@ -66,6 +66,18 @@ public class DriveForwardEncoderCounts extends Command implements PIDSource, PID
 	public double pidGet() {
 		// use the left encoder(or the slower sides encoder)
 		return mDrive.getLeftEncoder();
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
