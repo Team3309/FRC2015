@@ -14,16 +14,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeLiftCommand extends Command {
 
-	private static double KPCONSTANT_UP = .009;
-	private static double KDDERIVATIVE_UP = .003;
-	private static double KPCONSTANT_DOWN = .0055;
-	private static double KDDERIVATIVE_DOWN = .005;
+	private static double KP_RIGHT_UP = .008;
+	private static double KP_LEFT_UP = .01;
+
+	private static double KD_RIGHT_UP = .006;
+	private static double KD_LEFT_UP = .000;
+
+	private static double KP_RIGHT_DOWN = .005;
+	private static double KP_LEFT_DOWN = .009;
+
+	private static double KD_RIGHT_DOWN = .009;
+	private static double KD_LEFT_DOWN = .009;
 
 	private double bothCounter = 0;
 	private static IntakeLift mIntakeLift = IntakeLift.getInstance();
 	private PIDController controller;
 
-	private double lastError;
+	private double lastErrorR;
+	private double lastErrorL;
 	private static IntakeLiftCommand instance;
 
 	public static IntakeLiftCommand getInstance() {
@@ -41,12 +49,19 @@ public class IntakeLiftCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		lastError = 0;
-		SmartDashboard.putNumber("KP INTAKE LIFT UP", KPCONSTANT_UP);
-		SmartDashboard.putNumber("KD INTAKE LIFT UP", KDDERIVATIVE_UP);
+		lastErrorR = 0;
+		lastErrorL = 0;
+		SmartDashboard.putNumber("RIGHT KP INTAKE LIFT UP", KP_RIGHT_UP);
+		SmartDashboard.putNumber("RIGHT KD INTAKE LIFT UP", KD_RIGHT_UP);
 
-		SmartDashboard.putNumber("KP INTAKE LIFT DOWN", KPCONSTANT_DOWN);
-		SmartDashboard.putNumber("KD INTAKE LIFT DOWN", KDDERIVATIVE_DOWN);
+		SmartDashboard.putNumber("RIGHT KP INTAKE LIFT DOWN", KP_RIGHT_DOWN);
+		SmartDashboard.putNumber("RIGHT KD INTAKE LIFT DOWN", KD_RIGHT_DOWN);
+
+		SmartDashboard.putNumber("LEFT KP INTAKE LIFT UP", KP_LEFT_UP);
+		SmartDashboard.putNumber("LEFT KD INTAKE LIFT UP", KD_LEFT_UP);
+
+		SmartDashboard.putNumber("LEFT KP INTAKE LIFT DOWN", KP_LEFT_DOWN);
+		SmartDashboard.putNumber("LEFT KD INTAKE LIFT DOWN", KD_LEFT_DOWN);
 	}
 
 	@Override
@@ -57,33 +72,46 @@ public class IntakeLiftCommand extends Command {
 		// System.out.println("LefT CLAW LIFT " +
 		// mIntakeLift.getMasterEncoder());
 
-		double error = mIntakeLift.getSetPoint() - mIntakeLift.getLeftEncoder();
+		double errorL = mIntakeLift.getSetPoint() - mIntakeLift.getLeftEncoder();
+		double errorR = mIntakeLift.getSetPoint() - mIntakeLift.getRightEncoder();
+		
+		double derR = errorR - lastErrorR;
+		double derL = errorL - lastErrorL;
+		lastErrorR = errorR;
+		lastErrorL = errorL;
 
-		double der = error - lastError;
-		lastError = error;
-
-		double pid = 0;
-		if (error + der > 0) {
-			pid = error * KPCONSTANT_UP + der * KDDERIVATIVE_UP;
-		} else if (error + der < 0) {
-			pid = error * KPCONSTANT_DOWN + der * KDDERIVATIVE_DOWN;
+		double pidRight = 0;
+		double pidLeft = 0;
+		if (errorR + derR > 0) {
+			pidRight = errorR * KP_RIGHT_UP + derR * KD_RIGHT_UP;
+			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP;
+		} else if (errorR + derR < 0) {
+			pidRight = errorR * KP_RIGHT_DOWN + derR * KD_RIGHT_DOWN;
+			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP;
 		}
 
-		System.out.println("HERE IS PID: " + pid);
+		System.out.println("KP RIGHT UP: " + KP_RIGHT_UP);
+		System.out.println("HERE IS PID: " + pidRight);
 
-		mIntakeLift.runRightLiftAt(pid);
-		mIntakeLift.runLeftLiftAt(-pid);
+		mIntakeLift.runRightLiftAt(pidRight);
+		mIntakeLift.runLeftLiftAt(-pidLeft);
 
 		updateConstants();
 
 	}
 
 	private void updateConstants() {
-		KPCONSTANT_UP = SmartDashboard.getNumber("KP INTAKE LIFT UP");
-		KDDERIVATIVE_UP = SmartDashboard.getNumber("KD INTAKE LIFT UP");
+		KP_RIGHT_UP = SmartDashboard.getNumber("RIGHT KP INTAKE LIFT UP", KP_RIGHT_UP);
+		KD_RIGHT_UP = SmartDashboard.getNumber("RIGHT KD INTAKE LIFT UP", KD_RIGHT_UP);
 
-		KPCONSTANT_DOWN = SmartDashboard.getNumber("KP INTAKE LIFT DOWN");
-		KDDERIVATIVE_DOWN = SmartDashboard.getNumber("KD INTAKE LIFT DOWN");
+		KP_RIGHT_DOWN = SmartDashboard.getNumber("RIGHT KP INTAKE LIFT DOWN", KP_RIGHT_DOWN);
+		KD_RIGHT_DOWN = SmartDashboard.getNumber("RIGHT KD INTAKE LIFT DOWN", KD_RIGHT_DOWN);
+
+		KP_LEFT_UP = SmartDashboard.getNumber("LEFT KP INTAKE LIFT UP", KP_LEFT_UP);
+		KD_LEFT_UP = SmartDashboard.getNumber("LEFT KD INTAKE LIFT UP", KD_LEFT_UP);
+
+		KP_LEFT_DOWN = SmartDashboard.getNumber("LEFT KP INTAKE LIFT DOWN", KP_LEFT_DOWN);
+		KD_LEFT_DOWN = SmartDashboard.getNumber("LEFT KD INTAKE LIFT DOWN", KD_LEFT_DOWN);
 	}
 
 	@Override

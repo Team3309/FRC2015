@@ -34,7 +34,7 @@ public class IntakeLift extends Subsystem {
 		this.setPoint = setPoint;
 	}
 
-	private double MAXSPEED = 50;
+	private double MAXSPEED = 75;
 
 	public static IntakeLift getInstance() {
 		if (instance == null) {
@@ -71,7 +71,9 @@ public class IntakeLift extends Subsystem {
 	}
 	
 	public void runLiftWithJoystick(double power) {
+		
 		double setPoint = leftEncoder.get() + power * MAXSPEED;
+		System.out.println("SETPOINT: " + setPoint);
 		setSetPoint(setPoint);
 	}
 
