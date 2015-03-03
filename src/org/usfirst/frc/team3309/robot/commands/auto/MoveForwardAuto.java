@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class MoveForwardAuto extends CommandGroup{
 
-	private int counts; 
 	public MoveForwardAuto(int counts) { 
 		this.addSequential(new DriveForwardEncoderCounts(counts));
 	}

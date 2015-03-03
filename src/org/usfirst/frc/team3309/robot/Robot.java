@@ -2,6 +2,7 @@ package org.usfirst.frc.team3309.robot;
 
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
+import org.usfirst.frc.team3309.robot.commands.auto.MoveForwardAuto;
 import org.usfirst.frc.team3309.robot.commands.drive.DriveForwardEncoderCounts;
 import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
 import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
@@ -65,7 +66,7 @@ public class Robot extends IterativeRobot {
 
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("DEFAULT", new DriveForwardEncoderCounts(600));
-		autoChooser.addObject("EXPERIMENTAL", new DriveForwardEncoderCounts(200));
+		autoChooser.addObject("EXPERIMENTAL", new MoveForwardAuto(200));
 
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
@@ -84,7 +85,7 @@ public class Robot extends IterativeRobot {
 	// Init to Auto
 	public void autonomousInit() {
 		mDrive.resetEncoders();
-		autoCommand = (Command) autoChooser.getSelected();
+		autoCommand =  (Command) autoChooser.getSelected();
 		autoCommand.start();
 	}
 
