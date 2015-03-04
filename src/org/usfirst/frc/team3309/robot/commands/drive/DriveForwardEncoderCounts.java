@@ -30,7 +30,7 @@ public class DriveForwardEncoderCounts extends Command {
 
 	@Override
 	protected void initialize() {
-
+		mDrive.resetEncoders();
 	}
 
 	@Override

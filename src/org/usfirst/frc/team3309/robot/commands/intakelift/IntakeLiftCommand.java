@@ -90,8 +90,8 @@ public class IntakeLiftCommand extends Command {
 			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP;
 		}
 
-		System.out.println("KP RIGHT UP: " + KP_RIGHT_UP);
-		System.out.println("HERE IS PID: " + pidRight);
+		//System.out.println("KP RIGHT UP: " + KP_RIGHT_UP);
+		//System.out.println("HERE IS PID: " + pidRight);
 
 		mIntakeLift.runRightLiftAt(pidRight);
 		mIntakeLift.runLeftLiftAt(-pidLeft);

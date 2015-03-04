@@ -119,22 +119,17 @@ public class Robot extends IterativeRobot {
 
 		mToteLift.runLiftAt((operatorController.getRightY()));
 
-		// checks if triggers are pressed in any way shape or form
-		if (driverController.getRB()) {
-			mIntake.runClawInward();
-		} else if (driverController.getLB()) {
-			mIntake.runClawOutward();
-		} else {
-			mIntake.stopClaw();
-		}
-
-		if(operatorController.getYBut()) {
-			mIntake.runClawInward();
-		}else if(operatorController.getXBut()) {
-			mIntake.runClawOutward();
+		System.out.println(operatorController.getRightTrigger());
+		System.out.println(operatorController.getLeftTrigger());
+		
+		if(operatorController.getLeftTrigger() > 0) {
+			mIntake.runClawInward(operatorController.getLeftTrigger());
+		}else if(operatorController.getRightTrigger() > 0) {
+			mIntake.runClawOutward(operatorController.getRightTrigger());
 		}else {
 			mIntake.stopClaw();
 		}
+		
 		if(operatorController.getB()) {
 			mIntake.runReverse();
 		}
@@ -145,12 +140,12 @@ public class Robot extends IterativeRobot {
 		
 		
 		if (operatorController.getLB()) {
-			mIntake.toggleSolenoid();
-		} else {
-			mIntake.notActivated();
+			mIntake.setExtended();
+		} else if(operatorController.getRB()){
+			mIntake.setRetracted();
 		}
 
-		if (operatorController.getRB()) {
+		if (operatorController.getYBut()) {
 			mIntake.setNeutral();
 		} else {
 
@@ -165,7 +160,7 @@ public class Robot extends IterativeRobot {
 		//System.out.println(mToteLift.getLiftEncoder());
 		
 		Compressor c = new Compressor(0);
-		System.out.println(c.getCompressorCurrent());
+		//System.out.println(c.getCompressorCurrent());
 
 		
 		

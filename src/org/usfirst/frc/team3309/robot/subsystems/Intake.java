@@ -34,14 +34,33 @@ public class Intake {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	public void runClawInward() {
+	/*public void runClawInward() {
 		rightClaw.set(1);
 		leftClaw.set(-1);
+	}*/
+	
+	public void runClawInward(double power) {
+		if(Math.abs(power) < .1) {
+			return;
+		}
+		System.out.println("INWARD: " + power);
+		double s = power;
+		System.out.println("INWARD ASDFH AD : " + s);
+		rightClaw.set(s);
+		leftClaw.set(-s);
 	}
 
-	public void runClawOutward() {
+	/*public void runClawOutward() {
 		rightClaw.set(-1);
 		leftClaw.set(1);
+	}*/
+	
+	public void runClawOutward(double power) {
+		if(Math.abs(power) < .1) {
+			return;
+		}
+		rightClaw.set(-power);
+		leftClaw.set(power);
 	}
 
 	public void stopClaw() {

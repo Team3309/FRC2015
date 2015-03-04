@@ -73,7 +73,7 @@ public class IntakeLift extends Subsystem {
 	public void runLiftWithJoystick(double power) {
 		
 		double setPoint = leftEncoder.get() + power * MAXSPEED;
-		System.out.println("SETPOINT: " + setPoint);
+		//System.out.println("SETPOINT: " + setPoint);
 		setSetPoint(setPoint);
 	}
 

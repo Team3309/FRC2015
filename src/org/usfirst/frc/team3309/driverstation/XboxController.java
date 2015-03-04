@@ -40,7 +40,8 @@ public class XboxController extends GenericHID {
     ////AXES\\\\
     public static final int AXIS_LEFT_X = 0;
     public static final int AXIS_LEFT_Y = 1;
-    public static final int AXIS_TRIGGER = 2; //return value of right(RT) - left(LT)
+    public static final int AXIS_TRIGGER_LEFT = 2; //return value of right(RT) - left(LT)
+    public static final int AXIS_TRIGGER_RIGHT = 3;
     public static final int AXIS_RIGHT_X = 4;
     public static final int AXIS_RIGHT_Y = 5;
 
@@ -136,10 +137,18 @@ public class XboxController extends GenericHID {
 
     //Not really sure what this return, I read somewhere that it returns rightTrigger - leftTrigger where each trigger returns from 0 to 1
 
-    public double getTriggers() {
-        double temp = controller.getRawAxis(AXIS_TRIGGER);
-        double scaledVal = scaleAxis(temp);
-        return scaledVal;
+    public double getRightTrigger() {
+        double temp = controller.getRawAxis(AXIS_TRIGGER_RIGHT);
+        return temp;
+        //double scaledVal = scaleAxis(temp);
+        //return scaledVal;
+    }
+    
+    public double getLeftTrigger() {
+        double temp = controller.getRawAxis(AXIS_TRIGGER_LEFT);
+        return temp;
+        //double scaledVal = scaleAxis(temp);
+        //return scaledVal;
     }
 
     //Returns from -1 to 1
@@ -164,9 +173,9 @@ public class XboxController extends GenericHID {
     //here is the scaling method used in axes
     private double scaleAxis(double value) {
         //if the joystick is not pressed enough, don't move.  We dont like crawling spider robots.
-        if (Math.abs(value) < DEADBAND) {
+        /*if (Math.abs(value) < DEADBAND) {
             return 0;
-        }
+        }*/
         //this spot would be where you could scale stuff
         return value;
     }
@@ -190,9 +199,9 @@ public class XboxController extends GenericHID {
 
     public double getZ(Hand hand) {
         if (hand.equals(Hand.kLeft)) {
-            return 0;
+            return getLeftTrigger();
         } else {
-            return getTriggers();
+            return getRightTrigger();
         }
     }
 
