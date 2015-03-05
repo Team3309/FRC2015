@@ -107,13 +107,13 @@ public class IntakeLift extends Subsystem {
 		rightEncoder.reset();
 	}
 
-	public void setSlaveVictor(double power) {
+	/*public void setSlaveVictor(double power) {
 		getSlaveVictor().set(power);
 	}
 
 	public void setMasterVictor(double power) {
 		getMasterVictor().set(-power);
-	}
+	}*/
 
 	@Override
 	protected void initDefaultCommand() {

@@ -1,13 +1,10 @@
 package org.usfirst.frc.team3309.robot.commands.drive;
 
+import org.usfirst.frc.team3309.robot.commands.pid.PID;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.PIDCommand;
 
 public class DriveForwardEncoderCounts extends Command {
 
@@ -55,7 +52,7 @@ public class DriveForwardEncoderCounts extends Command {
 	private double runEncoderPID() {
 		double currentValue = mDrive.getAverageCount();
 		double currentError = pidRequestedEncoder - currentValue;
-		double pid = runPIDWithError(currentError, lastEncoderError, .002, .000);
+		double pid = PID.runPIDWithError(currentError, lastEncoderError, .002, .000);
 		lastEncoderError = currentError;
 		return pid;
 	}
@@ -63,19 +60,12 @@ public class DriveForwardEncoderCounts extends Command {
 	private double runGyroPID() {
 		double currentValue = mDrive.getAngle();
 		double currentError = pidRequestedGyro - currentValue;
-		double pid = runPIDWithError(currentError, lastGyroError, .002, .000);
+		double pid = PID.runPIDWithError(currentError, lastGyroError, .002, .000);
 		lastGyroError = currentError;
 		return pid;
 	}
 
-	private double runPIDWithError(double error, double lastError, double kP, double kD) {
-
-		double der = error - lastError;
-
-		double pid = (error * kP) + (der * kD);
-
-		return pid;
-	}
+	
 
 	@Override
 	protected boolean isFinished() {

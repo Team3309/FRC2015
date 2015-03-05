@@ -4,6 +4,7 @@ import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForwardAuto;
 import org.usfirst.frc.team3309.robot.commands.drive.DriveForwardEncoderCounts;
+import org.usfirst.frc.team3309.robot.commands.intake.IntakeRunTime;
 import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
 import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
@@ -67,7 +68,8 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("DEFAULT", new DriveForwardEncoderCounts(600));
 		autoChooser.addObject("EXPERIMENTAL", new MoveForwardAuto(200));
-
+		autoChooser.addObject("INTAKE TIME THING", new IntakeRunTime(2000, 0, .4));
+		
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
 	}
@@ -119,8 +121,8 @@ public class Robot extends IterativeRobot {
 
 		mToteLift.runLiftAt((operatorController.getRightY()));
 
-		System.out.println(operatorController.getRightTrigger());
-		System.out.println(operatorController.getLeftTrigger());
+		//System.out.println(operatorController.getRightTrigger());
+		//System.out.println(operatorController.getLeftTrigger());
 		
 		if(operatorController.getLeftTrigger() > 0) {
 			mIntake.runClawInward(operatorController.getLeftTrigger());
@@ -128,10 +130,6 @@ public class Robot extends IterativeRobot {
 			mIntake.runClawOutward(operatorController.getRightTrigger());
 		}else {
 			mIntake.stopClaw();
-		}
-		
-		if(operatorController.getB()) {
-			mIntake.runReverse();
 		}
 		
 		if(driverController.getA()) {
@@ -162,7 +160,8 @@ public class Robot extends IterativeRobot {
 		Compressor c = new Compressor(0);
 		//System.out.println(c.getCompressorCurrent());
 
-		
+		System.out.println("RIGHT: " + mIntakeLift.getRightEncoder());
+		System.out.println("LEFT: " + mIntakeLift.getLeftEncoder());
 		
 		//System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
 		//System.out.println("Right Encodre:" + mDrive.getRightEncoder());

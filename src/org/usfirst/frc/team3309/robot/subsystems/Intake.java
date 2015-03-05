@@ -68,9 +68,14 @@ public class Intake {
 		leftClaw.set(0);
 	}
 	
-	public void runReverse() {
-		rightClaw.set(1);
-		leftClaw.set(1);
+	public void runReverseRight(double power) {
+		rightClaw.set(-power);
+		leftClaw.set(-power);
+	}
+	
+	public void runReverseLeft(double power) {
+		rightClaw.set(power);
+		leftClaw.set(power);
 	}
 
 	public void setExtended() {
