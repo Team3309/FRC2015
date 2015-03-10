@@ -3,6 +3,7 @@ package org.usfirst.frc.team3309.robot;
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForwardAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.YellowToteAuto;
 import org.usfirst.frc.team3309.robot.commands.drive.DriveForwardEncoderCounts;
 import org.usfirst.frc.team3309.robot.commands.intake.IntakeRunTime;
 import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +40,8 @@ public class Robot extends IterativeRobot {
 	private Intake mIntake;
 	private ToteLift mToteLift;
 	private IntakeLift mIntakeLift;
+	
+	//private DigitalInput io = new DigitalInput(10);
 
 	private SendableChooser autoChooser;
 
@@ -67,9 +71,9 @@ public class Robot extends IterativeRobot {
 
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("DEFAULT", new DriveForwardEncoderCounts(600));
-		autoChooser.addObject("EXPERIMENTAL", new MoveForwardAuto(200));
+		autoChooser.addObject("EXPERIMENTAL", new MoveForwardAuto(2000));
 		autoChooser.addObject("INTAKE TIME THING", new IntakeRunTime(2000, 0, .4));
-		
+		autoChooser.addObject("Yellow Tote", new YellowToteAuto());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
 	}
@@ -87,7 +91,7 @@ public class Robot extends IterativeRobot {
 	// Init to Auto
 	public void autonomousInit() {
 		mDrive.resetEncoders();
-		autoCommand =  (Command) autoChooser.getSelected();
+		autoCommand =  (CommandGroup) autoChooser.getSelected();
 		autoCommand.start();
 	}
 
@@ -160,7 +164,9 @@ public class Robot extends IterativeRobot {
 		Compressor c = new Compressor(0);
 		//System.out.println(c.getCompressorCurrent());
 
-		System.out.println("RIGHT: " + mIntakeLift.getRightEncoder());
+		
+		//System.out.println("DIGITAL: " + io.get());
+		System.out.println("RIGHT: " +mIntakeLift.getRightEncoder());
 		System.out.println("LEFT: " + mIntakeLift.getLeftEncoder());
 		
 		//System.out.println("Left Encodre:" + mDrive.getLeftEncoder());

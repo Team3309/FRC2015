@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3309.robot.commands.intake;
 
+import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -23,7 +24,7 @@ public class IntakeRunTime extends Command{
 	 */
 	public IntakeRunTime(double time, int code, double speed) {
 		super();
-		this.time = time * 1000;
+		this.time = time;
 		this.speed = speed;
 		this.code = code;
 	}
@@ -31,6 +32,7 @@ public class IntakeRunTime extends Command{
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		doneTimer.start();
+		Drive.getInstance().stopDrive();
 	}
 
 	@Override
@@ -61,9 +63,9 @@ public class IntakeRunTime extends Command{
 	@Override
 	protected void end() {
 		mIntake.stopClaw();
-		
 	}
 
+	
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub

@@ -72,8 +72,8 @@ public class IntakeLiftCommand extends Command {
 		// System.out.println("LefT CLAW LIFT " +
 		// mIntakeLift.getMasterEncoder());
 
-		double errorL = mIntakeLift.getSetPoint() - mIntakeLift.getLeftEncoder();
-		double errorR = mIntakeLift.getSetPoint() - mIntakeLift.getRightEncoder();
+		double errorL = mIntakeLift.getLeftSetPoint() - mIntakeLift.getLeftEncoder();
+		double errorR = mIntakeLift.getRightSetPoint() - mIntakeLift.getRightEncoder();
 		
 		double derR = errorR - lastErrorR;
 		double derL = errorL - lastErrorL;
@@ -87,7 +87,7 @@ public class IntakeLiftCommand extends Command {
 			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP;
 		} else if (errorR + derR < 0) {
 			pidRight = errorR * KP_RIGHT_DOWN + derR * KD_RIGHT_DOWN;
-			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP;
+			pidLeft = errorL * KP_LEFT_DOWN + derL * KD_LEFT_DOWN;
 		}
 
 		//System.out.println("KP RIGHT UP: " + KP_RIGHT_UP);
@@ -117,6 +117,13 @@ public class IntakeLiftCommand extends Command {
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isDone() {
+		if( Math.abs( ((lastErrorR + lastErrorL)/2) - mIntakeLift.getRightSetPoint()) < 100) {
+			return true;
+		}
 		return false;
 	}
 

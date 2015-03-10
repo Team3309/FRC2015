@@ -118,6 +118,7 @@ public class Drive {
 	private void driveHalo(double throttle, double turn, double strafe) {
 		// System.out.println("KP: " + KP_NORMAL);
 		
+		System.out.println("throt: " + throttle + " fd " + turn + " FD " + strafe);
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -269,6 +270,7 @@ public class Drive {
 		// reverse these because pushing the Y joysticks forward returns a
 		// negative value, this is fixed here
 
+		
 		driveHalo(leftY, rightX, leftX);
 	}
 
