@@ -132,6 +132,10 @@ public class Robot extends IterativeRobot {
 			mIntake.runClawInward(operatorController.getLeftTrigger());
 		}else if(operatorController.getRightTrigger() > 0) {
 			mIntake.runClawOutward(operatorController.getRightTrigger());
+		}else if(operatorController.getB()){
+			mIntake.runReverseRight(1);
+		}else if(operatorController.getXBut()){
+			mIntake.runReverseLeft(1);
 		}else {
 			mIntake.stopClaw();
 		}
