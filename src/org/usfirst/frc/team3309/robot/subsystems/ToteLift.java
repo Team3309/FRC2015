@@ -11,9 +11,10 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ToteLift implements PIDSource, PIDOutput {
+public class ToteLift extends Subsystem implements PIDSource, PIDOutput {
 
 	private static ToteLift instance;
 
@@ -67,47 +68,11 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 	public void runLiftAt(double power) {
 		if (true) {
-
-			// Stops lift from being moved if it is lower than 20 encoder counts
-			// or higher than 1580
-			// if(liftEncoder.get() <= 20 && power < 0){
-			// power = 0;
-			// }
-			// if(liftEncoder.get() >= 1580 && power > 0){
-			// power = 0;
-			// }
-
 			toteLift.set(power);
 			// System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
 			return;
 		}
-
-		if (isBelowSlowDownBottom()) {
-			if (power > 0) {
-				setToteLiftPower(power);
-				pidRunning = false;
-			} else {
-				controller.setSetpoint(0);
-				pidRunning = true;
-			}
-		} else if (isAboveSlowDownTop()) {
-			if (power < 0) {
-				setToteLiftPower(power);
-				pidRunning = false;
-			} else {
-				controller.setSetpoint(MAX_HEIGHT);
-				pidRunning = true;
-			}
-		} else {
-			pidRunning = false;
-			setToteLiftPower(power);
-		}
-
 		updateConstants();
-
-		// KRAGER : Encoder goes from 20 to 1600. Zero it at the bottom. It
-		// zeroes when you download code
-
 	}
 
 	public void setToteLiftPower(double power) {
@@ -116,30 +81,14 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 	}
 
-	public boolean isBelowSlowDownBottom() {
-		if (getLiftEncoder() <= SLOW_DOWN_BOTTOM)
-			return true;
-		else
-			return false;
-	}
-
 	public double getLiftEncoder() {
 		return liftEncoder.get();
-	}
-
-	public boolean isAboveSlowDownTop() {
-		if (getLiftEncoder() >= SLOW_DOWN_TOP)
-			return true;
-		else
-			return false;
 	}
 
 	public void updateConstants() {
 		MAX_HEIGHT = (int) SmartDashboard.getNumber("Max_Height_Tote");
 		KP = SmartDashboard.getNumber("KP_TOTE_LIFT");
 		KD = SmartDashboard.getNumber("KD_TOTE_LIFT");
-		SLOW_DOWN_BOTTOM = (int) SmartDashboard.getNumber("SLOW_DOWN_BOTTOM");
-		SLOW_DOWN_TOP = (int) SmartDashboard.getNumber("SLOW_DOWN_TOP");
 	}
 
 	public void turnOnSolenoid() {
@@ -148,17 +97,6 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 	public void turnOffSolenoid() {
 		latchSolenoid.turnOffSolenoid();
-	}
-
-	@Override
-	public void pidWrite(double output) {
-		if (pidRunning)
-			toteLift.set(output);
-	}
-
-	@Override
-	public double pidGet() {
-		return getLiftEncoder();
 	}
 
 	private boolean buttonLastState = false;
@@ -171,6 +109,12 @@ public class ToteLift implements PIDSource, PIDOutput {
 	
 	public void notActivated() {
 		buttonLastState = false;
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

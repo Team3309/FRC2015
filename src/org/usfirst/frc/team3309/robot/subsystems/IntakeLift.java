@@ -20,8 +20,6 @@ public class IntakeLift extends Subsystem {
 	
 	private double rightSetPoint = 0;
 	private double leftSetPoint = 0;
-	
-	
 
 	public double getRightSetPoint() {
 		return rightSetPoint;

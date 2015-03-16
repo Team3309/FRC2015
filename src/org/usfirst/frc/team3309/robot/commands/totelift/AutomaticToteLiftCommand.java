@@ -1,13 +1,16 @@
 package org.usfirst.frc.team3309.robot.commands.totelift;
 
+import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutomaticToteLiftCommand extends Command{
 
+	private ToteLift mToteLift = ToteLift.getInstance();
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
+		requires(mToteLift);
 		
 	}
 
