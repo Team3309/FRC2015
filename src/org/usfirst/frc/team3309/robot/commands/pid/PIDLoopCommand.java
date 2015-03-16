@@ -15,8 +15,8 @@ public abstract class PIDLoopCommand extends Command implements PIDSource, PIDOu
 	private double kD;
 	private double pidRequested;
 	private Drive mDrive;
-	
-	protected PIDController controller; 
+
+	protected PIDController controller;
 	protected double KPCONSTANT = .01;
 
 	public PIDLoopCommand(double kP, double kI, double kD, double pidRequested) {
@@ -24,8 +24,8 @@ public abstract class PIDLoopCommand extends Command implements PIDSource, PIDOu
 		this.kI = kI;
 		this.kD = kD;
 		this.pidRequested = pidRequested;
-		
-		controller = new PIDController(kP, kI , kD, this, this);
+
+		controller = new PIDController(kP, kI, kD, this, this);
 	}
 
 	protected void initialize() {

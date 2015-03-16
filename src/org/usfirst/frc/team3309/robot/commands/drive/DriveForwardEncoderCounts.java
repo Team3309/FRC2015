@@ -43,10 +43,10 @@ public class DriveForwardEncoderCounts extends Command {
 
 		mDrive.setLeft(leftSpeed);
 		mDrive.setRight(rightSpeed);
-		
+
 		System.out.println("LEFTSPEED: " + leftSpeed);
 		System.out.println("RIGHTSPEED: " + rightSpeed);
-		
+
 		System.out.println("LEFT EN: " + mDrive.getLeftEncoder());
 		System.out.println("RIGHT EN: " + mDrive.getRightEncoder());
 
@@ -55,7 +55,7 @@ public class DriveForwardEncoderCounts extends Command {
 			System.out.println("IT WORKED");
 			doneTimer.start();
 			startedTimer = true;
-		} else if(!(Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 170)){
+		} else if (!(Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 170)) {
 			System.out.println();
 			doneTimer.stop();
 			doneTimer.reset();
@@ -63,7 +63,7 @@ public class DriveForwardEncoderCounts extends Command {
 		}
 	}
 
-	//.0032 with 2
+	// .0032 with 2
 	private double runEncoderPID() {
 		double currentValue = mDrive.getAverageCount();
 		double currentError = pidRequestedEncoder - currentValue;
@@ -81,13 +81,11 @@ public class DriveForwardEncoderCounts extends Command {
 		return pid;
 	}
 
-	
-
 	@Override
 	protected boolean isFinished() {
-		//return !DriverStation.getInstance().isAutonomous();
+		// return !DriverStation.getInstance().isAutonomous();
 		System.out.println("TIMER: " + doneTimer.get());
-		
+
 		return (doneTimer.get() > .5);
 	}
 

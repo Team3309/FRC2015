@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class WaitCommand extends Command{
+public class WaitCommand extends Command {
 
 	Timer timer = new Timer();
 	double time;
+
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
@@ -23,7 +24,7 @@ public class WaitCommand extends Command{
 	protected void execute() {
 		Drive.getInstance().stopDrive();
 		Intake.getInstance().stopClaw();
-		
+
 	}
 
 	@Override
@@ -34,13 +35,13 @@ public class WaitCommand extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

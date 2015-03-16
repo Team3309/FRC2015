@@ -5,9 +5,9 @@ import org.usfirst.frc.team3309.robot.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class MoveForwardAuto extends CommandGroup{
+public class MoveForwardAuto extends CommandGroup {
 
-	public MoveForwardAuto(int counts) { 
+	public MoveForwardAuto(int counts) {
 		this.addSequential(new DriveForwardEncoderCounts(counts));
 		this.addSequential(new WaitCommand());
 		System.out.println("DFAKGODAG");

@@ -34,13 +34,12 @@ public class Intake {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	/*public void runClawInward() {
-		rightClaw.set(1);
-		leftClaw.set(-1);
-	}*/
-	
+	/*
+	 * public void runClawInward() { rightClaw.set(1); leftClaw.set(-1); }
+	 */
+
 	public void runClawInward(double power) {
-		if(Math.abs(power) < .1) {
+		if (Math.abs(power) < .1) {
 			return;
 		}
 		System.out.println("INWARD: " + power);
@@ -50,13 +49,12 @@ public class Intake {
 		leftClaw.set(-s);
 	}
 
-	/*public void runClawOutward() {
-		rightClaw.set(-1);
-		leftClaw.set(1);
-	}*/
-	
+	/*
+	 * public void runClawOutward() { rightClaw.set(-1); leftClaw.set(1); }
+	 */
+
 	public void runClawOutward(double power) {
-		if(Math.abs(power) < .1) {
+		if (Math.abs(power) < .1) {
 			return;
 		}
 		rightClaw.set(-power);
@@ -67,12 +65,12 @@ public class Intake {
 		rightClaw.set(0);
 		leftClaw.set(0);
 	}
-	
+
 	public void runReverseRight(double power) {
 		rightClaw.set(-power);
 		leftClaw.set(-power);
 	}
-	
+
 	public void runReverseLeft(double power) {
 		rightClaw.set(power);
 		leftClaw.set(power);

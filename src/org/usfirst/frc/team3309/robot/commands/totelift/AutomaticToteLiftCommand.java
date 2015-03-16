@@ -8,14 +8,14 @@ public class AutomaticToteLiftCommand extends Command {
 
 	private ToteLift mToteLift = ToteLift.getInstance();
 	private static AutomaticToteLiftCommand instance;
-	
+
 	private AutomaticToteLiftCommand() {
 		super();
 		requires(mToteLift);
 	}
-	
+
 	public static AutomaticToteLiftCommand getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new AutomaticToteLiftCommand();
 		}
 		return instance;

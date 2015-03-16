@@ -17,7 +17,7 @@ public class IntakeLift extends Subsystem {
 	private Victor rightLift;
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
-	
+
 	private double rightSetPoint = 0;
 	private double leftSetPoint = 0;
 
@@ -67,12 +67,12 @@ public class IntakeLift extends Subsystem {
 		runLeftLiftAt(-power);
 		runRightLiftAt(power);
 	}
-	
+
 	public void runLiftWithJoystick(double power) {
-		
+
 		double rightSetPoint = leftEncoder.get() + power * MAXSPEED;
 		double leftSetPoint = leftEncoder.get() + power * MAXSPEED;
-		//System.out.println("SETPOINT: " + setPoint);
+		// System.out.println("SETPOINT: " + setPoint);
 		setRightSetPoint(rightSetPoint);
 		setLeftSetPoint(leftSetPoint);
 	}
@@ -85,7 +85,6 @@ public class IntakeLift extends Subsystem {
 		rightLift.set(power);
 	}
 
-	
 	public void resetEncoders() {
 		leftEncoder.reset();
 		rightEncoder.reset();
@@ -98,12 +97,12 @@ public class IntakeLift extends Subsystem {
 
 	public void start() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void stop() {
 		this.setLeftSetPoint(leftEncoder.get());
 		this.setRightSetPoint(leftEncoder.get());
-		
+
 	}
 }

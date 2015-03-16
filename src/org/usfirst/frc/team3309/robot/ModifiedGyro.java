@@ -6,72 +6,74 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class ModifiedGyro {
 	static final int kOversampleBits = 10;
-    static final int kAverageBits = 0;
-    static final double kSamplesPerSecond = 50.0;
-    static final double kCalibrationSampleTime = 5.0;
-    static final double kDefaultVoltsPerDegreePerSecond = 0.007;
-    AnalogInput m_analog;
-    double m_voltsPerDegreePerSecond;
-    double m_offset;
-    boolean m_channelAllocated;
-    AccumulatorResult result;
-    //can use m_voltsPerDefreePerSecond to scale and set a sensitevity, none is used right now so it will juse equal the default (.007)
+	static final int kAverageBits = 0;
+	static final double kSamplesPerSecond = 50.0;
+	static final double kCalibrationSampleTime = 5.0;
+	static final double kDefaultVoltsPerDegreePerSecond = 0.007;
+	AnalogInput m_analog;
+	double m_voltsPerDegreePerSecond;
+	double m_offset;
+	boolean m_channelAllocated;
+	AccumulatorResult result;
 
-    public ModifiedGyro(int port) {
-        m_analog = new AnalogInput(port);
-        initGyro();
-    }
+	// can use m_voltsPerDefreePerSecond to scale and set a sensitevity, none is
+	// used right now so it will juse equal the default (.007)
 
-    private void initGyro() {
-        result = new AccumulatorResult();
+	public ModifiedGyro(int port) {
+		m_analog = new AnalogInput(port);
+		initGyro();
+	}
 
-        m_voltsPerDegreePerSecond = kDefaultVoltsPerDegreePerSecond;
-        m_analog.setAverageBits(kAverageBits);
-        m_analog.setOversampleBits(kOversampleBits);
-        double sampleRate = kSamplesPerSecond * (1 << (kAverageBits + kOversampleBits));
-        AnalogInput.setGlobalSampleRate(sampleRate);
+	private void initGyro() {
+		result = new AccumulatorResult();
 
-        Timer.delay(1.0);
-        m_analog.initAccumulator();
+		m_voltsPerDegreePerSecond = kDefaultVoltsPerDegreePerSecond;
+		m_analog.setAverageBits(kAverageBits);
+		m_analog.setOversampleBits(kOversampleBits);
+		double sampleRate = kSamplesPerSecond * (1 << (kAverageBits + kOversampleBits));
+		AnalogInput.setGlobalSampleRate(sampleRate);
 
-        Timer.delay(kCalibrationSampleTime);
+		Timer.delay(1.0);
+		m_analog.initAccumulator();
 
-        m_analog.getAccumulatorOutput(result);
+		Timer.delay(kCalibrationSampleTime);
 
-        int center = (int) ((double) result.value / (double) result.count + .5);
+		m_analog.getAccumulatorOutput(result);
 
-        m_offset = ((double) result.value / (double) result.count) - (double) center;
+		int center = (int) ((double) result.value / (double) result.count + .5);
 
-        m_analog.setAccumulatorCenter(center);
+		m_offset = ((double) result.value / (double) result.count) - (double) center;
 
-        m_analog.setAccumulatorDeadband(0); ///< TODO: compute / parameterize this
-        m_analog.resetAccumulator();
-    }
+		m_analog.setAccumulatorCenter(center);
 
-    public double getAngle() {
-        if (m_analog == null) {
-            return 0.0;
-        } else {
-            m_analog.getAccumulatorOutput(result);
+		m_analog.setAccumulatorDeadband(0); // /< TODO: compute / parameterize
+											// this
+		m_analog.resetAccumulator();
+	}
 
-            long value = result.value - (long) (result.count * m_offset);
+	public double getAngle() {
+		if (m_analog == null) {
+			return 0.0;
+		} else {
+			m_analog.getAccumulatorOutput(result);
 
-            double scaledValue = value * 1e-9 * m_analog.getLSBWeight() * (1 << m_analog.getAverageBits())
-                    / (AnalogInput.getGlobalSampleRate() * m_voltsPerDegreePerSecond);
+			long value = result.value - (long) (result.count * m_offset);
 
-            return scaledValue;
-        }
-    }
+			double scaledValue = value * 1e-9 * m_analog.getLSBWeight() * (1 << m_analog.getAverageBits()) / (AnalogInput.getGlobalSampleRate() * m_voltsPerDegreePerSecond);
 
-    public double getAngularRateOfChange() {
-        double rate = (m_analog.getVoltage() - m_offset) / m_voltsPerDegreePerSecond;
-        return rate;
-    }
+			return scaledValue;
+		}
+	}
 
-    //called when drift becomes too much
-    public void reset() {
-        m_offset = m_analog.getVoltage();
-        m_analog.resetAccumulator();
-    }
+	public double getAngularRateOfChange() {
+		double rate = (m_analog.getVoltage() - m_offset) / m_voltsPerDegreePerSecond;
+		return rate;
+	}
+
+	// called when drift becomes too much
+	public void reset() {
+		m_offset = m_analog.getVoltage();
+		m_analog.resetAccumulator();
+	}
 
 }

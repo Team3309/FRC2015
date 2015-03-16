@@ -37,8 +37,8 @@ public class Robot extends IterativeRobot {
 	private Intake mIntake;
 	private ToteLift mToteLift;
 	private IntakeLift mIntakeLift;
-	
-	//private DigitalInput io = new DigitalInput(10);
+
+	// private DigitalInput io = new DigitalInput(10);
 
 	private SendableChooser autoChooser;
 
@@ -53,9 +53,8 @@ public class Robot extends IterativeRobot {
 			// constantChanger frame = new constantChanger();
 		}
 
-		//Compressor comp = new Compressor();
-	
-		
+		// Compressor comp = new Compressor();
+
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();
@@ -67,13 +66,13 @@ public class Robot extends IterativeRobot {
 		// mDrive.setPrintingDriveInfo(false);
 
 		autoChooser = new SendableChooser();
-		//autoChooser.addObject("DEFAULT", new MoveForwardTimeAuto());
+		// autoChooser.addObject("DEFAULT", new MoveForwardTimeAuto());
 		autoChooser.addDefault("NO MOVE", new WaitAuto());
 		autoChooser.addObject("One Tote", new OneToteAuto());
 		autoChooser.addObject("Forward Small (1 second)", new MoveForewardTimeAuto(1, .3));
 		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
 		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
-		//autoChooser.addObject("INTAKE LIFT TIME THING", new TestAuto());
+		// autoChooser.addObject("INTAKE LIFT TIME THING", new TestAuto());
 		autoChooser.addObject("Yellow Totes Only", new YellowToteOnlyAuto());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
@@ -81,7 +80,7 @@ public class Robot extends IterativeRobot {
 
 	// When first put into disabled mode
 	public void disabledInit() {
-		
+
 	}
 
 	// Called repeatedly in disabled mode
@@ -94,7 +93,7 @@ public class Robot extends IterativeRobot {
 		mDrive.resetEncoders();
 		mDrive.resetGyro();
 		mToteLift.turnOnSolenoid();
-		autoCommand =  (CommandGroup) autoChooser.getSelected();
+		autoCommand = (CommandGroup) autoChooser.getSelected();
 		autoCommand.start();
 	}
 
@@ -112,7 +111,7 @@ public class Robot extends IterativeRobot {
 		mIntakeLift.resetEncoders();
 		mIntake.setRetracted();
 		mToteLift.toggle();
-		
+
 		// autoCommand.cancel();
 
 	}
@@ -130,53 +129,50 @@ public class Robot extends IterativeRobot {
 
 		mToteLift.runLiftAt((operatorController.getRightY()));
 
-		//System.out.println(operatorController.getRightTrigger());
-		//System.out.println(operatorController.getLeftTrigger());
-		
-		if(operatorController.getLeftTrigger() > 0) {
+		// System.out.println(operatorController.getRightTrigger());
+		// System.out.println(operatorController.getLeftTrigger());
+
+		if (operatorController.getLeftTrigger() > 0) {
 			mIntake.runClawInward(operatorController.getLeftTrigger());
-		}else if(operatorController.getRightTrigger() > 0) {
+		} else if (operatorController.getRightTrigger() > 0) {
 			mIntake.runClawOutward(operatorController.getRightTrigger());
-		}else if(operatorController.getB()){
+		} else if (operatorController.getB()) {
 			mIntake.runReverseRight(1);
-		}else if(operatorController.getXBut()){
+		} else if (operatorController.getXBut()) {
 			mIntake.runReverseLeft(1);
-		}else {
+		} else {
 			mIntake.stopClaw();
 		}
-		
-		if(driverController.getA()) {
+
+		if (driverController.getA()) {
 			mIntakeLift.resetEncoders();
 		}
 		System.out.println("RIGHT DRIVE " + mDrive.getRightEncoder());
 		System.out.println("LEFT DRIVE " + mDrive.getLeftEncoder());
-		
+
 		if (operatorController.getLB()) {
 			mIntake.setExtended();
-		} else if(operatorController.getRB()){
+		} else if (operatorController.getRB()) {
 			mIntake.setRetracted();
 		}
-
-		
 
 		if (operatorController.getA()) {
 			mToteLift.toggle();
 		} else {
 			mToteLift.notActivated();
 		}
-		
-		//System.out.println(mToteLift.getLiftEncoder());
-		
-		Compressor c = new Compressor(0);
-		//System.out.println(c.getCompressorCurrent());
 
-		
-		//System.out.println("DIGITAL: " + io.get());
-		System.out.println("RIGHT: " +mIntakeLift.getRightEncoder());
+		// System.out.println(mToteLift.getLiftEncoder());
+
+		Compressor c = new Compressor(0);
+		// System.out.println(c.getCompressorCurrent());
+
+		// System.out.println("DIGITAL: " + io.get());
+		System.out.println("RIGHT: " + mIntakeLift.getRightEncoder());
 		System.out.println("LEFT: " + mIntakeLift.getLeftEncoder());
-		
-		//System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
-		//System.out.println("Right Encodre:" + mDrive.getRightEncoder());
-		//System.out.println("GYRO: " + mDrive.getAngle());
+
+		// System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
+		// System.out.println("Right Encodre:" + mDrive.getRightEncoder());
+		// System.out.println("GYRO: " + mDrive.getAngle());
 	}
 }

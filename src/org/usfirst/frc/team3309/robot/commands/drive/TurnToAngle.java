@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TurnToAngle extends Command implements PIDSource, PIDOutput{
+public class TurnToAngle extends Command implements PIDSource, PIDOutput {
 
 	private double pidRequested;
 	private Drive mDrive;
@@ -18,10 +18,11 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput{
 	private double lastError = 0;
 	private Timer doneTimer = new Timer();
 	private boolean startedTimer = false;
-	
+
 	public TurnToAngle(double angle) {
 		pidRequested = angle;
 	}
+
 	@Override
 	protected void initialize() {
 		mDrive = Drive.getInstance();
@@ -33,19 +34,19 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput{
 		double pid = runGyroPID();
 		mDrive.setLeft(pid);
 		mDrive.setRight(-pid);
-		
+
 		if (Math.abs(mDrive.getAngle() - pidRequested) < 30 && !startedTimer) {
 			System.out.println("IT WORKED");
 			doneTimer.start();
 			startedTimer = true;
-		} else if(!(Math.abs(mDrive.getAngle() - pidRequested) < 30)){
+		} else if (!(Math.abs(mDrive.getAngle() - pidRequested) < 30)) {
 			System.out.println();
 			doneTimer.stop();
 			doneTimer.reset();
 			startedTimer = false;
 		}
 	}
-	
+
 	private double runGyroPID() {
 		double currentValue = mDrive.getAngle();
 		System.out.println("GYRO: " + currentValue);
@@ -57,22 +58,22 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput{
 
 	@Override
 	protected boolean isFinished() {
-		
+
 		return doneTimer.get() > .25;
 	}
 
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void pidWrite(double output) {
 		mDrive.setLeft(output);
@@ -85,6 +86,4 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput{
 		return currentValue;
 	}
 
-
-	
 }

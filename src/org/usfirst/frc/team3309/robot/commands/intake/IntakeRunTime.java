@@ -7,21 +7,17 @@ import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeRunTime extends Command{
+public class IntakeRunTime extends Command {
 
 	Timer doneTimer = new Timer();
 	double time;
 	int code;
 	double speed;
 	Intake mIntake = Intake.getInstance();
+
 	/*
-	 * CODES FOR INTAKE:
-	 * 0: Inward
-	 * 1: Outward
-	 * 2: Reverse (right outward)
-	 * 3: Reverse (left outward)
-	 * 
-	 * 
+	 * CODES FOR INTAKE: 0: Inward 1: Outward 2: Reverse (right outward) 3:
+	 * Reverse (left outward)
 	 */
 	public IntakeRunTime(double time, int code, double speed) {
 		super();
@@ -29,6 +25,7 @@ public class IntakeRunTime extends Command{
 		this.speed = speed;
 		this.code = code;
 	}
+
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
@@ -64,14 +61,13 @@ public class IntakeRunTime extends Command{
 
 	@Override
 	protected void end() {
-		
+
 	}
 
-	
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

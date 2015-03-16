@@ -118,7 +118,8 @@ public class Drive {
 	private void driveHalo(double throttle, double turn, double strafe) {
 		// System.out.println("KP: " + KP_NORMAL);
 		System.out.println("GYTO: " + getAngle());
-		//System.out.println("throt: " + throttle + " fd " + turn + " FD " + strafe);
+		// System.out.println("throt: " + throttle + " fd " + turn + " FD " +
+		// strafe);
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -270,7 +271,6 @@ public class Drive {
 		// reverse these because pushing the Y joysticks forward returns a
 		// negative value, this is fixed here
 
-		
 		driveHalo(leftY, rightX, leftX);
 	}
 
@@ -292,13 +292,13 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		//System.out.println("LEFT: " + val);
+		// System.out.println("LEFT: " + val);
 		leftVictors[0].set(val);
 		leftVictors[1].set(val);
 	}
 
 	public void setRight(double val) {
-		//System.out.println("RIGHT:: " + val);
+		// System.out.println("RIGHT:: " + val);
 		rightVictors[0].set(-val);
 		rightVictors[1].set(-val);
 
@@ -309,7 +309,7 @@ public class Drive {
 	}
 
 	public double getAverageCount() {
-		return (rightEncoder.get() + leftEncoder.get())/2;
+		return (rightEncoder.get() + leftEncoder.get()) / 2;
 	}
 
 }
