@@ -17,12 +17,6 @@ public class IntakeLift extends Subsystem {
 	private Victor rightLift;
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
-
-	// master and slave
-	private Victor masterVictor;
-	private Victor slaveVictor;
-	private Encoder masterEncoder;
-	private Encoder slaveEncoder;
 	
 	private double rightSetPoint = 0;
 	private double leftSetPoint = 0;
@@ -61,11 +55,6 @@ public class IntakeLift extends Subsystem {
 		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, RobotMap.INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
 		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, true, CounterBase.EncodingType.k1X);
 
-		masterVictor = leftLift;
-		slaveVictor = rightLift;
-		masterEncoder = leftEncoder;
-		slaveEncoder = rightEncoder;
-
 	}
 
 	public double getRightEncoder() {
@@ -98,35 +87,11 @@ public class IntakeLift extends Subsystem {
 		rightLift.set(power);
 	}
 
-	// slave and masters
-	public double getMasterEncoder() {
-		return masterEncoder.get();
-	}
-
-	public Victor getMasterVictor() {
-		return masterVictor;
-	}
-
-	public double getSlaveEncoder() {
-		return slaveEncoder.get();
-	}
-
-	public Victor getSlaveVictor() {
-		return slaveVictor;
-	}
-
+	
 	public void resetEncoders() {
 		leftEncoder.reset();
 		rightEncoder.reset();
 	}
-
-	/*public void setSlaveVictor(double power) {
-		getSlaveVictor().set(power);
-	}
-
-	public void setMasterVictor(double power) {
-		getMasterVictor().set(-power);
-	}*/
 
 	@Override
 	protected void initDefaultCommand() {

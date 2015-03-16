@@ -21,6 +21,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 
 	private Victor toteLift;
 
+	private DigitalInput toteSensor = new DigitalInput(RobotMap.TOTE_SENSOR);
 	private PIDController controller;
 	private boolean pidRunning = false;
 
