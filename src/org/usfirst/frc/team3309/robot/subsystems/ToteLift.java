@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ToteLift extends Subsystem implements PIDSource, PIDOutput {
+public class ToteLift extends Subsystem {
 
 	private static ToteLift instance;
 
@@ -23,7 +23,6 @@ public class ToteLift extends Subsystem implements PIDSource, PIDOutput {
 	private Victor toteLift;
 
 	private DigitalInput toteSensor = new DigitalInput(RobotMap.TOTE_SENSOR);
-	private PIDController controller;
 	private boolean pidRunning = false;
 
 	private double KP = .02;
@@ -55,23 +54,16 @@ public class ToteLift extends Subsystem implements PIDSource, PIDOutput {
 		SmartDashboard.putNumber("SLOW_DOWN_BOTTOM", SLOW_DOWN_BOTTOM);
 		SmartDashboard.putNumber("SLOW_DOWN_TOP", SLOW_DOWN_TOP);
 
-		controller = new PIDController(KP, 0, KD, this, this);
-
 		// topLimitSwitch = new
 		// VexLimitSwitch(RobotMap.TOTE_LIFT_TOP_LIMIT_SWITCH);
 		// botLimitSwitch = new
 		// VexLimitSwitch(RobotMap.TOTE_LIFT_BOT_LIMIT_SWITCH);
-		latchSolenoid = new SuperSolenoid(RobotMap.LATCH_SOLENOID);
 
+		latchSolenoid = new SuperSolenoid(RobotMap.LATCH_SOLENOID);
 		liftEncoder = new Encoder(RobotMap.TOTE_LIFT_ENCODER_A, RobotMap.TOTE_LIFT_ENCODER_B, true);
 	}
 
 	public void runLiftAt(double power) {
-		if (true) {
-			toteLift.set(power);
-			// System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
-			return;
-		}
 		updateConstants();
 	}
 
@@ -100,13 +92,14 @@ public class ToteLift extends Subsystem implements PIDSource, PIDOutput {
 	}
 
 	private boolean buttonLastState = false;
+
 	public void toggle() {
 		if (buttonLastState == false) {
 			latchSolenoid.toggleSolenoid();
 			buttonLastState = true;
 		}
 	}
-	
+
 	public void notActivated() {
 		buttonLastState = false;
 	}
@@ -114,7 +107,9 @@ public class ToteLift extends Subsystem implements PIDSource, PIDOutput {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
 	}
 
+	public boolean isToteSensorPressed() {
+		return toteSensor.get();
+	}
 }
