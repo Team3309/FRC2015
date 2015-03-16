@@ -24,7 +24,7 @@ public class MoveToteLiftEncoder extends Command{
 	@Override
 	protected void execute() {
 		double error = setPoint - mToteLift.getLiftEncoder();
-		double pid = PID.runPIDWithError(error, lastError, .001, .000);
+		double pid = PID.runPIDWithError(error, lastError, .007, .000);
 		lastError = error;
 		mToteLift.setToteLiftPower(pid);
 		
@@ -43,7 +43,7 @@ public class MoveToteLiftEncoder extends Command{
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return doneTimer.get() > .5;
 	}
 
 	@Override

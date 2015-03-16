@@ -51,7 +51,7 @@ public class DriveForwardEncoderCounts extends Command {
 		System.out.println("RIGHT EN: " + mDrive.getRightEncoder());
 
 		System.out.println("ERROR: " + Math.abs(mDrive.getAverageCount() - pidRequestedEncoder));
-		if (Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 170 && !startedTimer) {
+		if (Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 50 && !startedTimer) {
 			System.out.println("IT WORKED");
 			doneTimer.start();
 			startedTimer = true;
@@ -63,10 +63,11 @@ public class DriveForwardEncoderCounts extends Command {
 		}
 	}
 
+	//.0032 with 2
 	private double runEncoderPID() {
 		double currentValue = mDrive.getAverageCount();
 		double currentError = pidRequestedEncoder - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastEncoderError, .0032, .016);
+		double pid = PID.runPIDWithError(currentError, lastEncoderError, .002, .016);
 		lastEncoderError = currentError;
 		return pid;
 	}

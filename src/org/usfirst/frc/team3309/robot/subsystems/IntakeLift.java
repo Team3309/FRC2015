@@ -83,8 +83,8 @@ public class IntakeLift extends Subsystem {
 	
 	public void runLiftWithJoystick(double power) {
 		
-		double rightSetPoint = rightEncoder.get() + power * MAXSPEED;
-		double leftSetPoint = rightEncoder.get() + power * MAXSPEED;
+		double rightSetPoint = leftEncoder.get() + power * MAXSPEED;
+		double leftSetPoint = leftEncoder.get() + power * MAXSPEED;
 		//System.out.println("SETPOINT: " + setPoint);
 		setRightSetPoint(rightSetPoint);
 		setLeftSetPoint(leftSetPoint);
@@ -135,6 +135,12 @@ public class IntakeLift extends Subsystem {
 
 	public void start() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void stop() {
+		this.setLeftSetPoint(leftEncoder.get());
+		this.setRightSetPoint(leftEncoder.get());
 		
 	}
 }

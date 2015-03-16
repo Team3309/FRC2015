@@ -9,7 +9,7 @@ public class MoveForwardAuto extends CommandGroup{
 
 	public MoveForwardAuto(int counts) { 
 		this.addSequential(new DriveForwardEncoderCounts(counts));
-		Drive.getInstance().stopDrive();
+		this.addSequential(new WaitCommand());
 		System.out.println("DFAKGODAG");
 	}
 }

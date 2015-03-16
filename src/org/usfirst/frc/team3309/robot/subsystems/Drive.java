@@ -41,10 +41,10 @@ public class Drive {
 	// tells if gyro is a yay or nay
 	private boolean gyroEnabled = true;
 	// the max angular velocity (duh)
-	private int MAX_ANGULAR_VELOCITY = 600;
+	private int MAX_ANGULAR_VELOCITY = 1500;
 
 	// Now for all the possible kp constants
-	private double KP_NORMAL = .003;
+	private double KP_NORMAL = .008;
 	private double pid_Kp_NoThrottle_Right = 0.049;
 	private double pid_Kp_NoThrottle_Left = 0.04;
 	private double pid_Kp_Throttle_Right = 0.02;
@@ -117,8 +117,8 @@ public class Drive {
 
 	private void driveHalo(double throttle, double turn, double strafe) {
 		// System.out.println("KP: " + KP_NORMAL);
-		
-		System.out.println("throt: " + throttle + " fd " + turn + " FD " + strafe);
+		System.out.println("GYTO: " + getAngle());
+		//System.out.println("throt: " + throttle + " fd " + turn + " FD " + strafe);
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;

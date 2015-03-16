@@ -10,11 +10,11 @@ public class SuperSolenoid extends Solenoid{
 	}
 	
 	public void turnOnSolenoid() {
-		set(false);
+		set(true);
 	}
 
 	public void turnOffSolenoid() {
-		set(true);
+		set(false);
 	}
 
 	public void toggleSolenoid() {

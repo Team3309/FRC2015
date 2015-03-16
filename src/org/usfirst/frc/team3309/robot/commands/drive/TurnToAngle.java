@@ -34,11 +34,11 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput{
 		mDrive.setLeft(pid);
 		mDrive.setRight(-pid);
 		
-		if (Math.abs(mDrive.getAngle() - pidRequested) < 170 && !startedTimer) {
+		if (Math.abs(mDrive.getAngle() - pidRequested) < 30 && !startedTimer) {
 			System.out.println("IT WORKED");
 			doneTimer.start();
 			startedTimer = true;
-		} else if(!(Math.abs(mDrive.getAngle() - pidRequested) < 170)){
+		} else if(!(Math.abs(mDrive.getAngle() - pidRequested) < 30)){
 			System.out.println();
 			doneTimer.stop();
 			doneTimer.reset();
@@ -50,7 +50,7 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput{
 		double currentValue = mDrive.getAngle();
 		System.out.println("GYRO: " + currentValue);
 		double currentError = pidRequested - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastError, .05, .000);
+		double pid = PID.runPIDWithError(currentError, lastError, .04, .000);
 		lastError = currentError;
 		return pid;
 	}

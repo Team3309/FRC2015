@@ -20,7 +20,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 	private SuperSolenoid latchSolenoid;
 
 	private Victor toteLift;
-	
+
 	private PIDController controller;
 	private boolean pidRunning = false;
 
@@ -52,7 +52,7 @@ public class ToteLift implements PIDSource, PIDOutput {
 		SmartDashboard.putNumber("KD_TOTE_LIFT", KD);
 		SmartDashboard.putNumber("SLOW_DOWN_BOTTOM", SLOW_DOWN_BOTTOM);
 		SmartDashboard.putNumber("SLOW_DOWN_TOP", SLOW_DOWN_TOP);
-		
+
 		controller = new PIDController(KP, 0, KD, this, this);
 
 		// topLimitSwitch = new
@@ -65,19 +65,19 @@ public class ToteLift implements PIDSource, PIDOutput {
 	}
 
 	public void runLiftAt(double power) {
-		if(true) {
-			
-			
-			//Stops lift from being moved if it is lower than 20 encoder counts or higher than 1580
-			//if(liftEncoder.get() <= 20 && power < 0){
-			//	power = 0;
-			//}
-			//if(liftEncoder.get() >= 1580 && power > 0){
-			//	power = 0;
-			//}
-			
+		if (true) {
+
+			// Stops lift from being moved if it is lower than 20 encoder counts
+			// or higher than 1580
+			// if(liftEncoder.get() <= 20 && power < 0){
+			// power = 0;
+			// }
+			// if(liftEncoder.get() >= 1580 && power > 0){
+			// power = 0;
+			// }
+
 			toteLift.set(power);
-			//System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
+			// System.out.println("LIFT ENCODER: " + this.getLiftEncoder());
 			return;
 		}
 
@@ -85,15 +85,15 @@ public class ToteLift implements PIDSource, PIDOutput {
 			if (power > 0) {
 				setToteLiftPower(power);
 				pidRunning = false;
-			}else {
+			} else {
 				controller.setSetpoint(0);
 				pidRunning = true;
 			}
 		} else if (isAboveSlowDownTop()) {
-			if (power < 0){
+			if (power < 0) {
 				setToteLiftPower(power);
 				pidRunning = false;
-			}else {
+			} else {
 				controller.setSetpoint(MAX_HEIGHT);
 				pidRunning = true;
 			}
@@ -103,20 +103,18 @@ public class ToteLift implements PIDSource, PIDOutput {
 		}
 
 		updateConstants();
-		
-		
-		//KRAGER : Encoder goes from 20 to 1600. Zero it at the bottom. It zeroes when you download code 
+
+		// KRAGER : Encoder goes from 20 to 1600. Zero it at the bottom. It
+		// zeroes when you download code
 
 	}
 
 	public void setToteLiftPower(double power) {
 
-
-		
-		
 		toteLift.set(power);
 
 	}
+
 	public boolean isBelowSlowDownBottom() {
 		if (getLiftEncoder() <= SLOW_DOWN_BOTTOM)
 			return true;
@@ -144,22 +142,34 @@ public class ToteLift implements PIDSource, PIDOutput {
 	}
 
 	public void turnOnSolenoid() {
-		latchSolenoid.turnOffSolenoid();
+		latchSolenoid.turnOnSolenoid();
 	}
 
 	public void turnOffSolenoid() {
-		latchSolenoid.turnOnSolenoid();
+		latchSolenoid.turnOffSolenoid();
 	}
 
 	@Override
 	public void pidWrite(double output) {
-		if(pidRunning)
+		if (pidRunning)
 			toteLift.set(output);
 	}
 
 	@Override
 	public double pidGet() {
 		return getLiftEncoder();
+	}
+
+	private boolean buttonLastState = false;
+	public void toggle() {
+		if (buttonLastState == false) {
+			latchSolenoid.toggleSolenoid();
+			buttonLastState = true;
+		}
+	}
+	
+	public void notActivated() {
+		buttonLastState = false;
 	}
 
 }

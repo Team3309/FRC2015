@@ -2,6 +2,7 @@ package org.usfirst.frc.team3309.robot.commands.intake;
 
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
+import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -31,6 +32,7 @@ public class IntakeRunTime extends Command{
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
+		IntakeLift.getInstance().stop();
 		doneTimer.start();
 		Drive.getInstance().stopDrive();
 	}
@@ -62,7 +64,7 @@ public class IntakeRunTime extends Command{
 
 	@Override
 	protected void end() {
-		mIntake.stopClaw();
+		
 	}
 
 	

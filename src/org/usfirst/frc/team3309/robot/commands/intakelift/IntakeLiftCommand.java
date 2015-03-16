@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeLiftCommand extends Command {
 
 	private static double KP_RIGHT_UP = .008;
+	
+	private static double KI_RIGHT_UP = .002;
+	private static double KI_LEFT_UP = .002;
+	
 	private static double KP_LEFT_UP = .01;
 
 	private static double KD_RIGHT_UP = .006;
@@ -25,6 +29,8 @@ public class IntakeLiftCommand extends Command {
 
 	private static double KD_RIGHT_DOWN = .009;
 	private static double KD_LEFT_DOWN = .009;
+	
+	
 
 	private double bothCounter = 0;
 	private static IntakeLift mIntakeLift = IntakeLift.getInstance();
@@ -51,6 +57,10 @@ public class IntakeLiftCommand extends Command {
 	protected void initialize() {
 		lastErrorR = 0;
 		lastErrorL = 0;
+		
+		SmartDashboard.putNumber("LEFT KI INTAKE LIFT UP", KI_LEFT_UP);
+		SmartDashboard.putNumber("RIGHT KI INTAKE LIFT UP", KI_RIGHT_UP);
+		
 		SmartDashboard.putNumber("RIGHT KP INTAKE LIFT UP", KP_RIGHT_UP);
 		SmartDashboard.putNumber("RIGHT KD INTAKE LIFT UP", KD_RIGHT_UP);
 
@@ -82,16 +92,34 @@ public class IntakeLiftCommand extends Command {
 
 		double pidRight = 0;
 		double pidLeft = 0;
+		
+		double pidIntegralL = 0;
+		//System.out.println("ERROR L:" + errorL);
+		if(Math.abs(errorL) > 100 ) {
+			pidIntegralL = pidIntegralL + errorL;
+		}else {
+			pidIntegralL = 0;
+		}
+		
+		double pidIntegralR = 0;
+		//System.out.println("ERROR R:" + errorR);
+		if(Math.abs(errorR) > 100 ) {
+			pidIntegralR = pidIntegralR + errorR;
+		}else {
+			pidIntegralR = 0;
+		}
+		
 		if (errorR + derR > 0) {
-			pidRight = errorR * KP_RIGHT_UP + derR * KD_RIGHT_UP;
-			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP;
+			pidRight = errorR * KP_RIGHT_UP + derR * KD_RIGHT_UP + KI_RIGHT_UP * pidIntegralR;
+			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP + KI_LEFT_UP * pidIntegralL;
 		} else if (errorR + derR < 0) {
 			pidRight = errorR * KP_RIGHT_DOWN + derR * KD_RIGHT_DOWN;
 			pidLeft = errorL * KP_LEFT_DOWN + derL * KD_LEFT_DOWN;
 		}
 
-		//System.out.println("KP RIGHT UP: " + KP_RIGHT_UP);
-		//System.out.println("HERE IS PID: " + pidRight);
+		
+		///System.out.println("HERE RIGHT IS PID: " + pidRight);
+		//System.out.println("HERE LEFT IS PID: " + pidLeft);
 
 		mIntakeLift.runRightLiftAt(pidRight);
 		mIntakeLift.runLeftLiftAt(-pidLeft);
@@ -112,6 +140,9 @@ public class IntakeLiftCommand extends Command {
 
 		KP_LEFT_DOWN = SmartDashboard.getNumber("LEFT KP INTAKE LIFT DOWN", KP_LEFT_DOWN);
 		KD_LEFT_DOWN = SmartDashboard.getNumber("LEFT KD INTAKE LIFT DOWN", KD_LEFT_DOWN);
+	
+		KI_LEFT_UP  = SmartDashboard.getNumber("LEFT KI INTAKE LIFT UP");
+		KI_RIGHT_UP = SmartDashboard.getNumber("RIGHT KI INTAKE LIFT UP");
 	}
 
 	@Override

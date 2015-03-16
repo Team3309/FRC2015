@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3309.robot.commands.intakelift;
 
+import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -17,13 +18,14 @@ public class IntakeLiftRunEncoder extends Command{
 	}
 	@Override
 	protected void initialize() {
-		
+		Drive.getInstance().stopDrive();
 	}
 
 	@Override
 	protected void execute() {
 		//IntakeLift.getInstance().start();
 		
+		System.out.println("RUNNING ");
 		if (IntakeLiftCommand.getInstance().isDone()&& !startedTimer) {
 			System.out.println("IT WORKED");
 			doneTimer.start();

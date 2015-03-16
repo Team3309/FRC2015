@@ -2,19 +2,16 @@ package org.usfirst.frc.team3309.robot;
 
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
-import org.usfirst.frc.team3309.robot.commands.auto.MoveForwardAuto;
-import org.usfirst.frc.team3309.robot.commands.auto.YellowToteAuto;
-import org.usfirst.frc.team3309.robot.commands.drive.DriveForwardEncoderCounts;
-import org.usfirst.frc.team3309.robot.commands.intake.IntakeRunTime;
-import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
-import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
+import org.usfirst.frc.team3309.robot.commands.auto.MoveForewardTimeAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.OneToteAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.WaitAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.YellowToteOnlyAuto;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -70,10 +67,14 @@ public class Robot extends IterativeRobot {
 		// mDrive.setPrintingDriveInfo(false);
 
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("DEFAULT", new DriveForwardEncoderCounts(600));
-		autoChooser.addObject("EXPERIMENTAL", new MoveForwardAuto(2000));
-		autoChooser.addObject("INTAKE TIME THING", new IntakeRunTime(2000, 0, .4));
-		autoChooser.addObject("Yellow Tote", new YellowToteAuto());
+		//autoChooser.addObject("DEFAULT", new MoveForwardTimeAuto());
+		autoChooser.addDefault("NO MOVE", new WaitAuto());
+		autoChooser.addObject("One Tote", new OneToteAuto());
+		autoChooser.addObject("Forward Small (1 second)", new MoveForewardTimeAuto(1, .3));
+		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
+		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
+		//autoChooser.addObject("INTAKE LIFT TIME THING", new TestAuto());
+		autoChooser.addObject("Yellow Totes Only", new YellowToteOnlyAuto());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
 	}
@@ -91,6 +92,8 @@ public class Robot extends IterativeRobot {
 	// Init to Auto
 	public void autonomousInit() {
 		mDrive.resetEncoders();
+		mDrive.resetGyro();
+		mToteLift.turnOnSolenoid();
 		autoCommand =  (CommandGroup) autoChooser.getSelected();
 		autoCommand.start();
 	}
@@ -107,6 +110,8 @@ public class Robot extends IterativeRobot {
 			autoCommand.cancel();
 		mDrive.resetGyro();
 		mIntakeLift.resetEncoders();
+		mIntake.setRetracted();
+		mToteLift.toggle();
 		
 		// autoCommand.cancel();
 
@@ -143,7 +148,8 @@ public class Robot extends IterativeRobot {
 		if(driverController.getA()) {
 			mIntakeLift.resetEncoders();
 		}
-		
+		System.out.println("RIGHT DRIVE " + mDrive.getRightEncoder());
+		System.out.println("LEFT DRIVE " + mDrive.getLeftEncoder());
 		
 		if (operatorController.getLB()) {
 			mIntake.setExtended();
@@ -151,16 +157,12 @@ public class Robot extends IterativeRobot {
 			mIntake.setRetracted();
 		}
 
-		if (operatorController.getYBut()) {
-			mIntake.setNeutral();
-		} else {
-
-		}
+		
 
 		if (operatorController.getA()) {
-			mToteLift.turnOffSolenoid();
+			mToteLift.toggle();
 		} else {
-			mToteLift.turnOnSolenoid();
+			mToteLift.notActivated();
 		}
 		
 		//System.out.println(mToteLift.getLiftEncoder());
