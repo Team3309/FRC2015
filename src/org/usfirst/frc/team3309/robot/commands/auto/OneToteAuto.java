@@ -11,7 +11,6 @@ public class OneToteAuto extends CommandGroup{
 
 	public OneToteAuto() {
 		
-		
 		this.addSequential(new IntakeRunTime(.5, 0 ,1));
 		this.addSequential(new DriveForwardTime(2, .35));
 		this.addSequential(new TurnToAngle(-30), 3);
@@ -25,10 +24,6 @@ public class OneToteAuto extends CommandGroup{
 		
 		this.addSequential(new TurnToAngle(60), 5);
 		this.addSequential(new DriveForwardTime(2.0, -.4));
-		
-		
-		
-		
 		
 		this.addSequential(new WaitCommand());
 	}
