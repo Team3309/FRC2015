@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeLiftCommand extends Command {
 
 	private static double KP_RIGHT_UP = .008;
-	
+
 	private static double KI_RIGHT_UP = .002;
 	private static double KI_LEFT_UP = .002;
-	
+
 	private static double KP_LEFT_UP = .01;
 
 	private static double KD_RIGHT_UP = .006;
@@ -29,12 +29,9 @@ public class IntakeLiftCommand extends Command {
 
 	private static double KD_RIGHT_DOWN = .009;
 	private static double KD_LEFT_DOWN = .009;
-	
-	
 
 	private double bothCounter = 0;
 	private static IntakeLift mIntakeLift = IntakeLift.getInstance();
-	private PIDController controller;
 
 	private double lastErrorR;
 	private double lastErrorL;
@@ -43,7 +40,6 @@ public class IntakeLiftCommand extends Command {
 	public static IntakeLiftCommand getInstance() {
 		if (instance == null) {
 			instance = new IntakeLiftCommand();
-
 		}
 		return instance;
 	}
@@ -57,10 +53,10 @@ public class IntakeLiftCommand extends Command {
 	protected void initialize() {
 		lastErrorR = 0;
 		lastErrorL = 0;
-		
+
 		SmartDashboard.putNumber("LEFT KI INTAKE LIFT UP", KI_LEFT_UP);
 		SmartDashboard.putNumber("RIGHT KI INTAKE LIFT UP", KI_RIGHT_UP);
-		
+
 		SmartDashboard.putNumber("RIGHT KP INTAKE LIFT UP", KP_RIGHT_UP);
 		SmartDashboard.putNumber("RIGHT KD INTAKE LIFT UP", KD_RIGHT_UP);
 
@@ -84,7 +80,7 @@ public class IntakeLiftCommand extends Command {
 
 		double errorL = mIntakeLift.getLeftSetPoint() - mIntakeLift.getLeftEncoder();
 		double errorR = mIntakeLift.getRightSetPoint() - mIntakeLift.getRightEncoder();
-		
+
 		double derR = errorR - lastErrorR;
 		double derL = errorL - lastErrorL;
 		lastErrorR = errorR;
@@ -92,23 +88,23 @@ public class IntakeLiftCommand extends Command {
 
 		double pidRight = 0;
 		double pidLeft = 0;
-		
+
 		double pidIntegralL = 0;
-		//System.out.println("ERROR L:" + errorL);
-		if(Math.abs(errorL) > 100 ) {
+		// System.out.println("ERROR L:" + errorL);
+		if (Math.abs(errorL) > 100) {
 			pidIntegralL = pidIntegralL + errorL;
-		}else {
+		} else {
 			pidIntegralL = 0;
 		}
-		
+
 		double pidIntegralR = 0;
-		//System.out.println("ERROR R:" + errorR);
-		if(Math.abs(errorR) > 100 ) {
+		// System.out.println("ERROR R:" + errorR);
+		if (Math.abs(errorR) > 100) {
 			pidIntegralR = pidIntegralR + errorR;
-		}else {
+		} else {
 			pidIntegralR = 0;
 		}
-		
+
 		if (errorR + derR > 0) {
 			pidRight = errorR * KP_RIGHT_UP + derR * KD_RIGHT_UP + KI_RIGHT_UP * pidIntegralR;
 			pidLeft = errorL * KP_LEFT_UP + derL * KD_LEFT_UP + KI_LEFT_UP * pidIntegralL;
@@ -117,9 +113,8 @@ public class IntakeLiftCommand extends Command {
 			pidLeft = errorL * KP_LEFT_DOWN + derL * KD_LEFT_DOWN;
 		}
 
-		
-		///System.out.println("HERE RIGHT IS PID: " + pidRight);
-		//System.out.println("HERE LEFT IS PID: " + pidLeft);
+		// /System.out.println("HERE RIGHT IS PID: " + pidRight);
+		// System.out.println("HERE LEFT IS PID: " + pidLeft);
 
 		mIntakeLift.runRightLiftAt(pidRight);
 		mIntakeLift.runLeftLiftAt(-pidLeft);
@@ -140,8 +135,8 @@ public class IntakeLiftCommand extends Command {
 
 		KP_LEFT_DOWN = SmartDashboard.getNumber("LEFT KP INTAKE LIFT DOWN", KP_LEFT_DOWN);
 		KD_LEFT_DOWN = SmartDashboard.getNumber("LEFT KD INTAKE LIFT DOWN", KD_LEFT_DOWN);
-	
-		KI_LEFT_UP  = SmartDashboard.getNumber("LEFT KI INTAKE LIFT UP");
+
+		KI_LEFT_UP = SmartDashboard.getNumber("LEFT KI INTAKE LIFT UP");
 		KI_RIGHT_UP = SmartDashboard.getNumber("RIGHT KI INTAKE LIFT UP");
 	}
 
@@ -152,7 +147,7 @@ public class IntakeLiftCommand extends Command {
 	}
 
 	public boolean isDone() {
-		if( Math.abs( ((lastErrorR + lastErrorL)/2) - mIntakeLift.getRightSetPoint()) < 100) {
+		if (Math.abs(((lastErrorR + lastErrorL) / 2) - mIntakeLift.getRightSetPoint()) < 100) {
 			return true;
 		}
 		return false;
@@ -168,14 +163,4 @@ public class IntakeLiftCommand extends Command {
 	protected void interrupted() {
 		// TODO Auto-generated method stub
 	}
-
-	/*
-	 * @Override public void pidWrite(double output) {
-	 * System.out.println("\nSETTING SLAVE TO: " + output);
-	 * mIntakeLift.setSlaveVictor(-output); }
-	 * 
-	 * @Override public double pidGet() { return mIntakeLift.getMasterEncoder();
-	 * } public void disable() { controller.disable(); } public void enable() {
-	 * controller.enable(); }
-	 */
 }

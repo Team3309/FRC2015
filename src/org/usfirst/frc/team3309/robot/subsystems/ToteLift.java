@@ -3,6 +3,7 @@ package org.usfirst.frc.team3309.robot.subsystems;
 import org.usfirst.frc.team3309.robot.RobotMap;
 import org.usfirst.frc.team3309.robot.SuperSolenoid;
 import org.usfirst.frc.team3309.robot.VexLimitSwitch;
+import org.usfirst.frc.team3309.robot.commands.totelift.AutomaticToteLiftCommand;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -19,11 +20,9 @@ public class ToteLift extends Subsystem {
 	private static ToteLift instance;
 
 	private SuperSolenoid latchSolenoid;
-
 	private Victor toteLift;
 
 	private DigitalInput toteSensor = new DigitalInput(RobotMap.TOTE_SENSOR);
-	private boolean pidRunning = false;
 
 	private double KP = .02;
 	private double KD = .02;
@@ -41,6 +40,7 @@ public class ToteLift extends Subsystem {
 	public static ToteLift getInstance() {
 		if (instance == null) {
 			instance = new ToteLift();
+			instance.setDefaultCommand(AutomaticToteLiftCommand.getInstance());
 		}
 		return instance;
 	}
