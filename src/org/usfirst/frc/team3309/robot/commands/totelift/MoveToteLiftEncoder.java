@@ -13,9 +13,26 @@ public class MoveToteLiftEncoder extends Command {
 	double lastError = 0;
 	private Timer doneTimer = new Timer();
 	private boolean startedTimer = false;
+	private double kP;
+	private double kD;
+
+	public MoveToteLiftEncoder(ToteLevel level) {
+		kP = level.getkP();
+		kD = level.getkD();
+	}
 
 	public MoveToteLiftEncoder(int value) {
 		setPoint = value;
+
+		// DEFAULT VALUES
+		kP = .007;
+		kD = 000;
+	}
+
+	public MoveToteLiftEncoder(int value, double kP, double kD) {
+		setPoint = value;
+		this.kP = kP;
+		this.kD = kD;
 	}
 
 	@Override
@@ -26,16 +43,14 @@ public class MoveToteLiftEncoder extends Command {
 	@Override
 	protected void execute() {
 		double error = setPoint - mToteLift.getLiftEncoder();
-		double pid = PID.runPIDWithError(error, lastError, .007, .000);
+		double pid = PID.runPIDWithError(error, lastError, kP, kD);
 		lastError = error;
 		mToteLift.setToteLiftPower(pid);
 
 		if (Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170 && !startedTimer) {
-			System.out.println("IT WORKED");
 			doneTimer.start();
 			startedTimer = true;
 		} else if (!(Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170)) {
-			System.out.println();
 			doneTimer.stop();
 			doneTimer.reset();
 			startedTimer = false;
@@ -44,19 +59,16 @@ public class MoveToteLiftEncoder extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return doneTimer.get() > .5;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 
 	}
 
