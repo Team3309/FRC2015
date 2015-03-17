@@ -99,5 +99,6 @@ public class ToteLift extends Subsystem {
 		if (lastToteSensorVal == isToteSensorPressed()) {
 			return true;
 		}
+		return false;
 	}
 }
