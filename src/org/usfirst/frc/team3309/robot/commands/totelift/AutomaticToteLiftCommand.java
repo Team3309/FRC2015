@@ -8,6 +8,8 @@ public class AutomaticToteLiftCommand extends Command {
 
 	private ToteLift mToteLift = ToteLift.getInstance();
 	private static AutomaticToteLiftCommand instance;
+	private int topEncoderCount;
+	private int setPoint = 0;
 
 	private AutomaticToteLiftCommand() {
 		super();

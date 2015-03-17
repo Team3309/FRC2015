@@ -24,16 +24,10 @@ public class ToteLift extends Subsystem {
 
 	private DigitalInput toteSensor = new DigitalInput(RobotMap.TOTE_SENSOR);
 
-	private double KP = .02;
-	private double KD = .02;
 	// private VexLimitSwitch topLimitSwitch;
 	// private VexLimitSwitch botLimitSwitch;
 
 	private Encoder liftEncoder;
-
-	private int MAX_HEIGHT = 2000;
-	private int SLOW_DOWN_BOTTOM = 20;
-	private int SLOW_DOWN_TOP = 1500;
 
 	boolean useLimitSwitch = false;
 
@@ -48,12 +42,6 @@ public class ToteLift extends Subsystem {
 	private ToteLift() {
 		toteLift = new Victor(RobotMap.TOTE_LIFT);
 
-		SmartDashboard.putNumber("Max_Height_Tote", MAX_HEIGHT);
-		SmartDashboard.putNumber("KP_TOTE_LIFT", KP);
-		SmartDashboard.putNumber("KD_TOTE_LIFT", KD);
-		SmartDashboard.putNumber("SLOW_DOWN_BOTTOM", SLOW_DOWN_BOTTOM);
-		SmartDashboard.putNumber("SLOW_DOWN_TOP", SLOW_DOWN_TOP);
-
 		// topLimitSwitch = new
 		// VexLimitSwitch(RobotMap.TOTE_LIFT_TOP_LIMIT_SWITCH);
 		// botLimitSwitch = new
@@ -64,23 +52,14 @@ public class ToteLift extends Subsystem {
 	}
 
 	public void runLiftAt(double power) {
-		updateConstants();
 	}
 
 	public void setToteLiftPower(double power) {
-
 		toteLift.set(power);
-
 	}
 
 	public double getLiftEncoder() {
 		return liftEncoder.get();
-	}
-
-	public void updateConstants() {
-		MAX_HEIGHT = (int) SmartDashboard.getNumber("Max_Height_Tote");
-		KP = SmartDashboard.getNumber("KP_TOTE_LIFT");
-		KD = SmartDashboard.getNumber("KD_TOTE_LIFT");
 	}
 
 	public void turnOnSolenoid() {
@@ -109,7 +88,16 @@ public class ToteLift extends Subsystem {
 		// TODO Auto-generated method stub
 	}
 
+	private boolean lastToteSensorVal = false;
 	public boolean isToteSensorPressed() {
+		lastToteSensorVal = toteSensor.get();
 		return toteSensor.get();
+	}
+	
+	//returns true if totelift value is different from last time
+	public boolean isToteSensorToggle() {
+		if (lastToteSensorVal == isToteSensorPressed()) {
+			return true;
+		}
 	}
 }
