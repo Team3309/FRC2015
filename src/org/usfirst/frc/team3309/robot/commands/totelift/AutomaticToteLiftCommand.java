@@ -11,6 +11,14 @@ public class AutomaticToteLiftCommand extends Command {
 	private int topEncoderCount;
 	private int setPoint = 0;
 	private int toteCount = 0;
+	
+	private int currentRunningState = 0;
+	private final int NOT_RUNNING = 0;
+	private final int RUNNING_UP = 1;
+	private final int RUNNING_DOWN = 2;
+
+	private ToteLevel level;
+	private MoveToteLiftEncoder upCommand;
 
 	private AutomaticToteLiftCommand() {
 		super();
@@ -31,10 +39,13 @@ public class AutomaticToteLiftCommand extends Command {
 
 	@Override
 	protected void execute() {
-		if(mToteLift.isToteSensorToggle()) {
+		if (mToteLift.isToteSensorToggle()) {
 			toteCount++;
 		}
-
+		updateToteLevel(toteCount);
+		if (mToteLift.isToteSensorPressed() && mToteLift.isToteSensorToggle()) {
+			
+		}
 	}
 
 	@Override
@@ -55,4 +66,30 @@ public class AutomaticToteLiftCommand extends Command {
 
 	}
 
+	private void updateToteLevel(int toteCount) {
+		int count = toteCount / 2;
+		switch (count) {
+		case 1:
+			level = ToteLevel.ONE_TOTE;
+			break;
+		case 2:
+			level = ToteLevel.TWO_TOTE;
+			break;
+		case 3:
+			level = ToteLevel.THREE_TOTE;
+			break;
+		case 4:
+			level = ToteLevel.FOUR_TOTE;
+			break;
+		case 5:
+			level = ToteLevel.FIVE_TOTE;
+			break;
+		case 6:
+			level = ToteLevel.SIX_TOTE;
+			break;
+		default:
+			level = ToteLevel.ONE_TOTE;
+			break;
+		}
+	}
 }

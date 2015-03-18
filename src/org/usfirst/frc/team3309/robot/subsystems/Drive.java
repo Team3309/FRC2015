@@ -118,10 +118,7 @@ public class Drive {
 	}
 
 	private void driveHalo(double throttle, double turn, double strafe) {
-		// System.out.println("KP: " + KP_NORMAL);
-		System.out.println("GYTO: " + getAngle());
-		// System.out.println("throt: " + throttle + " fd " + turn + " FD " +
-		// strafe);
+		
 		updateConstants();
 		double modifiedTurn;
 		double gyroKP = KP_NORMAL;
@@ -152,8 +149,6 @@ public class Drive {
 				if (!aimAngleIsSet) {
 					pidRequestedValue = gyro.getAngle();
 				}
-				System.out.println("pidRequested = " + pidRequestedValue);
-				System.out.println(" ");
 				strafeCounter++;
 				aimAngleIsSet = true;
 			} else {
@@ -181,7 +176,7 @@ public class Drive {
 						pid_Kp_NoThrottle = pid_Kp_NoThrottle_Left;
 					// calculate drive
 					pidDrive = ((pid_Kp_NoThrottle * pidError));
-					System.out.println("Drive: " + pid_Kp_NoThrottle + " * " + pidError + " = " + pidDrive);
+					
 					setLeft(-pidDrive);
 					setRight(pidDrive);
 				} else { // else the user is driving with strafe and throttle
@@ -194,11 +189,9 @@ public class Drive {
 					// calculate drive
 					pidDrive = ((pid_Kp_Throttle * pidError));
 
-					System.out.println("Drive: " + pid_Kp_Throttle + " * " + pidError + " = " + pidDrive);
 					// Gets Power of each side
 					double leftPower = (throttle - pidDrive);
 					double rightPower = (throttle + pidDrive);
-					System.out.println("FS Left: " + leftPower + " FS RIGHT: " + rightPower);
 					setLeft(leftPower);
 					setRight(rightPower);
 				}
@@ -247,10 +240,6 @@ public class Drive {
 	}
 
 	private void updateConstants() {
-		// System.out.println("WITH DEFAULt: " +
-		// SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003));
-		// System.out.println("NO DEFAULT: " +
-		// SmartDashboard.getNumber("KP_DRIVE_CONSTANT"));
 		KP_NORMAL = SmartDashboard.getNumber("KP_DRIVE_CONSTANT", .003);
 		MAX_ANGULAR_VELOCITY = (int) SmartDashboard.getNumber("Max_Velcoity", 600);
 		pid_Kp_NoThrottle_Left = SmartDashboard.getNumber("No_Throttle_Left", pid_Kp_NoThrottle_Left);
@@ -294,13 +283,11 @@ public class Drive {
 	}
 
 	public void setLeft(double val) {
-		// System.out.println("LEFT: " + val);
 		leftVictors[0].set(val);
 		leftVictors[1].set(val);
 	}
 
 	public void setRight(double val) {
-		// System.out.println("RIGHT:: " + val);
 		rightVictors[0].set(-val);
 		rightVictors[1].set(-val);
 
