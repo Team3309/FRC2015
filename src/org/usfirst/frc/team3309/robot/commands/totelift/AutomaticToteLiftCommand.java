@@ -5,6 +5,7 @@ import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutomaticToteLiftCommand extends Command {
 
@@ -22,6 +23,9 @@ public class AutomaticToteLiftCommand extends Command {
 	private MoveToteLiftEncoder upCommand;
 	private MoveToteLiftEncoder downCommand;
 
+	private double testKP = 000;
+	private double testKD = 000;
+
 	private AutomaticToteLiftCommand() {
 		super();
 		requires(mToteLift);
@@ -36,9 +40,12 @@ public class AutomaticToteLiftCommand extends Command {
 
 	@Override
 	protected void initialize() {
-
+		SmartDashboard.putNumber("tote lift kp", testKP);
+		SmartDashboard.putNumber("tote lift kd", testKD);
 	}
 
+	private boolean buttonLastState = false;
+	
 	@Override
 	protected void execute() {
 		// set manual control to whether or not the home button is pressed
@@ -46,7 +53,16 @@ public class AutomaticToteLiftCommand extends Command {
 
 		// if manual control is enabled, set the toteLift to joystick, then stop
 		if (manualControl) {
-			mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
+			// mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
+			
+			
+
+			if (buttonLastState == false) {
+					startGoingUp();
+					buttonLastState = true;
+			}
+			buttonLastState = false;
+			
 			return;
 		}
 
@@ -75,6 +91,14 @@ public class AutomaticToteLiftCommand extends Command {
 		} else if (currentRunningState == NOT_RUNNING) {
 
 		}
+
+		updateConstants();
+
+	}
+
+	private void updateConstants() {
+		testKP = SmartDashboard.getNumber("tote lift kp", testKP);
+		testKD = SmartDashboard.getNumber("tote lift kd", testKD);
 	}
 
 	@Override
@@ -126,17 +150,17 @@ public class AutomaticToteLiftCommand extends Command {
 		return level;
 	}
 
-	//the comments are for testing constants
+	// the comments are for testing constants
 	private void startGoingUp() {
-		upCommand = new MoveToteLiftEncoder(0,0,0);
-		//upCommand = new MoveToteLiftEncoder(getToteLevel(toteToggleCount));
+		upCommand = new MoveToteLiftEncoder(0, 0, 0);
+		// upCommand = new MoveToteLiftEncoder(getToteLevel(toteToggleCount));
 		currentRunningState = RUNNING_UP;
 		upCommand.start();
 	}
 
 	private void startGoingDown() {
-		downCommand = new MoveToteLiftEncoder(0,0,0);
-		//downCommand = new MoveToteLiftEncoder(ToteLevel.BOTTOM);
+		downCommand = new MoveToteLiftEncoder(0, 0, 0);
+		// downCommand = new MoveToteLiftEncoder(ToteLevel.BOTTOM);
 		currentRunningState = RUNNING_DOWN;
 		downCommand.start();
 	}
