@@ -8,8 +8,6 @@ public class AutomaticToteLiftCommand extends Command {
 
 	private ToteLift mToteLift = ToteLift.getInstance();
 	private static AutomaticToteLiftCommand instance;
-	private int topEncoderCount;
-	private int setPoint = 0;
 	private int toteToggleCount = 0;
 
 	private int currentRunningState = 0;
@@ -18,6 +16,7 @@ public class AutomaticToteLiftCommand extends Command {
 	private final int RUNNING_DOWN = 2;
 
 	private MoveToteLiftEncoder upCommand;
+	private MoveToteLiftEncoder downCommand;
 
 	private AutomaticToteLiftCommand() {
 		super();
@@ -41,18 +40,23 @@ public class AutomaticToteLiftCommand extends Command {
 		if (mToteLift.isToteSensorToggle()) {
 			toteToggleCount++;
 		}
-		
-		//if the button is pressed and it is the first time the button is being read as pressed
+
+		// if the button is pressed and it is the first time the button is being
+		// read as pressed
 		if (mToteLift.isToteSensorPressed() && mToteLift.isToteSensorToggle()) {
 			startGoingUp();
 		}
-		
-		if(currentRunningState == RUNNING_UP) {
-			
-		}else if(currentRunningState == RUNNING_DOWN) {
-			
-		}else if(currentRunningState == NOT_RUNNING){
-			
+
+		if (currentRunningState == RUNNING_UP) {
+			if (!upCommand.isRunning()) {
+				startGoingDown();
+			}
+		} else if (currentRunningState == RUNNING_DOWN) {
+			if (!downCommand.isRunning()) {
+				currentRunningState = NOT_RUNNING;
+			}
+		} else if (currentRunningState == NOT_RUNNING) {
+
 		}
 	}
 
@@ -75,7 +79,8 @@ public class AutomaticToteLiftCommand extends Command {
 	}
 
 	private ToteLevel getToteLevel(int toteCount) {
-		//divide by two because, one toggle from off to on, and one toggle from on to off = 1 tote
+		// divide by two because, one toggle from off to on, and one toggle from
+		// on to off = 1 tote
 		int count = toteCount / 2;
 		ToteLevel level;
 		switch (count) {
@@ -103,9 +108,16 @@ public class AutomaticToteLiftCommand extends Command {
 		}
 		return level;
 	}
-	
+
 	private void startGoingUp() {
 		upCommand = new MoveToteLiftEncoder(getToteLevel(toteToggleCount));
 		currentRunningState = RUNNING_UP;
+		upCommand.start();
+	}
+
+	private void startGoingDown() {
+		downCommand = new MoveToteLiftEncoder(ToteLevel.BOTTOM);
+		currentRunningState = RUNNING_DOWN;
+		downCommand.start();
 	}
 }

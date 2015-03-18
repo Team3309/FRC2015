@@ -19,6 +19,8 @@ public class MoveToteLiftEncoder extends Command {
 	public MoveToteLiftEncoder(ToteLevel level) {
 		kP = level.getkP();
 		kD = level.getkD();
+		
+		setPoint = level.getSetPoint();
 	}
 
 	public MoveToteLiftEncoder(int value) {
