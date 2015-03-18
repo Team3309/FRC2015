@@ -89,13 +89,15 @@ public class ToteLift extends Subsystem {
 	}
 
 	private boolean lastToteSensorVal = false;
+	private boolean notTempLastToteSensorVal = false;
 	public boolean isToteSensorPressed() {
-		lastToteSensorVal = toteSensor.get();
+		notTempLastToteSensorVal = toteSensor.get();
 		return toteSensor.get();
 	}
 	
 	//returns true if totelift value is different from last time
 	public boolean isToteSensorToggle() {
+		lastToteSensorVal = notTempLastToteSensorVal;
 		if (lastToteSensorVal == isToteSensorPressed()) {
 			return true;
 		}
