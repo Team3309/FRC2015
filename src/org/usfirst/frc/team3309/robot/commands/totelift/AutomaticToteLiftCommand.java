@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3309.robot.commands.totelift;
 
+import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutomaticToteLiftCommand extends Command {
@@ -9,6 +11,8 @@ public class AutomaticToteLiftCommand extends Command {
 	private ToteLift mToteLift = ToteLift.getInstance();
 	private static AutomaticToteLiftCommand instance;
 	private int toteToggleCount = 0;
+
+	private boolean manualControl = false;
 
 	private int currentRunningState = 0;
 	private final int NOT_RUNNING = 0;
@@ -37,6 +41,15 @@ public class AutomaticToteLiftCommand extends Command {
 
 	@Override
 	protected void execute() {
+		//set manual control to whether or not the home button is pressed
+		manualControl = Controllers.getInstance().OperatorController.getHome();
+		
+		//if manual control is enabled, set the toteLift to joystick, then stop
+		if (manualControl) {
+			mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
+			return;
+		}
+		
 		if (mToteLift.isToteSensorToggle()) {
 			toteToggleCount++;
 		}
@@ -48,10 +61,14 @@ public class AutomaticToteLiftCommand extends Command {
 		}
 
 		if (currentRunningState == RUNNING_UP) {
+
+			// if totelift is done going up
 			if (!upCommand.isRunning()) {
 				startGoingDown();
 			}
 		} else if (currentRunningState == RUNNING_DOWN) {
+
+			// if totelift is back at bottom
 			if (!downCommand.isRunning()) {
 				currentRunningState = NOT_RUNNING;
 			}

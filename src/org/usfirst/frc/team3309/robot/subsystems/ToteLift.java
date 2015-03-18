@@ -52,6 +52,7 @@ public class ToteLift extends Subsystem {
 	}
 
 	public void runLiftAt(double power) {
+		setToteLiftPower(power);
 	}
 
 	public void setToteLiftPower(double power) {
