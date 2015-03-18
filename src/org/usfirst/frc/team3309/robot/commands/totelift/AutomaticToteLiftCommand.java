@@ -10,6 +10,7 @@ public class AutomaticToteLiftCommand extends Command {
 	private static AutomaticToteLiftCommand instance;
 	private int topEncoderCount;
 	private int setPoint = 0;
+	private int toteCount = 0;
 
 	private AutomaticToteLiftCommand() {
 		super();
@@ -30,7 +31,9 @@ public class AutomaticToteLiftCommand extends Command {
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
+		if(mToteLift.isToteSensorToggle()) {
+			toteCount++;
+		}
 
 	}
 
