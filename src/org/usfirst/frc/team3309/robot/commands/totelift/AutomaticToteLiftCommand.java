@@ -49,20 +49,20 @@ public class AutomaticToteLiftCommand extends Command {
 	@Override
 	protected void execute() {
 		// set manual control to whether or not the home button is pressed
-		manualControl = Controllers.getInstance().OperatorController.getHome();
+		//manualControl = Controllers.getInstance().OperatorController.getHome();
 
 		// if manual control is enabled, set the toteLift to joystick, then stop
-		if (manualControl) {
-			// mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
+		if (true) {
+			 mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
 			
 			
 
-			if (buttonLastState == false) {
+			/*if (buttonLastState == false) {
 					startGoingUp();
 					buttonLastState = true;
 			}
 			buttonLastState = false;
-			
+			*/
 			return;
 		}
 
@@ -152,7 +152,7 @@ public class AutomaticToteLiftCommand extends Command {
 
 	// the comments are for testing constants
 	private void startGoingUp() {
-		upCommand = new MoveToteLiftEncoder(0, 0, 0);
+		upCommand = new MoveToteLiftEncoder(1000, testKP, testKD);
 		// upCommand = new MoveToteLiftEncoder(getToteLevel(toteToggleCount));
 		currentRunningState = RUNNING_UP;
 		upCommand.start();

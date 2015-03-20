@@ -74,6 +74,7 @@ public class ToteLift extends Subsystem {
 	private boolean buttonLastState = false;
 
 	public void toggle() {
+		System.out.println("TOGGLE");
 		if (buttonLastState == false) {
 			latchSolenoid.toggleSolenoid();
 			buttonLastState = true;

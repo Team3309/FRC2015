@@ -5,6 +5,7 @@ import org.usfirst.frc.team3309.driverstation.XboxController;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForewardTimeAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.OneToteAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.WaitAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.YellowToteAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.YellowToteOnlyAuto;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
@@ -72,6 +73,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Forward Small (1 second)", new MoveForewardTimeAuto(1, .3));
 		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
 		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
+		autoChooser.addObject("YELLOW TOTE", new YellowToteAuto());
 		// autoChooser.addObject("INTAKE LIFT TIME THING", new TestAuto());
 		autoChooser.addObject("Yellow Totes Only", new YellowToteOnlyAuto());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
@@ -110,7 +112,7 @@ public class Robot extends IterativeRobot {
 		mDrive.resetGyro();
 		mIntakeLift.resetEncoders();
 		mIntake.setRetracted();
-		mToteLift.toggle();
+		// mToteLift.toggle();
 
 		// autoCommand.cancel();
 
@@ -127,7 +129,7 @@ public class Robot extends IterativeRobot {
 		// mIntakeLift.setMasterVictor(operatorController.getLeftY());
 		mIntakeLift.runLiftWithJoystick(operatorController.getLeftY());
 
-		mToteLift.runLiftAt((operatorController.getRightY()));
+		// mToteLift.runLiftAt((operatorController.getRightY()));
 
 		// System.out.println(operatorController.getRightTrigger());
 		// System.out.println(operatorController.getLeftTrigger());
@@ -147,8 +149,6 @@ public class Robot extends IterativeRobot {
 		if (driverController.getA()) {
 			mIntakeLift.resetEncoders();
 		}
-		System.out.println("RIGHT DRIVE " + mDrive.getRightEncoder());
-		System.out.println("LEFT DRIVE " + mDrive.getLeftEncoder());
 
 		if (operatorController.getLB()) {
 			mIntake.setExtended();
@@ -164,7 +164,7 @@ public class Robot extends IterativeRobot {
 
 		// System.out.println(mToteLift.getLiftEncoder());
 
-		Compressor c = new Compressor(0);
+		//Compressor c = new Compressor(0);
 		// System.out.println(c.getCompressorCurrent());
 
 		// System.out.println("DIGITAL: " + io.get());

@@ -35,7 +35,7 @@ public class XboxController extends GenericHID {
 	// Bumpers and Home
 	public static final int BUTTON_LB = 5;
 	public static final int BUTTON_RB = 6;
-	public static final int BUTTON_HOME = 15;
+	public static final int BUTTON_HOME = 13;
 
 	// //AXES\\\\
 	public static final int AXIS_LEFT_X = 0;
