@@ -105,4 +105,9 @@ public class ToteLift extends Subsystem {
 		}
 		return false;
 	}
+
+	public void resetEncoder() {
+		liftEncoder.reset();
+		
+	}
 }

@@ -94,6 +94,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		mDrive.resetEncoders();
 		mDrive.resetGyro();
+		mIntakeLift.resetEncoders();
+		mToteLift.resetEncoder();
 		mToteLift.turnOnSolenoid();
 		autoCommand = (CommandGroup) autoChooser.getSelected();
 		autoCommand.start();
@@ -158,6 +160,7 @@ public class Robot extends IterativeRobot {
 
 		if (operatorController.getA()) {
 			mToteLift.toggle();
+			mDrive.resetEncoders();
 		} else {
 			mToteLift.notActivated();
 		}
@@ -174,5 +177,6 @@ public class Robot extends IterativeRobot {
 		 System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
 		 System.out.println("Right Encodre:" + mDrive.getRightEncoder());
 		 System.out.println("GYRO: " + mDrive.getAngle());
+		 System.out.println("TOTE LIFT " + mToteLift.getLiftEncoder());
 	}
 }
