@@ -1,14 +1,19 @@
 package org.usfirst.frc.team3309.robot.commands.intake;
 
+import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeCloseCommand extends Command{
 
+	private int startCount = 0;
+	public IntakeCloseCommand(int startCount) {
+		this.startCount = startCount;
+	}
 	@Override
 	protected void initialize() {
-		Intake.getInstance().setExtended();
+		Intake.getInstance().setRetracted();
 		
 	}
 
@@ -20,8 +25,12 @@ public class IntakeCloseCommand extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return true;
+		System.out.println("FSDG " + Drive.getInstance().getAverageCount());
+		if (Drive.getInstance().getAverageCount() > startCount) {
+			Intake.getInstance().setRetracted();
+			return true;
+		}
+		return false;
 	}
 
 	@Override

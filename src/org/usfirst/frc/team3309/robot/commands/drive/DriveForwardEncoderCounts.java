@@ -67,7 +67,7 @@ public class DriveForwardEncoderCounts extends Command {
 	private double runEncoderPID() {
 		double currentValue = mDrive.getAverageCount();
 		double currentError = pidRequestedEncoder - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastEncoderError, .002, .016);
+		double pid = PID.runPIDWithError(currentError, lastEncoderError, .004, .016);
 		lastEncoderError = currentError;
 		return pid;
 	}

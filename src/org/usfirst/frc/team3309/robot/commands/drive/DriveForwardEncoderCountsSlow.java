@@ -21,11 +21,9 @@ public class DriveForwardEncoderCountsSlow extends Command {
 
 	private Timer doneTimer = new Timer();
 
-	public DriveForwardEncoderCountsSlow(double request) {
+	public DriveForwardEncoderCountsSlow() {
 		mDrive = Drive.getInstance();
-		pidRequestedEncoder = request;
 		pidRequestedGyro = mDrive.getAngle();
-		setTimeout(5);
 	}
 
 	@Override
@@ -35,11 +33,11 @@ public class DriveForwardEncoderCountsSlow extends Command {
 
 	@Override
 	protected void execute() {
-		double throttle = runEncoderPID();
+		//double throttle = runEncoderPID();
 		double turn = runGyroPID();
 
-		double leftSpeed = throttle + turn;
-		double rightSpeed = throttle - turn;
+		double leftSpeed = .4 + turn;
+		double rightSpeed = .4 - turn;
 
 		mDrive.setLeft(leftSpeed);
 		mDrive.setRight(rightSpeed);
@@ -76,7 +74,7 @@ public class DriveForwardEncoderCountsSlow extends Command {
 		double currentValue = mDrive.getAngle();
 		System.out.println("GYRO: " + currentValue);
 		double currentError = pidRequestedGyro - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastGyroError, .05, .000);
+		double pid = PID.runPIDWithError(currentError, lastGyroError, .37, .000);
 		lastGyroError = currentError;
 		return pid;
 	}
@@ -86,7 +84,7 @@ public class DriveForwardEncoderCountsSlow extends Command {
 		// return !DriverStation.getInstance().isAutonomous();
 		System.out.println("TIMER: " + doneTimer.get());
 
-		return (doneTimer.get() > .5);
+		return (mDrive.getAverageCount() > 2900);
 	}
 
 	@Override

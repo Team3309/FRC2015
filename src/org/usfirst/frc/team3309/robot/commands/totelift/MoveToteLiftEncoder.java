@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3309.robot.commands.totelift;
 
 import org.usfirst.frc.team3309.robot.commands.pid.PID;
+import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.ToteLift;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -16,16 +17,19 @@ public class MoveToteLiftEncoder extends Command {
 	private double kP;
 	private double kD;
 
+	private int startCount = 0;
+
 	public MoveToteLiftEncoder(ToteLevel level) {
 		kP = level.getkP();
 		kD = level.getkD();
-		
+
 		setPoint = level.getSetPoint();
 	}
 
-	public MoveToteLiftEncoder(int value) {
+	public MoveToteLiftEncoder(int value, int startCount) {
 		setPoint = value;
 
+		this.startCount = startCount;
 		// DEFAULT VALUES
 		kP = .007;
 		kD = 000;
@@ -44,18 +48,20 @@ public class MoveToteLiftEncoder extends Command {
 
 	@Override
 	protected void execute() {
-		double error = setPoint - mToteLift.getLiftEncoder();
-		double pid = PID.runPIDWithError(error, lastError, kP, kD);
-		lastError = error;
-		mToteLift.setToteLiftPower(pid);
+		if (Drive.getInstance().getAverageCount() > startCount) {
+			double error = setPoint - mToteLift.getLiftEncoder();
+			double pid = PID.runPIDWithError(error, lastError, kP, kD);
+			lastError = error;
+			mToteLift.setToteLiftPower(pid);
 
-		if (Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170 && !startedTimer) {
-			doneTimer.start();
-			startedTimer = true;
-		} else if (!(Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170)) {
-			doneTimer.stop();
-			doneTimer.reset();
-			startedTimer = false;
+			if (Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170 && !startedTimer) {
+				doneTimer.start();
+				startedTimer = true;
+			} else if (!(Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170)) {
+				doneTimer.stop();
+				doneTimer.reset();
+				startedTimer = false;
+			}
 		}
 	}
 

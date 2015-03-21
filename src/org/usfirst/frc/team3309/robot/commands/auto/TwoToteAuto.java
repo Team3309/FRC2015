@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class TwoToteAuto extends CommandGroup {
 
 	public TwoToteAuto() {
+		
+		/*
 		this.addSequential(new IntakeRunTime(.5, 0, 1));
 		this.addSequential(new DriveForwardTime(2, .35));
 		this.addSequential(new TurnToAngle(-30), 3);
@@ -26,5 +28,6 @@ public class TwoToteAuto extends CommandGroup {
 		this.addSequential(new TurnToAngle(45), 5);
 		this.addSequential(new DriveForwardTime(3, -.3));
 		this.addSequential(new MoveToteLiftEncoder(0), 4);
+		*/
 	}
 }
