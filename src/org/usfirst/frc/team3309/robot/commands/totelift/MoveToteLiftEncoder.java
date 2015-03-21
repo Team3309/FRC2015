@@ -31,7 +31,7 @@ public class MoveToteLiftEncoder extends Command {
 
 		this.startCount = startCount;
 		// DEFAULT VALUES
-		kP = .007;
+		kP = .04;
 		kD = 000;
 	}
 
@@ -52,8 +52,13 @@ public class MoveToteLiftEncoder extends Command {
 			double error = setPoint - mToteLift.getLiftEncoder();
 			double pid = PID.runPIDWithError(error, lastError, kP, kD);
 			lastError = error;
-			mToteLift.setToteLiftPower(pid);
-
+			if (pid > 1)
+				pid = 1;
+			else if (pid < -1)
+				pid = -1;
+			mToteLift.runLiftAt(pid);
+			System.out.println("TOTE LIFT PID: " + pid);
+			System.out.println("TOTE LIFT: " + mToteLift.getLiftEncoder());
 			if (Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170 && !startedTimer) {
 				doneTimer.start();
 				startedTimer = true;

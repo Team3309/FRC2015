@@ -8,7 +8,7 @@ public class UnlatchToteLiftCommand extends Command{
 
 	@Override
 	protected void initialize() {
-		ToteLift.getInstance().turnOnSolenoid();
+		ToteLift.getInstance().turnOffSolenoid();
 		
 	}
 

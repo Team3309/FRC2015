@@ -53,9 +53,13 @@ public class ToteLift extends Subsystem {
 
 	public void runLiftAt(double power) {
 		setToteLiftPower(power);
+		
+		
 	}
 
 	public void setToteLiftPower(double power) {
+		SmartDashboard.putNumber("TOTELIFT" , power);
+		System.out.println("SETTING TOTE LIFT TO : " + power);
 		toteLift.set(power);
 	}
 

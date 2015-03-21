@@ -21,9 +21,10 @@ public class DriveForwardEncoderCountsSlow extends Command {
 
 	private Timer doneTimer = new Timer();
 
-	public DriveForwardEncoderCountsSlow() {
+	public DriveForwardEncoderCountsSlow(int requested) {
 		mDrive = Drive.getInstance();
 		pidRequestedGyro = mDrive.getAngle();
+		pidRequestedEncoder = requested;
 	}
 
 	@Override
@@ -33,11 +34,11 @@ public class DriveForwardEncoderCountsSlow extends Command {
 
 	@Override
 	protected void execute() {
-		//double throttle = runEncoderPID();
+		// double throttle = runEncoderPID();
 		double turn = runGyroPID();
 
-		double leftSpeed = .4 + turn;
-		double rightSpeed = .4 - turn;
+		double leftSpeed = .55 + turn;
+		double rightSpeed = .55 - turn;
 
 		mDrive.setLeft(leftSpeed);
 		mDrive.setRight(rightSpeed);
@@ -48,17 +49,6 @@ public class DriveForwardEncoderCountsSlow extends Command {
 		System.out.println("LEFT EN: " + mDrive.getLeftEncoder());
 		System.out.println("RIGHT EN: " + mDrive.getRightEncoder());
 
-		System.out.println("ERROR: " + Math.abs(mDrive.getAverageCount() - pidRequestedEncoder));
-		if (Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 50 && !startedTimer) {
-			System.out.println("IT WORKED");
-			doneTimer.start();
-			startedTimer = true;
-		} else if (!(Math.abs(mDrive.getAverageCount() - pidRequestedEncoder) < 170)) {
-			System.out.println();
-			doneTimer.stop();
-			doneTimer.reset();
-			startedTimer = false;
-		}
 	}
 
 	// .0032 with 2
@@ -72,7 +62,7 @@ public class DriveForwardEncoderCountsSlow extends Command {
 
 	private double runGyroPID() {
 		double currentValue = mDrive.getAngle();
-		System.out.println("GYRO: " + currentValue);
+
 		double currentError = pidRequestedGyro - currentValue;
 		double pid = PID.runPIDWithError(currentError, lastGyroError, .37, .000);
 		lastGyroError = currentError;
@@ -82,9 +72,8 @@ public class DriveForwardEncoderCountsSlow extends Command {
 	@Override
 	protected boolean isFinished() {
 		// return !DriverStation.getInstance().isAutonomous();
-		System.out.println("TIMER: " + doneTimer.get());
 
-		return (mDrive.getAverageCount() > 2900);
+		return (mDrive.getAverageCount() > pidRequestedEncoder);
 	}
 
 	@Override
@@ -99,4 +88,3 @@ public class DriveForwardEncoderCountsSlow extends Command {
 	}
 
 }
-
