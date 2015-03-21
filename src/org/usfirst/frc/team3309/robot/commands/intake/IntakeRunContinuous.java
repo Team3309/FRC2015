@@ -1,13 +1,14 @@
 package org.usfirst.frc.team3309.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
 import org.usfirst.frc.team3309.robot.subsystems.Intake;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeRunTime extends Command {
+public class IntakeRunContinuous extends Command {
 
 	Timer doneTimer = new Timer();
 	double time;
@@ -19,9 +20,8 @@ public class IntakeRunTime extends Command {
 	 * CODES FOR INTAKE: 0: Inward 1: Outward 2: Reverse (right outward) 3:
 	 * Reverse (left outward)
 	 */
-	public IntakeRunTime(double time, int code, double speed) {
+	public IntakeRunContinuous(int code, double speed) {
 		super();
-		this.time = time;
 		this.speed = speed;
 		this.code = code;
 	}
@@ -32,6 +32,9 @@ public class IntakeRunTime extends Command {
 		IntakeLift.getInstance().stop();
 		doneTimer.start();
 		Drive.getInstance().stopDrive();
+
+		// ensure it runs once
+		execute();
 	}
 
 	@Override
@@ -56,12 +59,12 @@ public class IntakeRunTime extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return (doneTimer.get() > time);
+		return true;
 	}
 
 	@Override
 	protected void end() {
-		mIntake.stopClaw();
+
 	}
 
 	@Override
