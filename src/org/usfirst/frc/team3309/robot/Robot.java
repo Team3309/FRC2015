@@ -4,6 +4,7 @@ import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForewardTimeAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.OneToteAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.ThreeTotePIDAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.WaitAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.YellowToteAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.YellowToteOnlyAuto;
@@ -74,8 +75,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
 		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
 		autoChooser.addObject("YELLOW TOTE", new YellowToteAuto());
-		// autoChooser.addObject("INTAKE LIFT TIME THING", new TestAuto());
-		autoChooser.addObject("Yellow Totes Only", new YellowToteOnlyAuto());
+		autoChooser.addObject("3 Grey Tote", new ThreeTotePIDAuto());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
 	}
