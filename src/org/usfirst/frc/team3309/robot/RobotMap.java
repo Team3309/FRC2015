@@ -28,12 +28,12 @@ public class RobotMap {
 	public static final int TOTE_LIFT_ENCODER_A = 8;
 	public static final int TOTE_LIFT_ENCODER_B = 9;
 
-	public static final int TOTE_SENSOR = 10;
+	public static final int TOTE_SENSOR = 13;
 
-	/*
-	 * public static final int TOTE_LIFT_TOP_LIMIT_SWITCH = 8; public static
-	 * final int TOTE_LIFT_BOT_LIMIT_SWITCH = 9;
-	 */
+	
+	 public static final int TOTE_LIFT_TOP_LIMIT_SWITCH = 10;
+	 public static final int TOTE_LIFT_BOT_LIMIT_SWITCH = 11;
+	 
 
 	public static final int DRIVE_GYRO = 0;
 

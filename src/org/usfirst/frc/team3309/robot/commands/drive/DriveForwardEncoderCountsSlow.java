@@ -19,12 +19,14 @@ public class DriveForwardEncoderCountsSlow extends Command {
 	private double lastGyroError = 0;
 	private double lastEncoderError = 0;
 
+	private double speed = .3;
 	private Timer doneTimer = new Timer();
 
-	public DriveForwardEncoderCountsSlow(int requested) {
+	public DriveForwardEncoderCountsSlow(int requested, double requestAngle, double speed) {
 		mDrive = Drive.getInstance();
-		pidRequestedGyro = mDrive.getAngle();
+		pidRequestedGyro = requestAngle;
 		pidRequestedEncoder = requested;
+		this.speed = speed;
 	}
 
 	@Override
@@ -37,8 +39,8 @@ public class DriveForwardEncoderCountsSlow extends Command {
 		// double throttle = runEncoderPID();
 		double turn = runGyroPID();
 
-		double leftSpeed = .55 + turn;
-		double rightSpeed = .55 - turn;
+		double leftSpeed = speed + turn;
+		double rightSpeed = speed - turn;
 
 		mDrive.setLeft(leftSpeed);
 		mDrive.setRight(rightSpeed);
@@ -64,7 +66,7 @@ public class DriveForwardEncoderCountsSlow extends Command {
 		double currentValue = mDrive.getAngle();
 
 		double currentError = pidRequestedGyro - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastGyroError, .37, .000);
+		double pid = PID.runPIDWithError(currentError, lastGyroError, .1, .000);
 		lastGyroError = currentError;
 		return pid;
 	}
@@ -73,7 +75,7 @@ public class DriveForwardEncoderCountsSlow extends Command {
 	protected boolean isFinished() {
 		// return !DriverStation.getInstance().isAutonomous();
 
-		return (mDrive.getAverageCount() > pidRequestedEncoder);
+		return (Math.abs(mDrive.getAverageCount()) > Math.abs(pidRequestedEncoder));
 	}
 
 	@Override

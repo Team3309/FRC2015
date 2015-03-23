@@ -24,6 +24,8 @@ public class ToteLift extends Subsystem {
 
 	private DigitalInput toteSensor = new DigitalInput(RobotMap.TOTE_SENSOR);
 
+	private DigitalInput botLimitSwitch;
+	private DigitalInput topLimitSwitch;
 	// private VexLimitSwitch topLimitSwitch;
 	// private VexLimitSwitch botLimitSwitch;
 
@@ -42,24 +44,39 @@ public class ToteLift extends Subsystem {
 	private ToteLift() {
 		toteLift = new Victor(RobotMap.TOTE_LIFT);
 
-		// topLimitSwitch = new
-		// VexLimitSwitch(RobotMap.TOTE_LIFT_TOP_LIMIT_SWITCH);
-		// botLimitSwitch = new
-		// VexLimitSwitch(RobotMap.TOTE_LIFT_BOT_LIMIT_SWITCH);
+		topLimitSwitch = new DigitalInput(RobotMap.TOTE_LIFT_TOP_LIMIT_SWITCH);
+		botLimitSwitch = new DigitalInput(RobotMap.TOTE_LIFT_BOT_LIMIT_SWITCH);
 
 		latchSolenoid = new SuperSolenoid(RobotMap.LATCH_SOLENOID);
 		liftEncoder = new Encoder(RobotMap.TOTE_LIFT_ENCODER_A, RobotMap.TOTE_LIFT_ENCODER_B, true);
 	}
 
 	public void runLiftAt(double power) {
+		System.out.println("BOT " + getBot());
+		System.out.println("TOP " + getTop());
 		setToteLiftPower(power);
-		
-		
+	}
+
+	public boolean getBot() {
+		return botLimitSwitch.get();
+	}
+
+	public boolean getTop() {
+		return topLimitSwitch.get();
 	}
 
 	public void setToteLiftPower(double power) {
-		SmartDashboard.putNumber("TOTELIFT" , power);
+		SmartDashboard.putNumber("TOTELIFT", power);
 		System.out.println("SETTING TOTE LIFT TO : " + power);
+
+		if (power > 0 && getTop()) {
+			toteLift.set(0);
+			return;
+		}
+		if (power < 0 && getBot()) {
+			toteLift.set(0);
+			return;
+		}
 		toteLift.set(power);
 	}
 
@@ -96,12 +113,13 @@ public class ToteLift extends Subsystem {
 
 	private boolean lastToteSensorVal = false;
 	private boolean notTempLastToteSensorVal = false;
+
 	public boolean isToteSensorPressed() {
 		notTempLastToteSensorVal = toteSensor.get();
 		return toteSensor.get();
 	}
-	
-	//returns true if totelift value is different from last time
+
+	// returns true if totelift value is different from last time
 	public boolean isToteSensorToggle() {
 		lastToteSensorVal = notTempLastToteSensorVal;
 		if (lastToteSensorVal == isToteSensorPressed()) {
@@ -112,6 +130,6 @@ public class ToteLift extends Subsystem {
 
 	public void resetEncoder() {
 		liftEncoder.reset();
-		
+
 	}
 }

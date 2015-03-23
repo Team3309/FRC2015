@@ -75,6 +75,9 @@ public class IntakeLift extends Subsystem {
 		// System.out.println("SETPOINT: " + setPoint);
 		setRightSetPoint(rightSetPoint);
 		setLeftSetPoint(leftSetPoint);
+		
+		System.out.println("Left " + getLeftEncoder());
+		System.out.println("Right " + getRightEncoder());
 	}
 
 	public void runLeftLiftAt(double power) {
