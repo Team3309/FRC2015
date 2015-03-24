@@ -57,11 +57,11 @@ public class YellowToteAuto extends CommandGroup {
 		
 		this.addSequential(new DriveForwardEncoderCountsSlow(2900, Drive.getInstance().getAngle(), .3));
 		
-		this.addSequential(new TurnToAngle(90));
+		this.addSequential(new TurnToAngle(60));
 		
 		this.addParallel( new MoveToteLiftDown(700));
 		this.addParallel(new IntakeOpenCommand(750));
-		this.addSequential(new DriveForwardEncoderCountsSlow(2000, 90, .5));
+		this.addSequential(new DriveForwardEncoderCountsSlow(2000, 90, .6));
 		
 		this.addParallel(new IntakeRunContinuous(1, 1, -10000));
 		this.addSequential(new DriveForwardEncoderCountsSlow(-1000, 90, -.7));

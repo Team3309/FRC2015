@@ -171,8 +171,8 @@ public class Robot extends IterativeRobot {
 		// System.out.println(c.getCompressorCurrent());
 
 		// System.out.println("DIGITAL: " + io.get());
-		//System.out.println("RIGHT: " + mIntakeLift.getRightEncoder());
-		//System.out.println("LEFT: " + mIntakeLift.getLeftEncoder());
+		System.out.println("RIGHT LIFT: " + mIntakeLift.getRightEncoder());
+		System.out.println("LEFT LIFT: " + mIntakeLift.getLeftEncoder());
 
 		 System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
 		 System.out.println("Right Encodre:" + mDrive.getRightEncoder());

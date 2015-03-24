@@ -21,10 +21,18 @@ public class DriveForwardEncoderCountsSlow extends Command {
 
 	private double speed = .3;
 	private Timer doneTimer = new Timer();
-
+boolean current = false;
+	
 	public DriveForwardEncoderCountsSlow(int requested, double requestAngle, double speed) {
 		mDrive = Drive.getInstance();
 		pidRequestedGyro = requestAngle;
+		pidRequestedEncoder = requested;
+		this.speed = speed;
+	}
+	
+	public DriveForwardEncoderCountsSlow(int requested, double speed) {
+		mDrive = Drive.getInstance();
+		current = true;
 		pidRequestedEncoder = requested;
 		this.speed = speed;
 	}
@@ -32,6 +40,9 @@ public class DriveForwardEncoderCountsSlow extends Command {
 	@Override
 	protected void initialize() {
 		mDrive.resetEncoders();
+		if(current) {
+			pidRequestedGyro = Drive.getInstance().getAngle();
+		}
 	}
 
 	@Override
