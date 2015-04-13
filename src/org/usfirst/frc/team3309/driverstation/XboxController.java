@@ -2,6 +2,7 @@ package org.usfirst.frc.team3309.driverstation;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 
 /**
  * Summary of methods used: double axis = Controller.getRawAxis(axisNumber);
@@ -72,6 +73,7 @@ public class XboxController extends GenericHID {
 	}
 
 	public boolean getYBut() {
+		
 		return controller.getRawButton(BUTTON_Y);
 	}
 
@@ -252,6 +254,10 @@ public class XboxController extends GenericHID {
 	public int getPOV(int pov) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public void setRumble(float value) {
+		controller.setRumble(RumbleType.kRightRumble, value);
 	}
 
 }// END OF CLASS

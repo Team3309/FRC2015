@@ -51,7 +51,7 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput {
 		double currentValue = mDrive.getAngle();
 		System.out.println("GYRO: " + currentValue);
 		double currentError = pidRequested - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastError, .04, .000);
+		double pid = PID.runPIDWithError(currentError, lastError, .025, .125);
 		lastError = currentError;
 		return pid;
 	}
@@ -59,11 +59,12 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput {
 	@Override
 	protected boolean isFinished() {
 
-		return doneTimer.get() > .25;
+		return doneTimer.get() > .6;
 	}
 
 	@Override
 	protected void end() {
+		System.out.println("ENDED");
 		// TODO Auto-generated method stub
 
 	}

@@ -1,11 +1,14 @@
 package org.usfirst.frc.team3309.robot;
-
+//pink = 256
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForewardTimeAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.MoveForwardAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.OneToteAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.TestAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.ThreeTotePIDAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.WaitAuto;
+import org.usfirst.frc.team3309.robot.commands.auto.YellowTatersAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.YellowToteAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.YellowToteOnlyAuto;
 import org.usfirst.frc.team3309.robot.subsystems.Drive;
@@ -69,13 +72,15 @@ public class Robot extends IterativeRobot {
 
 		autoChooser = new SendableChooser();
 		// autoChooser.addObject("DEFAULT", new MoveForwardTimeAuto());
-		autoChooser.addDefault("NO MOVE", new WaitAuto());
+		autoChooser.addDefault("YELLOW TOTE DEFAULT", new YellowToteAuto());
 		autoChooser.addObject("One Tote", new OneToteAuto());
-		autoChooser.addObject("Forward Small (1 second)", new MoveForewardTimeAuto(1, .3));
+		autoChooser.addObject("TEST", new TestAuto());
+		autoChooser.addObject("Forward Small (1 second)", new MoveForwardAuto(500));
 		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
 		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
 		autoChooser.addObject("YELLOW TOTE", new YellowToteAuto());
 		autoChooser.addObject("3 Grey Tote", new ThreeTotePIDAuto());
+		autoChooser.addObject("TATERS", new YellowTatersAuto());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
 
 	}
@@ -148,10 +153,10 @@ public class Robot extends IterativeRobot {
 			mIntake.stopClaw();
 		}
 
-		if (driverController.getA()) {
+		if (operatorController.getYBut()) {
 			mIntakeLift.resetEncoders();
 		}
-
+		// lb should be opem
 		if (operatorController.getLB()) {
 			mIntake.setExtended();
 		} else if (operatorController.getRB()) {
@@ -165,18 +170,28 @@ public class Robot extends IterativeRobot {
 			mToteLift.notActivated();
 		}
 
+		/*
+		 * if (mToteLift.isToteSensorPressed()) {
+		 * operatorController.setRumble((float) .8); } else {
+		 * operatorController.setRumble(0); }
+		 */
 		// System.out.println(mToteLift.getLiftEncoder());
 
-		//Compressor c = new Compressor(0);
+		Compressor c = new Compressor(0);
 		// System.out.println(c.getCompressorCurrent());
 
 		// System.out.println("DIGITAL: " + io.get());
-		System.out.println("RIGHT LIFT: " + mIntakeLift.getRightEncoder());
-		System.out.println("LEFT LIFT: " + mIntakeLift.getLeftEncoder());
+		/*
+		 * System.out.println("RIGHT LIFT: " + mIntakeLift.getRightEncoder());
+		 * System.out.println("LEFT LIFT: " + mIntakeLift.getLeftEncoder());
+		 * 
+		 */ System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
+		  System.out.println("Right Encodre:" + mDrive.getRightEncoder());
+		  /*
+		 * System.out.println("GYRO: " + mDrive.getAngle());
+		 * System.out.println("TOTE LIFT " + mToteLift.getLiftEncoder());
+		 */
 
-		 System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
-		 System.out.println("Right Encodre:" + mDrive.getRightEncoder());
-		 System.out.println("GYRO: " + mDrive.getAngle());
-		 System.out.println("TOTE LIFT " + mToteLift.getLiftEncoder());
+		System.out.println("TOTE LIFT: " + mToteLift.isToteSensorPressed());
 	}
 }

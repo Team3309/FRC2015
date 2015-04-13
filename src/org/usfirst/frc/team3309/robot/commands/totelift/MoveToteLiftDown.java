@@ -26,14 +26,14 @@ public class MoveToteLiftDown extends Command {
 
 	@Override
 	protected void execute() {
-		if (Drive.getInstance().getAverageCount() > startCount) {
+		if (Math.abs(Drive.getInstance().getAverageCount()) > Math.abs(startCount)) {
 			if(!started) {
 				started = true;
 				doneTimer.start();
 			}
 			
 			if(doneTimer.get() > .7) {
-				ToteLift.getInstance().runLiftAt(-.5);
+				ToteLift.getInstance().runLiftAt(-.7);
 			}else {
 				ToteLift.getInstance().runLiftAt(-1);
 			}

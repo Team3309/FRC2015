@@ -298,7 +298,7 @@ public class Drive {
 	}
 
 	public double getAverageCount() {
-		return (rightEncoder.get() + leftEncoder.get()) / 2;
+		return (rightEncoder.get() );
 	}
 
 }
