@@ -65,6 +65,7 @@ public class TurnToAngle extends Command implements PIDSource, PIDOutput {
 	@Override
 	protected void end() {
 		System.out.println("ENDED");
+		mDrive.resetEncoders();
 		// TODO Auto-generated method stub
 
 	}

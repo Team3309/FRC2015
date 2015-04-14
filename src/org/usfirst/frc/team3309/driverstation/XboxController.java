@@ -46,6 +46,7 @@ public class XboxController extends GenericHID {
 	public static final int AXIS_TRIGGER_RIGHT = 3;
 	public static final int AXIS_RIGHT_X = 4;
 	public static final int AXIS_RIGHT_Y = 5;
+	public static final int AXIS_DPAD = 6;
 
 	// main instance joystick being called throughout class
 	Joystick controller;
@@ -73,24 +74,24 @@ public class XboxController extends GenericHID {
 	}
 
 	public boolean getYBut() {
-		
+
 		return controller.getRawButton(BUTTON_Y);
 	}
 
 	public boolean getDpadUp() {
-		return controller.getRawButton(BUTTON_DPAD_UP);
+		return controller.getPOV() < 45 || controller.getPOV() > 325;
 	}
 
 	public boolean getDpadDown() {
-		return controller.getRawButton(BUTTON_DPAD_DOWN);
+		return controller.getPOV() < 225 || controller.getPOV() > 135;
 	}
 
 	public boolean getDpadLeft() {
-		return controller.getRawButton(BUTTON_DPAD_LEFT);
+		return controller.getPOV() < 315 || controller.getPOV() > 225;
 	}
 
 	public boolean getDpadRight() {
-		return controller.getRawButton(BUTTON_DPAD_RIGHT);
+		return controller.getPOV() < 135 || controller.getPOV() > 45;
 	}
 
 	public boolean getBack() {
@@ -253,7 +254,13 @@ public class XboxController extends GenericHID {
 	@Override
 	public int getPOV(int pov) {
 		// TODO Auto-generated method stub
-		return 0;
+		return controller.getPOV(0);
+	}
+
+	@Override
+	public int getPOV() {
+		// TODO Auto-generated method stub
+		return controller.getPOV(0);
 	}
 	
 	public void setRumble(float value) {

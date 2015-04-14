@@ -45,6 +45,7 @@ public class AutomaticToteLiftCommand extends Command {
 	}
 
 	private boolean buttonLastState = false;
+	public boolean commandRunning = false;
 
 	@Override
 	protected void execute() {
@@ -54,44 +55,49 @@ public class AutomaticToteLiftCommand extends Command {
 
 		// if manual control is enabled, set the toteLift to joystick, then stop
 		if (!DriverStation.getInstance().isAutonomous()) {
-			mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
-
+			if (Controllers.getInstance().OperatorController.getStart()) {
+				UpDownToteLiftCommand com = new UpDownToteLiftCommand();
+				commandRunning = true;
+				com.start();
+			} else if(Controllers.getInstance().OperatorController.getBack()) {
+				DownUpDownToteLiftCommand com = new DownUpDownToteLiftCommand();
+				commandRunning = true;
+				com.start();
+			}else {
+				if (!commandRunning)
+					mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
+				
+			}
 			/*
 			 * if (buttonLastState == false) { startGoingUp(); buttonLastState =
 			 * true; } buttonLastState = false;
 			 */
-			return;
+		}
+
+		if (mToteLift.getBot()) {
+			mToteLift.resetEncoder();
 		}
 		return;
-/*
-		if (mToteLift.isToteSensorToggle()) {
-			toteToggleCount++;
-		}
-
-		// if the button is pressed and it is the first time the button is being
-		// read as pressed
-		if (mToteLift.isToteSensorPressed() && mToteLift.isToteSensorToggle()) {
-			startGoingUp();
-		}
-
-		if (currentRunningState == RUNNING_UP) {
-
-			// if totelift is done going up
-			if (!upCommand.isRunning()) {
-				startGoingDown();
-			}
-		} else if (currentRunningState == RUNNING_DOWN) {
-
-			// if totelift is back at bottom
-			if (!downCommand.isRunning()) {
-				currentRunningState = NOT_RUNNING;
-			}
-		} else if (currentRunningState == NOT_RUNNING) {
-
-		}
-
-		updateConstants();
-*/
+		/*
+		 * if (mToteLift.isToteSensorToggle()) { toteToggleCount++; }
+		 * 
+		 * // if the button is pressed and it is the first time the button is
+		 * being // read as pressed if (mToteLift.isToteSensorPressed() &&
+		 * mToteLift.isToteSensorToggle()) { startGoingUp(); }
+		 * 
+		 * if (currentRunningState == RUNNING_UP) {
+		 * 
+		 * // if totelift is done going up if (!upCommand.isRunning()) {
+		 * startGoingDown(); } } else if (currentRunningState == RUNNING_DOWN) {
+		 * 
+		 * // if totelift is back at bottom if (!downCommand.isRunning()) {
+		 * currentRunningState = NOT_RUNNING; } } else if (currentRunningState
+		 * == NOT_RUNNING) {
+		 * 
+		 * }
+		 * 
+		 * updateConstants();
+		 */
 	}
 
 	private void updateConstants() {

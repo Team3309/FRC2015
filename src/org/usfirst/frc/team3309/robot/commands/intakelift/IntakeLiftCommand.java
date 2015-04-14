@@ -3,6 +3,7 @@
  */
 package org.usfirst.frc.team3309.robot.commands.intakelift;
 
+import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.robot.commands.pid.PIDLoopCommand;
 import org.usfirst.frc.team3309.robot.subsystems.IntakeLift;
 
@@ -14,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeLiftCommand extends Command {
 
-	
 	private static double KP_RIGHT_UP = .008;
 
 	private static double KI_RIGHT_UP = .002;
@@ -30,24 +30,25 @@ public class IntakeLiftCommand extends Command {
 
 	private static double KD_RIGHT_DOWN = .009;
 	private static double KD_LEFT_DOWN = .009;
-	
-	
-	//competition
-	/*private static double KP_RIGHT_UP = .008;
 
-	private static double KI_RIGHT_UP = .002;
-	private static double KI_LEFT_UP = .002;
-
-	private static double KP_LEFT_UP = .01;
-
-	private static double KD_RIGHT_UP = .006;
-	private static double KD_LEFT_UP = .000;
-
-	private static double KP_RIGHT_DOWN = .005;
-	private static double KP_LEFT_DOWN = .009;
-
-	private static double KD_RIGHT_DOWN = .009;
-	private static double KD_LEFT_DOWN = .009;*/
+	// competition
+	/*
+	 * private static double KP_RIGHT_UP = .008;
+	 * 
+	 * private static double KI_RIGHT_UP = .002; private static double
+	 * KI_LEFT_UP = .002;
+	 * 
+	 * private static double KP_LEFT_UP = .01;
+	 * 
+	 * private static double KD_RIGHT_UP = .006; private static double
+	 * KD_LEFT_UP = .000;
+	 * 
+	 * private static double KP_RIGHT_DOWN = .005; private static double
+	 * KP_LEFT_DOWN = .009;
+	 * 
+	 * private static double KD_RIGHT_DOWN = .009; private static double
+	 * KD_LEFT_DOWN = .009;
+	 */
 
 	private double bothCounter = 0;
 	private static IntakeLift mIntakeLift = IntakeLift.getInstance();
@@ -138,6 +139,12 @@ public class IntakeLiftCommand extends Command {
 		mIntakeLift.runRightLiftAt(pidRight);
 		mIntakeLift.runLeftLiftAt(-pidLeft);
 
+		System.out.println("DPAD: " + Controllers.getInstance().OperatorController.getDpadDown());
+		/*
+		 * if ()) { System.out.println("OWN DOWN DOWN");
+		 * mIntakeLift.setLeftSetPoint(300); mIntakeLift.setRightSetPoint(300);
+		 * }
+		 */
 		updateConstants();
 
 	}

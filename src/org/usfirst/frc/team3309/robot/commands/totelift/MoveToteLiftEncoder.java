@@ -41,6 +41,12 @@ public class MoveToteLiftEncoder extends Command {
 		this.kD = kD;
 	}
 
+	public MoveToteLiftEncoder(int value) {
+		setPoint = value;
+		kP = .02;
+		kD = .010;
+	}
+
 	@Override
 	protected void initialize() {
 
@@ -48,26 +54,26 @@ public class MoveToteLiftEncoder extends Command {
 
 	@Override
 	protected void execute() {
-		if (Drive.getInstance().getAverageCount() > startCount) {
-			double error = setPoint - mToteLift.getLiftEncoder();
-			double pid = PID.runPIDWithError(error, lastError, kP, kD);
-			lastError = error;
-			if (pid > 1)
-				pid = 1;
-			else if (pid < -1)
-				pid = -1;
-			mToteLift.runLiftAt(pid);
-			System.out.println("TOTE LIFT PID: " + pid);
-			System.out.println("TOTE LIFT: " + mToteLift.getLiftEncoder());
-			if (Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170 && !startedTimer) {
-				doneTimer.start();
-				startedTimer = true;
-			} else if (!(Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170)) {
-				doneTimer.stop();
-				doneTimer.reset();
-				startedTimer = false;
-			}
+		// if (Drive.getInstance().getAverageCount() > startCount) {
+		double error = setPoint - mToteLift.getLiftEncoder();
+		double pid = PID.runPIDWithError(error, lastError, kP, kD);
+		lastError = error;
+		if (pid > 1)
+			pid = 1;
+		else if (pid < -1)
+			pid = -1;
+		mToteLift.runLiftAt(pid);
+		System.out.println("TOTE LIFT PID: " + pid);
+		System.out.println("TOTE LIFT: " + mToteLift.getLiftEncoder());
+		if (Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170 && !startedTimer) {
+			doneTimer.start();
+			startedTimer = true;
+		} else if (!(Math.abs(mToteLift.getLiftEncoder() - setPoint) < 170)) {
+			doneTimer.stop();
+			doneTimer.reset();
+			startedTimer = false;
 		}
+		// }
 	}
 
 	@Override
@@ -77,7 +83,8 @@ public class MoveToteLiftEncoder extends Command {
 
 	@Override
 	protected void end() {
-
+		mToteLift.setToteLiftPower(0);
+		System.out.println("DONE GOING UP");
 	}
 
 	@Override

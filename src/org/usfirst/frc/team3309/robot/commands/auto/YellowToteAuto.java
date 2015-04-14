@@ -32,7 +32,7 @@ public class YellowToteAuto extends CommandGroup {
 
 		this.addSequential(new IntakeRunContinuous(1, 1, -50));
 
-		this.addParallel(new IntakeRunContinuous(2, 1, 70));
+		this.addParallel(new IntakeRunContinuous(3, 1, 70));
 		this.addParallel(new IntakeOpenCommand(400));
 
 		this.addParallel(new MoveToteLiftUp(600));
@@ -60,10 +60,12 @@ public class YellowToteAuto extends CommandGroup {
 
 		this.addSequential(new TurnToAngle(65));
 
-		this.addParallel( new MoveToteLiftDown(500));
+		this.addParallel( new MoveToteLiftDown(700));
 		this.addParallel(new IntakeOpenCommand(550));
 		this.addSequential(new DriveForwardEncoderCountsSlow(2100, 65, .7));
 
+		this.addSequential(new IntakeRunTime(1, 1, .4));
+		
 		this.addParallel(new IntakeRunContinuous(1, 1, -10000));
 		this.addSequential(new DriveForwardEncoderCountsSlow(-1000, 65, -.5));
 
@@ -177,3 +179,56 @@ this.addSequential(new DriveForwardEncoderCountsSlow(-1000, 65, -.8));
 
 //this.addParallel(new IntakeCloseCommand(2400));
 this.addSequential(new WaitCommand());*/
+
+
+/* VEGAS/ARIZONA AUTO
+//this.addSequential(new WaitCommand());
+
+		this.addSequential(new UnlatchToteLiftCommand());
+		this.addSequential(new IntakeRunCom(1, .5));
+		this.addSequential(new IntakeRunContinuous(1, .5, -50));
+
+		this.addSequential(new IntakeCloseCommand(-500));
+		this.addSequential(new IntakeRunTime(1, 1, .7));
+
+		this.addSequential(new IntakeRunContinuous(1, 1, -50));
+
+		this.addParallel(new IntakeRunContinuous(2, 1, 70));
+		this.addParallel(new IntakeOpenCommand(400));
+
+		this.addParallel(new MoveToteLiftUp(600));
+		this.addParallel(new IntakeRunContinuous(0, 1, 750));
+
+		
+
+		this.addParallel(new IntakeCloseCommand(990));
+
+		this.addParallel(new IntakeRunContinuous(3, 1, 1400));
+
+		this.addParallel(new MoveToteLiftDown(1600));
+
+		this.addParallel(new IntakeRunContinuous(3, 1, 1700));
+
+		// open to get third tote, just changed this KRAGER
+		this.addParallel(new IntakeOpenCommand(1850));
+		this.addParallel(new MoveToteLiftUp(2250));
+
+		this.addParallel(new IntakeRunContinuous(0, 1, 2300));
+		this.addParallel(new IntakeCloseCommand(2550));
+
+
+		this.addSequential(new DriveForwardEncoderCountsSlow(2900, Drive.getInstance().getAngle(), .3));
+
+		this.addSequential(new TurnToAngle(65));
+
+		this.addParallel( new MoveToteLiftDown(500));
+		this.addParallel(new IntakeOpenCommand(550));
+		this.addSequential(new DriveForwardEncoderCountsSlow(2100, 65, .7));
+
+		this.addParallel(new IntakeRunContinuous(1, 1, -10000));
+		this.addSequential(new DriveForwardEncoderCountsSlow(-1000, 65, -.5));
+
+
+
+		//this.addParallel(new IntakeCloseCommand(2400));
+		this.addSequential(new WaitCommand());*/
