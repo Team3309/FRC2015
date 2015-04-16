@@ -58,15 +58,17 @@ public class YellowToteAutoAndTravelTurn extends CommandGroup {
 
 				this.addParallel( new MoveToteLiftDown(700));
 				
+				this.addParallel(new IntakeRunContinuous(0,1,600));
+				this.addParallel(new IntakeOpenCommand(600));
 				this.addSequential(new DriveForwardEncoderCountsSlow(2100, 65, .7));
 
-				this.addSequential(new IntakeRunTime(1, 1, .4));
+				this.addSequential(new IntakeRunTime(.5, 1, 1));
 				
 				this.addSequential(new TurnToAngle(0));
 				
 				
 				this.addParallel(new IntakeOpenCommand(-100000));
-				this.addSequential(new DriveForwardEncoderCountsSlow(-1700, 0, -.5));
+				this.addSequential(new DriveForwardEncoderCountsSlow(-1700, 0, -.7));
 				//this.addParallel(new IntakeRunContinuous(1, 1, -10000));
 				//this.addSequential(new DriveForwardEncoderCountsSlow(-1000, 65, -.5));
 				this.addSequential(new TurnToAngle(55));

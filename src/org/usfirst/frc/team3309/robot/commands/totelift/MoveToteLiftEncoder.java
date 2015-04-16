@@ -43,8 +43,8 @@ public class MoveToteLiftEncoder extends Command {
 
 	public MoveToteLiftEncoder(int value) {
 		setPoint = value;
-		kP = .02;
-		kD = .010;
+		kP = .012;
+		kD = .01;
 	}
 
 	@Override

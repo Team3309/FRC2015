@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
 		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
 		autoChooser.addObject("YELLOW TOTE", new YellowToteAuto());
-		autoChooser.addObject("3 Grey Tote", new ThreeTotePIDAuto());
+		autoChooser.addObject("3 Grey Tote", ThreeTotePIDAuto.getInstance());
 		autoChooser.addObject("TATERS", new YellowTatersAuto());
 		autoChooser.addObject("YELLOW SWAG BACKUP", new YellowToteAutoAndTravel());
 		autoChooser.addObject("YELLOW SWAG BACKUP and Turn", new YellowToteAutoAndTravelTurn());
@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot {
 		mDrive.resetGyro();
 		mToteLift.resetEncoder();
 		mIntakeLift.resetEncoders();
-		mIntake.setRetracted();
+		// mIntake.setRetracted();
 		// mToteLift.toggle();
 
 		// autoCommand.cancel();

@@ -46,6 +46,7 @@ public class AutomaticToteLiftCommand extends Command {
 
 	private boolean buttonLastState = false;
 	public boolean commandRunning = false;
+	private DownUpDownToteLiftCommand com;
 
 	@Override
 	protected void execute() {
@@ -55,18 +56,24 @@ public class AutomaticToteLiftCommand extends Command {
 
 		// if manual control is enabled, set the toteLift to joystick, then stop
 		if (!DriverStation.getInstance().isAutonomous()) {
-			if (Controllers.getInstance().OperatorController.getStart()) {
-				UpDownToteLiftCommand com = new UpDownToteLiftCommand();
+			/*
+			 * if (Controllers.getInstance().OperatorController.getStart()) {
+			 * UpDownToteLiftCommand com = new UpDownToteLiftCommand();
+			 * commandRunning = true; com.start(); } else
+			 */
+			if (Controllers.getInstance().OperatorController.getBack()) {
+				com = new DownUpDownToteLiftCommand();
 				commandRunning = true;
 				com.start();
-			} else if(Controllers.getInstance().OperatorController.getBack()) {
-				DownUpDownToteLiftCommand com = new DownUpDownToteLiftCommand();
-				commandRunning = true;
-				com.start();
-			}else {
+			} else {
 				if (!commandRunning)
 					mToteLift.runLiftAt(Controllers.getInstance().OperatorController.getRightY());
-				
+				if (Math.abs(Controllers.getInstance().OperatorController.getRightY()) > .2 && commandRunning) {
+					//com.b = true;
+					com.cancel();
+					mToteLift.runLiftAt(0);
+					commandRunning = false;
+				}
 			}
 			/*
 			 * if (buttonLastState == false) { startGoingUp(); buttonLastState =

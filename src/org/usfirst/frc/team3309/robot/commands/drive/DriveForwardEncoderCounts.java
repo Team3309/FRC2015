@@ -86,7 +86,7 @@ public class DriveForwardEncoderCounts extends Command {
 		// return !DriverStation.getInstance().isAutonomous();
 		System.out.println("TIMER: " + doneTimer.get());
 
-		return (doneTimer.get() > .5);
+		return (doneTimer.get() > .25);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class MoveToteLiftDownEncoder extends Command {
 	private Timer doneTimer = new Timer();
 	private boolean startedTimer = false;
 	private double kP = .01;
-	private double kD = .01;
+	private double kD = .015;
 
 	public MoveToteLiftDownEncoder(int value) {
 		this.setPoint = value;
