@@ -16,7 +16,7 @@ public class MoveDownUntillLimit extends Command {
 
 	@Override
 	protected void execute() {
-		mToteLift.runLiftAt(-.3);
+		mToteLift.runLiftAt(-.4);
 
 	}
 

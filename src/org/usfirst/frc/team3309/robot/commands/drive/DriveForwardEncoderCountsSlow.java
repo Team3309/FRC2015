@@ -56,11 +56,11 @@ boolean current = false;
 		mDrive.setLeft(leftSpeed);
 		mDrive.setRight(rightSpeed);
 
-		System.out.println("LEFTSPEED: " + leftSpeed);
-		System.out.println("RIGHTSPEED: " + rightSpeed);
+		//System.out.println("LEFTSPEED: " + leftSpeed);
+		//System.out.println("RIGHTSPEED: " + rightSpeed);
 
-		System.out.println("LEFT EN: " + mDrive.getLeftEncoder());
-		System.out.println("RIGHT EN: " + mDrive.getRightEncoder());
+	//	System.out.println("LEFT EN: " + mDrive.getLeftEncoder());
+//		System.out.println("RIGHT EN: " + mDrive.getRightEncoder());
 
 	}
 
@@ -75,9 +75,10 @@ boolean current = false;
 
 	private double runGyroPID() {
 		double currentValue = mDrive.getAngle();
-
+		//NORMAL: .1
+		//mini: .17
 		double currentError = pidRequestedGyro - currentValue;
-		double pid = PID.runPIDWithError(currentError, lastGyroError, .1, .000);
+		double pid = PID.runPIDWithError(currentError, lastGyroError, .17, .000);
 		lastGyroError = currentError;
 		return pid;
 	}
