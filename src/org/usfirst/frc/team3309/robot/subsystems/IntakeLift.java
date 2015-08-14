@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3309.robot.subsystems;
 
+import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.robot.RobotMap;
 import org.usfirst.frc.team3309.robot.commands.intakelift.IntakeLiftCommand;
 
@@ -52,7 +53,6 @@ public class IntakeLift extends Subsystem {
 		rightLift = new Victor(RobotMap.INTAKE_LIFT_RIGHT);
 		leftEncoder = new Encoder(RobotMap.INTAKE_LIFT_LEFT_ENCODER_A, RobotMap.INTAKE_LIFT_LEFT_ENCODER_B, false, CounterBase.EncodingType.k1X);
 		rightEncoder = new Encoder(RobotMap.INTAKE_LIFT_RIGHT_ENCODER_A, RobotMap.INTAKE_LIFT_RIGHT_ENCODER_B, true, CounterBase.EncodingType.k1X);
-
 	}
 
 	public double getRightEncoder() {
@@ -69,9 +69,13 @@ public class IntakeLift extends Subsystem {
 	}
 
 	public void runLiftWithJoystick(double power) {
-
 		double rightSetPoint = leftEncoder.get() + power * MAXSPEED;
 		double leftSetPoint = leftEncoder.get() + power * MAXSPEED;
+		if(Controllers.getInstance().driverController.getA()) {
+			rightSetPoint = leftEncoder.get() + .95 * MAXSPEED;
+			leftSetPoint = leftEncoder.get() + .95 * MAXSPEED;
+		}
+		
 		// System.out.println("SETPOINT: " + setPoint);
 		setRightSetPoint(rightSetPoint);
 		setLeftSetPoint(leftSetPoint);
@@ -101,12 +105,10 @@ public class IntakeLift extends Subsystem {
 
 	public void start() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void stop() {
 		this.setLeftSetPoint(leftEncoder.get());
 		this.setRightSetPoint(leftEncoder.get());
-
 	}
 }

@@ -63,8 +63,6 @@ public class Robot extends IterativeRobot {
 			// constantChanger frame = new constantChanger();
 		}
 
-		// Compressor comp = new Compressor();
-
 		scheduler = Scheduler.getInstance();
 		// setSubsystems to the Instance of each
 		mDrive = Drive.getInstance();
@@ -183,14 +181,14 @@ public class Robot extends IterativeRobot {
 		 * operatorController.setRumble((float) .8); } else {
 		 * operatorController.setRumble(0); }
 		 */
-		System.out.println("TOTEENCODER: " + mToteLift.getLiftEncoder());
+		//System.out.println("TOTEENCODER: " + mToteLift.getLiftEncoder());
 
 		Compressor c = new Compressor(0);
 		// System.out.println(c.getCompressorCurrent());
 
-		System.out.println("POV: " + Controllers.getInstance().OperatorController.getPOV());
+		//System.out.println("POV: " + Controllers.getInstance().OperatorController.getPOV());
 		// System.out.println("DIGITAL: " + io.get());
-		System.out.println("TOTE SENSOR: " + mToteLift.isToteSensorPressed());
+		//System.out.println("TOTE SENSOR: " + mToteLift.isToteSensorPressed());
 		/*
 		 * System.out.println("RIGHT LIFT: " + mIntakeLift.getRightEncoder());
 		 * System.out.println("LEFT LIFT: " + mIntakeLift.getLeftEncoder());

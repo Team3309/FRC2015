@@ -133,13 +133,13 @@ public class IntakeLiftCommand extends Command {
 			pidLeft = errorL * KP_LEFT_DOWN + derL * KD_LEFT_DOWN;
 		}
 
-		// /System.out.println("HERE RIGHT IS PID: " + pidRight);
-		// System.out.println("HERE LEFT IS PID: " + pidLeft);
+		System.out.println("HERE RIGHT IS PID: " + pidRight);
+		System.out.println("HERE LEFT IS PID: " + pidLeft);
 
 		mIntakeLift.runRightLiftAt(pidRight);
 		mIntakeLift.runLeftLiftAt(-pidLeft);
 
-		System.out.println("DPAD: " + Controllers.getInstance().OperatorController.getDpadDown());
+		//System.out.println("DPAD: " + Controllers.getInstance().OperatorController.getDpadDown());
 		/*
 		 * if ()) { System.out.println("OWN DOWN DOWN");
 		 * mIntakeLift.setLeftSetPoint(300); mIntakeLift.setRightSetPoint(300);
