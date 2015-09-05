@@ -55,7 +55,7 @@ public class YellowToteAuto extends CommandGroup {
 		this.addParallel(new IntakeRunContinuous(1, 1, 2700));
 		this.addParallel(new IntakeRunContinuous(0, 1, 2769));
 
-		this.addSequential(new DriveForwardEncoderCountsSlow(2800, Drive.getInstance().getAngle(), .3));
+		this.addSequential(new DriveForwardEncoderCountsSlow(AutoConstants.THREE_TOTE_DISTANCE, Drive.getInstance().getAngle(), .3));
 
 		this.addSequential(new TurnToAngle(65));
 

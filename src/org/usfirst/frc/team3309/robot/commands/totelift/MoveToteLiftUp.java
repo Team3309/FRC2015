@@ -46,7 +46,7 @@ public class MoveToteLiftUp extends Command {
 				return;
 			}
 		}
-		if (Drive.getInstance().getAverageCount() > startCount)
+		if (Math.abs(Drive.getInstance().getAverageCount()) > Math.abs(startCount))
 			ToteLift.getInstance().runLiftAt(1);
 
 	}
