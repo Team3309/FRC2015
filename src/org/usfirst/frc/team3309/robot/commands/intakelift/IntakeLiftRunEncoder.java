@@ -25,7 +25,7 @@ public class IntakeLiftRunEncoder extends Command {
 	@Override
 	protected void execute() {
 		// IntakeLift.getInstance().start();
-
+		
 		System.out.println("RUNNING ");
 		if (IntakeLiftCommand.getInstance().isDone() && !startedTimer) {
 			System.out.println("IT WORKED");

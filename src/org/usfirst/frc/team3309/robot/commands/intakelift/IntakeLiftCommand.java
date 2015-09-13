@@ -88,10 +88,15 @@ public class IntakeLiftCommand extends Command {
 
 		SmartDashboard.putNumber("LEFT KP INTAKE LIFT DOWN", KP_LEFT_DOWN);
 		SmartDashboard.putNumber("LEFT KD INTAKE LIFT DOWN", KD_LEFT_DOWN);
+		
+		SmartDashboard.putNumber("Left" , mIntakeLift.getLeftEncoder());
+		SmartDashboard.putNumber("Right" , mIntakeLift.getRightEncoder());
 	}
 
 	@Override
 	protected void execute() {
+		SmartDashboard.putNumber("Left" , mIntakeLift.getLeftEncoder());
+		SmartDashboard.putNumber("Right" , mIntakeLift.getRightEncoder());
 
 		// System.out.println("RIGHT CLAW LIFT " +
 		// mIntakeLift.getSlaveEncoder());
@@ -164,6 +169,8 @@ public class IntakeLiftCommand extends Command {
 
 		KI_LEFT_UP = SmartDashboard.getNumber("LEFT KI INTAKE LIFT UP");
 		KI_RIGHT_UP = SmartDashboard.getNumber("RIGHT KI INTAKE LIFT UP");
+		
+		
 	}
 
 	@Override

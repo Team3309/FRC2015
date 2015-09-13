@@ -148,13 +148,13 @@ public class Robot extends IterativeRobot {
 		// System.out.println(operatorController.getLeftTrigger());
 
 		if (operatorController.getLeftTrigger() > 0) {
-			mIntake.runClawInward(operatorController.getLeftTrigger());
+			mIntake.runClawOutward(operatorController.getLeftTrigger());
 		} else if (operatorController.getRightTrigger() > 0) {
-			mIntake.runClawOutward(operatorController.getRightTrigger());
+			mIntake.runClawInward(operatorController.getRightTrigger());
 		} else if (operatorController.getB()) {
-			mIntake.runReverseRight(1);
-		} else if (operatorController.getXBut()) {
 			mIntake.runReverseLeft(1);
+		} else if (operatorController.getXBut()) {
+			mIntake.runReverseRight(1);
 		} else {
 			mIntake.stopClaw();
 		}
