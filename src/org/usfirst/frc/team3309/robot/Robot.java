@@ -5,6 +5,7 @@ import java.sql.Driver;
 
 import org.usfirst.frc.team3309.driverstation.Controllers;
 import org.usfirst.frc.team3309.driverstation.XboxController;
+import org.usfirst.frc.team3309.robot.commands.auto.GrabCanAndMoveAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForewardTimeAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.MoveForwardAuto;
 import org.usfirst.frc.team3309.robot.commands.auto.OneToteAuto;
@@ -77,22 +78,21 @@ public class Robot extends IterativeRobot {
 		// autoChooser.addObject("DEFAULT", new MoveForwardTimeAuto());
 		autoChooser.addDefault("YELLOW TOTE DEFAULT", new YellowToteAuto());
 		autoChooser.addObject("One Tote", new OneToteAuto());
-		autoChooser.addObject("TEST", new TestAuto());
+		autoChooser.addObject("Wait", new WaitAuto());
 		autoChooser.addObject("Forward Small (1 second)", new MoveForwardAuto(500));
 		autoChooser.addObject("Forward Med (2 seconds)", new MoveForewardTimeAuto(2, .3));
 		autoChooser.addObject("Forward Large (3 seconds)", new MoveForewardTimeAuto(3, .3));
 		autoChooser.addObject("YELLOW TOTE", new YellowToteAuto());
+		autoChooser.addObject("Ramp Strats", new GrabCanAndMoveAuto());
 		autoChooser.addObject("3 Grey Tote", ThreeTotePIDAuto.getInstance());
 		autoChooser.addObject("TATERS", new YellowTatersAuto());
 		autoChooser.addObject("YELLOW SWAG BACKUP", new YellowToteAutoAndTravel());
-		autoChooser.addObject("YELLOW SWAG BACKUP and Turn", new YellowToteAutoAndTravelTurn());
+		autoChooser.addObject("YELLOW SWAG BACKUP Chezy", new YellowToteAutoAndTravelTurn());
 		SmartDashboard.putData("AUTO CHOOSER", autoChooser);
-
 	}
 
 	// When first put into disabled mode
 	public void disabledInit() {
-
 	}
 
 	// Called repeatedly in disabled mode
@@ -106,8 +106,7 @@ public class Robot extends IterativeRobot {
 		mDrive.resetGyro();
 		mIntakeLift.resetEncoders();
 		mToteLift.resetEncoder();
-		mToteLift.turnOnSolenoid();
-		autoCommand = (CommandGroup) autoChooser.getSelected();
+		mToteLift.turnOnSolenoid();		autoCommand = (CommandGroup) autoChooser.getSelected();
 		autoCommand.start();
 	}
 
@@ -126,7 +125,6 @@ public class Robot extends IterativeRobot {
 		mIntakeLift.resetEncoders();
 		// mIntake.setRetracted();
 		// mToteLift.toggle();
-
 		// autoCommand.cancel();
 
 	}
@@ -191,9 +189,11 @@ public class Robot extends IterativeRobot {
 		//System.out.println("TOTE SENSOR: " + mToteLift.isToteSensorPressed());
 		/*
 		 * System.out.println("RIGHT LIFT: " + mIntakeLift.getRightEncoder());
-		 * System.out.println("LEFT LIFT: " + mIntakeLift.getLeftEncoder());
-		 */// System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
-			// System.out.println("Right Encodre:" + mDrive.getRightEncoder());
+		 * System.out.println("LEFT LIFT: " + mIntakeLift.getLeftEncoder());*/
+		System.out.println("Left Encodre:" + mDrive.getLeftEncoder());
+		System.out.println("Right Encodre:" + mDrive.getRightEncoder());
+		SmartDashboard.putNumber("LEFT DRIVE", mDrive.getLeftEncoder());
+		SmartDashboard.putNumber("Right Drive", mDrive.getRightEncoder());
 		/*
 		 * System.out.println("GYRO: " + mDrive.getAngle());
 		 * System.out.println("TOTE LIFT " + mToteLift.getLiftEncoder());
